@@ -69,7 +69,7 @@ if [ ${BOOTRINO_CLOUD_TYPE} == "digitalocean" ]; then
 fi;
 
 # create the new grub.cfg file
-cat > /boot/grub/grub/grub.cfg <<- EOFMARKER
+cat > /boot/grub/grub.cfg <<- EOFMARKER
 serial --speed=115200 --word=8 --parity=no --stop=1
 terminal_input --append  serial
 terminal_output --append serial
@@ -81,5 +81,5 @@ initrd /boot/corepure64.gz /boot/ug_initramfs.gz /boot/bootrino_initramfs.gz /bo
 }
 EOFMARKER
 
-#/sbin/reboot
+/sbin/reboot
 
