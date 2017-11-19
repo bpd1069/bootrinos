@@ -81,5 +81,5 @@ initrd /boot/corepure64.gz /boot/ug_initramfs.gz /boot/bootrino_initramfs.gz /bo
 }
 EOFMARKER
 
-/sbin/reboot
+#/sbin/reboot
 
