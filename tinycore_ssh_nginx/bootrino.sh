@@ -23,7 +23,7 @@ read -d '' BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   ]
 }
 BOOTRINOJSONMARKER
-URL_BASE=https://github.com/bootrino/bootrinos/raw/master/tinycore_ssh_nginx/
+URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/
 #wget "${URL_BASE}test.py"
 #python3 ./test.py
 #/usr/bin/sudo su
