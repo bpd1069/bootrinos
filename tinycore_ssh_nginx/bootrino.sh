@@ -77,7 +77,7 @@ set timeout=1
 GRUB_TIMEOUT=1
 menuentry 'tinycore 64' {
 linux /boot/vmlinuz64 root=LABEL=cloudimg-rootfs tce=/opt/tce noswap modules=ext4 console=ttyS0,115200
-initrd /boot/corepure64.gz /boot/ug_initramfs.gz /boot/bootrino_initramfs.gz /boot/ifupdown_initramfs.gz
+initrd /boot/corepure64.gz /boot/tinycore_ssh_nginx_initramfs.gz
 }
 EOFMARKER
 
