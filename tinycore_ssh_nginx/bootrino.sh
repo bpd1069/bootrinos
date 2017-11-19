@@ -32,10 +32,9 @@ URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ss
 cd /boot
 /usr/bin/wget -O /boot/vmlinuz64 ${URL_BASE}vmlinuz64
 /usr/bin/wget -O /boot/corepure64.gz ${URL_BASE}corepure64.gz
-/usr/bin/wget -O /boot/tinycore_ssh_nginx_initramfs.gz ${URL_BASE}tinycore_ssh_nginx_initramfs.gz
-#/usr/bin/wget -O /boot/ug_initramfs.gz ${URL_BASE}ug_initramfs.gz
+/usr/bin/wget -O /boot/ug_initramfs.gz ${URL_BASE}ug_initramfs.gz
 #/usr/bin/wget -O /boot/ug2_initramfs.gz ${URL_BASE}ug2_initramfs.gz
-#/usr/bin/wget -O /boot/ifupdown_initramfs.gz ${URL_BASE}ifupdown_initramfs.gz
+/usr/bin/wget -O /boot/ifupdown_initramfs.gz ${URL_BASE}ifupdown_initramfs.gz
 
 # copy the Ubuntu network configuration into a ramfs which will then be available in tinycore when it boots up
 mkdir -p /bootrino
@@ -70,6 +69,7 @@ if [ ${BOOTRINO_CLOUD_TYPE} == "digitalocean" ]; then
 fi;
 
 # create the new grub.cfg file
+# note that bootrino_initramfs.gz is created on the fly in the script above
 cat > /boot/grub/grub.cfg <<- EOFMARKER
 serial --speed=115200 --word=8 --parity=no --stop=1
 terminal_input --append  serial
@@ -78,7 +78,7 @@ set timeout=1
 GRUB_TIMEOUT=1
 menuentry 'tinycore 64' {
 linux /boot/vmlinuz64 root=LABEL=cloudimg-rootfs tce=/opt/tce noswap modules=ext4 console=ttyS0,115200
-initrd /boot/corepure64.gz /boot/tinycore_ssh_nginx_initramfs.gz
+initrd /boot/corepure64.gz /boot/tinycore_ssh_nginx_initramfs.gz /boot/bootrino_initramfs.gz
 }
 EOFMARKER
 
