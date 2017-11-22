@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 read -d '' BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
-  "name": "tinycore 64",
+  "name": "Tiny Core 64",
   "version": "0.0.1",
   "versionDate": "2016-08-14T02:55:14Z",
-  "description": "tinycore 64",
+  "description": "Tiny Core 64",
   "options": "",
   "supportedCloudTypes": [],
-  "logoURL": "http://www.supercoders.com.au/bootrino/tinycore/tinycorelogo.png",
-  "readmeURL": "https://raw.githubusercontent.com/bootrino/samples/master/tinycore/README.md",
+  "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/tinycorelogo.png",
+  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/samples/master/tinycore/defaultLaunchTargetsLatest.json",
   "websiteURL": "https://github.com/bootrino/samples",
   "author": {
