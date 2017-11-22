@@ -1,5 +1,9 @@
 notes on Tiny Core on bootrino
 
+This bootrino starts Tiny Core Linux on Amazon, Digital Ocean or Google Compute Engine.
+
+It includes SSH access and the Nginx web server.
+
 ******* bootlocal.sh 
 when tinycore boots, it runs /opt/bootlocal.sh
 
