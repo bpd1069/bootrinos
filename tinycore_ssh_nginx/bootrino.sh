@@ -9,7 +9,7 @@ read -d '' BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "supportedCloudTypes": [],
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/tinycorelogo.png",
   "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/README.md",
-  "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/samples/master/tinycore/defaultLaunchTargetsLatest.json",
+  "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
   "websiteURL": "https://github.com/bootrino/samples",
   "author": {
     "url": "https://www.github.com/bootrino",
