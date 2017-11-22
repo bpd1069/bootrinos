@@ -7,7 +7,7 @@ read -d '' BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "description": "Tiny Core 64",
   "options": "",
   "supportedCloudTypes": [],
-  "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/tinycorelogo.png",
+  "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/tiny-core-linux-7-logo.png",
   "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
   "websiteURL": "https://github.com/bootrino/samples",
