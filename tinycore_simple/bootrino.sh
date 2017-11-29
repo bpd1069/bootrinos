@@ -24,6 +24,6 @@ read -d '' BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 }
 BOOTRINOJSONMARKER
 cd /
-python -m http.server 81
+python -m http.server 81 &
 
 
