@@ -56,12 +56,12 @@ echo nameserver 8.8.8.8 > /etc/resolv.conf
 echo nameserver 8.8.4.4 >> /etc/resolv.conf
 
 # if bootrino user has not defined a password environment variable when launching then make a random one
-PASSWORD=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c10`
+NEWPW=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c10`
 if ! [[ -z "${PASSWORD}" ]]; then
-  PASSWORD=${PASSWORD}
+  NEWPW=${PASSWORD}
 fi
-echo "Password for tc user is ${PASSWORD}"
-echo "tc:${PASSWORD}" | chpasswd
+echo "Password for tc user is ${NEWPW}"
+echo "tc:${NEWPW}" | chpasswd
 
 echo "Setting directory permissions...."
 #sudo chown -R tc:staff /opt
