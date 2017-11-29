@@ -23,7 +23,8 @@ read -d '' BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   ]
 }
 BOOTRINOJSONMARKER
-cd /
-python -m http.server 81 &
+cd /opt
+dmesg > index.html
+sudo python3 -m http.server 81 &
 
 
