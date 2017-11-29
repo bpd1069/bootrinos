@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/usr/bin/ash
 read -d '' BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
   "name": "Tiny Core 64 Python one line web server",
   "version": "0.0.1",
   "versionDate": "2017-11-27T09:00:00Z",
-  "description": "Tiny Core 64",
+  "description": "Tiny Core 64 Python one line web server",
   "options": "",
   "supportedCloudTypes": [],
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/tiny-core-linux-7-logo.png",
@@ -24,7 +24,7 @@ read -d '' BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 }
 BOOTRINOJSONMARKER
 cd /opt
-dmesg > index.html
-sudo python3 -m http.server 81 &
+echo 'helloworld Python bootrino one line web server' > index.html
+sudo python3 -m http.server 80 &
 
 

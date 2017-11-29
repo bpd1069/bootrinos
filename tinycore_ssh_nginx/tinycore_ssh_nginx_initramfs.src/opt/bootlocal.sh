@@ -71,7 +71,7 @@ echo "Starting ssh.... login with ssh tc@<ip address> no password"
 sudo /usr/local/etc/init.d/openssh start
 
 echo "Starting nginx...."
-sudo /usr/local/etc/init.d/nginx start
+#sudo /usr/local/etc/init.d/nginx start
 
 echo "Displaying network status...."
 ifconfig -a
@@ -81,6 +81,8 @@ ip addr show
 
 echo "system is up, get the next bootrino and run it"
 
-
+# run next bootrino
+cd /bootrino
+/bin/ash /bootrino/runnextbootrino.sh
 
 
