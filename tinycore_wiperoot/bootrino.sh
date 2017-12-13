@@ -222,9 +222,9 @@ EOF
 
 create_syslinuxcfg()
 {
-    echo "------->>> create syslinux.cfg"
-cat > /mnt/boot_partition/boot/syslinux.cfg << EOF
 #APPEND root=/dev/${DISK_DEVICE_NAME_TARGET_OS}1 console=ttyS0 console=tty0
+    echo "------->>> create syslinux.cfg"
+sudo sh -c 'cat > /mnt/boot_partition/boot/syslinux.cfg' << EOF
 SERIAL 0
 TIMEOUT 1
 PROMPT 1
@@ -233,7 +233,7 @@ DEFAULT tinycore
 # console=ttyS0 console=tty0
 LABEL Tiny Core 64
     KERNEL /boot/vmlinuz64 tce=/opt/tce noswap modules=ext4 console=ttyS0,115200
-    initrd /boot/corepure64.gz /boot/bootrino_initramfs.gz /boot/tinycore_ssh_nginx_initramfs.gz
+    initrd /boot/corepure64.gz /boot/tinycore_ssh_nginx_initramfs.gz /bootrino/bootrino_initramfs.gz
 EOF
 }
 
@@ -242,9 +242,9 @@ install_tinycore()
     URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/
     # download the operating system files for tinycore
     cd /mnt/boot_partition/boot
-    wget -O /mnt/boot_partition/boot/vmlinuz64 ${URL_BASE}vmlinuz64
-    wget -O /mnt/boot_partition/boot/corepure64.gz ${URL_BASE}corepure64.gz
-    wget -O /mnt/boot_partition/boot/tinycore_ssh_nginx_initramfs.gz ${URL_BASE}tinycore_ssh_nginx_initramfs.gz
+    sudo wget -O /mnt/boot_partition/boot/vmlinuz64 ${URL_BASE}vmlinuz64
+    sudo wget -O /mnt/boot_partition/boot/corepure64.gz ${URL_BASE}corepure64.gz
+    sudo wget -O /mnt/boot_partition/boot/tinycore_ssh_nginx_initramfs.gz ${URL_BASE}tinycore_ssh_nginx_initramfs.gz
     # COPY OVER THE BOOTRINO DIRECTORY TO THE HARD DISK NEW ROOT PARTITION
     cd /mnt/root_partition
     sudo mkdir -p /mnt/root_partition/bootrino/
