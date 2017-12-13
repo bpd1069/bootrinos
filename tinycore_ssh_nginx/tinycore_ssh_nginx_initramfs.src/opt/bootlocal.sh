@@ -41,7 +41,6 @@ fi;
 
 if [ "${BOOTRINO_CLOUD_TYPE}" == "googlecomputeengine" ]; then
     echo Configure googlecomputeengine....
-    wget http://www.supercoders.com.au/configuregooglecomputeengine
     sleep 10
     sudo mkdir /var/db
     sudo touch /var/db/dhclient.leases

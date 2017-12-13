@@ -39,7 +39,6 @@ cd /bootrino
 cp -r /etc/network /bootrino
 # package the bootrino directory to initramfs, which grub.cfg includes as a kernel param, making it available tinycore
 /usr/bin/find /bootrino | /bin/cpio -H newc -o | /bin/gzip -9 > /boot/bootrino_initramfs.gz
-mv /boot/bootrino_initramfs.gz /bootrino
 cd /boot/grub
 mv grub.cfg grub.cfg.old
 
@@ -76,7 +75,7 @@ set timeout=1
 GRUB_TIMEOUT=1
 menuentry 'tinycore 64' {
 linux /boot/vmlinuz64 root=LABEL=cloudimg-rootfs tce=/opt/tce noswap modules=ext4 console=ttyS0,115200
-initrd /boot/corepure64.gz /boot/tinycore_ssh_nginx_initramfs.gz /bootrino/bootrino_initramfs.gz
+initrd /boot/corepure64.gz /boot/tinycore_ssh_nginx_initramfs.gz /boot/bootrino_initramfs.gz
 }
 EOFMARKER
 
