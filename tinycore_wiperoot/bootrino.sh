@@ -233,7 +233,7 @@ DEFAULT tinycore
 # console=ttyS0 console=tty0
 LABEL Tiny Core 64
     KERNEL /boot/vmlinuz64 tce=/opt/tce noswap modules=ext4 console=ttyS0,115200
-    initrd /boot/corepure64.gz /boot/tinycore_ssh_nginx_initramfs.gz /bootrino/bootrino_initramfs.gz
+    initrd /boot/corepure64.gz /boot/tinycore_ssh_nginx_initramfs.gz /boot/bootrino_initramfs.gz
 EOF
 }
 
@@ -251,6 +251,15 @@ install_tinycore()
     sudo cp -r /bootrino /mnt/root_partition
 }
 
+make_bootrino_initramfsgz()
+{
+    # we have to pack up the bootrino directory into an initramfs in order for it to be in the tinycore filesystem
+    HOME_DIR=/home/tc/
+    cd ${HOME_DIR}
+    sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
+    sudo cp ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/boot/bootrino_initramfs.gz
+}
+
 setup
 
 if [ ${BOOTRINO_CLOUD_TYPE} == "googlecomputeengine" ]; then
@@ -266,7 +275,7 @@ if [ ${BOOTRINO_CLOUD_TYPE} == "digitalocean" ]; then
 fi;
 
 install_tinycore
-
+make_bootrino_initramfsgz
 
 # run next bootrino
 
