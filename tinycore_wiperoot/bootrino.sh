@@ -46,6 +46,7 @@ setup()
         sudo wget -O /opt/tce/optional/parted.tcz ${URL_BASE}parted.tcz
         sudo wget -O /opt/tce/optional/util-linux.tcz ${URL_BASE}util-linux.tcz
         sudo wget -O /opt/tce/optional/gdisk.tcz ${URL_BASE}gdisk.tcz
+        sudo chmod ug+rx *
         # install the tinycore packages
         tce-load -i ./syslinux.tcz
         tce-load -i ./parted.tcz
