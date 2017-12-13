@@ -70,7 +70,7 @@ setup()
     sudo mkdir -p /opt
     cd /opt
 
-    echo "\n------->>> cloud type: ${BOOTRINO_CLOUD_TYPE}"
+    echo "------->>> cloud type: ${BOOTRINO_CLOUD_TYPE}"
 
     # Sometimes different operating systems name the hard disk devices differently even on the same cloud.
     # So we need to define the name for the current OS, plus the root_partition OS
@@ -90,7 +90,7 @@ setup()
       DISK_DEVICE_NAME_CURRENT_OS="vda"
     fi;
 
-    echo "\n------->>> Configure ${BOOTRINO_CLOUD_TYPE}.... DISK_DEVICE_NAME_CURRENT_OS=${DISK_DEVICE_NAME_CURRENT_OS} DISK_DEVICE_NAME_TARGET_OS=${DISK_DEVICE_NAME_TARGET_OS}"
+    echo "------->>> Configure ${BOOTRINO_CLOUD_TYPE}.... DISK_DEVICE_NAME_CURRENT_OS=${DISK_DEVICE_NAME_CURRENT_OS} DISK_DEVICE_NAME_TARGET_OS=${DISK_DEVICE_NAME_TARGET_OS}"
 
     # explicitly unmount because we need to mount later
     if mountpoint -q "/mnt/root_partition"; then
@@ -103,10 +103,10 @@ setup()
 
 delete_all_partitions()
 {
-    echo "\n------->>> unmount all partitions on device"
+    echo "------->>> unmount all partitions on device"
     sudo umount /dev/${DISK_DEVICE_NAME_CURRENT_OS}?*
 
-    echo "\n------->>> remove all partitions from device"
+    echo "------->>> remove all partitions from device"
     sudo sgdisk -Z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -Z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 }
@@ -118,15 +118,15 @@ prepare_disk_uefi()
     ROOT_PARTITION_NUMBER=1
     BOOT_PARTITION_NUMBER=13
 
-    echo "\n------->>> unmount all partitions on device"
+    echo "------->>> unmount all partitions on device"
     sudo umount /dev/${DISK_DEVICE_NAME_CURRENT_OS}?*
 
-    echo "\n------->>> remove all partitions from device"
+    echo "------->>> remove all partitions from device"
     sudo sgdisk -Z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -Z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
 
-    echo "\n------->>> display all partitions"
+    echo "------->>> display all partitions"
     sudo sgdisk --print /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -n 11:2048:4095 -c 11:"BIOS Boot Partition" -t 11:ef02 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -n 12:4096:413695 -c 12:"EFI System Partition" -t 12:ef00 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
@@ -138,41 +138,41 @@ prepare_disk_uefi()
     echo partitioning asynchronous, waiting for devices to appear
     while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}" ]; do sleep 1; done
 
-    echo echo "\n------->>> format the boot partition - makes it vfat"
+    echo echo "------->>> format the boot partition - makes it vfat"
     sudo mkdosfs -v /dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}
 
-    echo "\n------->>> set bootable flag on boot partition"
+    echo "------->>> set bootable flag on boot partition"
     sudo sgdisk -A ${BOOT_PARTITION_NUMBER}:set:2 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
-    echo "\n------->>> write the mbr"
+    echo "------->>> write the mbr"
     sudo dd if=/usr/local/share/syslinux/gptmbr.bin of=/dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
-    echo "\n------->>> set disk label of root partition to /"
+    echo "------->>> set disk label of root partition to /"
     #sudo /sbin/tune2fs -L rootfs /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
 
-    echo "\n------->>> partitioning asynchronous, waiting for devices to appear"
+    echo "------->>> partitioning asynchronous, waiting for devices to appear"
     while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}" ]; do sleep 1; done
 
-    echo "\n------->>> format the root partition as ext4"
+    echo "------->>> format the root partition as ext4"
     sudo mkfs.ext4 -F /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
 
-    echo "\n------->>> create a mount point for the root partition"
+    echo "------->>> create a mount point for the root partition"
     sudo mkdir -p /mnt/root_partition
 
-    echo "\n------->>> mount the root partition"
+    echo "------->>> mount the root partition"
     sudo mount /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER} /mnt/root_partition
 
-    echo "\n------->>> create a mount point for the boot partition"
+    echo "------->>> create a mount point for the boot partition"
     sudo mkdir -p /mnt/boot_partition
 
 
-    echo "\n------->>> mount the boot partition"
+    echo "------->>> mount the boot partition"
     sudo mount /dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER} /mnt/boot_partition
 
-    echo "\n------->>> create a /boot on boot partition"
+    echo "------->>> create a /boot on boot partition"
     sudo mkdir -p /mnt/boot_partition/boot
 
-    echo "\n------->>> install extlinux/syslinux to boot partition"
+    echo "------->>> install extlinux/syslinux to boot partition"
     sudo extlinux --install /mnt/boot_partition/boot
     create_syslinuxcfg
 }
@@ -183,37 +183,37 @@ prepare_disk_mbr()
     delete_all_partitions
     DISK_DEVICE_NAME_CURRENT_OS=xvda
     ROOT_PARTITION_NUMBER=1
-    echo "\n------->>> create one single MBR partition for entire disk"
+    echo "------->>> create one single MBR partition for entire disk"
     # https://suntong.github.io/blogs/2015/12/25/use-sfdisk-to-partition-disks/
 sudo sfdisk  --label dos /dev/${DISK_DEVICE_NAME_CURRENT_OS} <<EOF
 ;
 EOF
 
-    echo "\n------->>> set the bootable flag on partition 1"
+    echo "------->>> set the bootable flag on partition 1"
     sudo sfdisk --activate /dev/${DISK_DEVICE_NAME_CURRENT_OS} ${BOOT_PARTITION_NUMBER}
 sudo fdisk /dev/${DISK_DEVICE_NAME_CURRENT_OS} <<EOF
 a ${BOOT_PARTITION_NUMBER}
 w
 EOF
 
-    echo "\n------->>> FYI show partitions"
+    echo "------->>> FYI show partitions"
     sudo sgdisk --print /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
-    echo "\n------->>> format file system"
+    echo "------->>> format file system"
     sudo mkfs.ext4 -F /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
     sudo mkdir -p /mnt/root_partition
 
-    echo "\n------->>> mount the root partition"
+    echo "------->>> mount the root partition"
     sudo mount /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER} /mnt/root_partition
 
-    echo "\n------->>> install extlinux/syslinux"
+    echo "------->>> install extlinux/syslinux"
     sudo mkdir -p  /mnt/root_partition/boot
     sudo extlinux --install /mnt/root_partition/boot
 
-    echo "\n------->>> install the mbr"
+    echo "------->>> install the mbr"
     sudo dd if=/usr/local/share/syslinux/mbr.bin of=/dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
-    echo "\n------->>> set disk label to /"
+    echo "------->>> set disk label to /"
     sudo /sbin/tune2fs -L / /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
 
     create_syslinuxcfg
@@ -222,8 +222,8 @@ EOF
 
 create_syslinuxcfg()
 {
-    echo "\n------->>> create syslinux.cfg"
-cat > /mnt/Boot_partition/boot/syslinux.cfg << EOF
+    echo "------->>> create syslinux.cfg"
+cat > /mnt/boot_partition/boot/syslinux.cfg << EOF
 #APPEND root=/dev/${DISK_DEVICE_NAME_TARGET_OS}1 console=ttyS0 console=tty0
 SERIAL 0
 TIMEOUT 1
