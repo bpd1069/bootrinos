@@ -1,5 +1,5 @@
 #!/usr/bin/ash
-read -d '' BOOTRINOJSON <<"BOOTRINOJSONMARKER"
+read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
   "name": "Tiny Core 64 wiperoot",
   "version": "0.0.1",
@@ -42,12 +42,14 @@ setup()
         URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_wiperoot/
         # download the tinycore packages that contain the utilities we need
         cd /opt/tce/optional
-        wget -O /opt/tce/optional/syslinux.tcz ${URL_BASE}syslinux.tcz
-        wget -O /opt/tce/optional/parted.tcz ${URL_BASE}parted.tcz
-        wget -O /opt/tce/optional/util-linux.tcz ${URL_BASE}util-linux.tcz
+        sudo wget -O /opt/tce/optional/syslinux.tcz ${URL_BASE}syslinux.tcz
+        sudo wget -O /opt/tce/optional/parted.tcz ${URL_BASE}parted.tcz
+        sudo wget -O /opt/tce/optional/util-linux.tcz ${URL_BASE}util-linux.tcz
+        sudo wget -O /opt/tce/optional/gdisk.tcz ${URL_BASE}gdisk.tcz
         # install the tinycore packages
         tce-load -i ./syslinux.tcz
         tce-load -i ./parted.tcz
+        tce-load -i ./gdisk.tcz
         # sfdisk is in this package
         tce-load -i ./util-linux.tcz
         GPTMBR_LOCATION=/usr/local/share/syslinux/gptmbr.bin
