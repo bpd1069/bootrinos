@@ -45,9 +45,13 @@ setup()
         sudo wget -O /opt/tce/optional/syslinux.tcz ${URL_BASE}syslinux.tcz
         sudo wget -O /opt/tce/optional/parted.tcz ${URL_BASE}parted.tcz
         sudo wget -O /opt/tce/optional/util-linux.tcz ${URL_BASE}util-linux.tcz
+        # sgdisk needs the popt libraries
+        sudo wget -O /opt/tce/optional/popt.tcz ${URL_BASE}popt.tcz
+        # sgdisk is in gdisk.tcz
         sudo wget -O /opt/tce/optional/gdisk.tcz ${URL_BASE}gdisk.tcz
         sudo chmod ug+rx *
         # install the tinycore packages
+        tce-load -i ./popt.tcz
         tce-load -i ./syslinux.tcz
         tce-load -i ./parted.tcz
         tce-load -i ./gdisk.tcz
