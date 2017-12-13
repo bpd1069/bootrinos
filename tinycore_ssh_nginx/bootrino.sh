@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-read -d '' BOOTRINOJSON <<"BOOTRINOJSONMARKER"
+read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
   "name": "Tiny Core 64",
   "version": "0.0.1",
