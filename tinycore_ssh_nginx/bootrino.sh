@@ -31,7 +31,7 @@ URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ss
 cd /boot
 /usr/bin/wget -O /boot/vmlinuz64 ${URL_BASE}vmlinuz64
 /usr/bin/wget -O /boot/corepure64.gz ${URL_BASE}corepure64.gz
-/usr/bin/wget -O /boot/tinycore_ssh_nginx_initramfs.gz ${URL_BASE}tinycore_ssh_nginx_initramfs.gz
+/usr/bin/wget -O /boot/rootfs_overlay_initramfs.gz ${URL_BASE}rootfs_overlay_initramfs.gz
 
 # copy the Ubuntu network configuration into a ramfs which will then be available in tinycore when it boots up
 mkdir -p /bootrino
@@ -75,7 +75,7 @@ set timeout=1
 GRUB_TIMEOUT=1
 menuentry 'tinycore 64' {
 linux /boot/vmlinuz64 root=LABEL=cloudimg-rootfs tce=/opt/tce noswap modules=ext4 console=ttyS0,115200
-initrd /boot/corepure64.gz /boot/tinycore_ssh_nginx_initramfs.gz /boot/bootrino_initramfs.gz
+initrd /boot/corepure64.gz /boot/rootfs_overlay_initramfs.gz /boot/bootrino_initramfs.gz
 }
 EOFMARKER
 

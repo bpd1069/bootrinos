@@ -56,12 +56,12 @@ the packages are stored in /opt/tce/optional
 
 ******* to update the initramfs:
 
-The source for the tinycore_ssh_nginx_initramfs.gz initramfs is in:
-tinycore_ssh_nginx.src/tinycore_ssh_nginx_initramfs.src
+The source for the rootfs_overlay_initramfs.gz initramfs is in:
+tinycore_ssh_nginx.src/rootfs_overlay_initramfs.src
 
-- to rebuild the tinycore_ssh_nginx_initramfs.gz initramfs:
+- to rebuild the rootfs_overlay_initramfs.gz initramfs:
 
-cd tinycore_ssh_nginx/tinycore_ssh_nginx_initramfs.src
-find . | cpio -H newc -o | gzip -9 > ../tinycore_ssh_nginx_initramfs.gz
+cd tinycore_ssh_nginx/rootfs_overlay_initramfs.src
+find . | cpio -H newc -o | gzip -9 > ../rootfs_overlay_initramfs.gz
 
 
