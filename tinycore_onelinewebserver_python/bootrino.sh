@@ -1,16 +1,15 @@
 #!/usr/bin/ash
-read -d '' BOOTRINOJSON <<"BOOTRINOJSONMARKER"
+read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
   "name": "Tiny Core 64 Python one line web server",
   "version": "0.0.1",
   "versionDate": "2017-11-27T09:00:00Z",
   "description": "Tiny Core 64 Python one line web server",
   "options": "",
-  "supportedCloudTypes": [],
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/tiny-core-linux-7-logo.png",
-  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_simple/README.md",
+  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_onelinewebserver_python/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
-  "websiteURL": "https://github.com/bootrino/samples",
+  "websiteURL": "https://github.com/bootrino/tinycore_onelinewebserver_python",
   "author": {
     "url": "https://www.github.com/bootrino",
     "email": "bootrino@gmail.com"
@@ -19,7 +18,7 @@ read -d '' BOOTRINOJSON <<"BOOTRINOJSONMARKER"
     "linux",
     "runfromram",
     "tinycore",
-    "immutable"
+    "python"
   ]
 }
 BOOTRINOJSONMARKER
