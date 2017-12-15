@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
-  "name": "Tiny Core 64 minimal",
+  "name": "bootrino bootstrap (Tiny Core 64 minimal)",
   "version": "0.0.1",
   "versionDate": "2017-11-14T02:55:14Z",
-  "description": "Tiny Core 64 minimal",
+  "description": "bootrino bootstrap (Tiny Core 64 minimal). Run this as the FIRST bootrino. It installs Tiny Core 64 and reboots. On next boot, Tiny Core 64 starts and runs the next bootrino.",
   "options": "",
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/tiny-core-linux-7-logo.png",
   "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/README.md",
@@ -22,10 +22,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   ]
 }
 BOOTRINOJSONMARKER
-URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimalrun    /
-#wget "${URL_BASE}test.py"
-#python3 ./test.py
-#/usr/bin/sudo su
+URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/
 
 # download the operating system files for tinycore
 cd /boot
