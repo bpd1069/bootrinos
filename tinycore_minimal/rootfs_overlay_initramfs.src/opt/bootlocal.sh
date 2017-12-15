@@ -62,6 +62,9 @@ fi
 echo "Password for tc user is ${NEWPW}"
 echo "tc:${NEWPW}" | chpasswd
 
+echo "Starting ssh.... login with ssh tc@<ip address> "
+sudo /usr/local/etc/init.d/openssh start
+
 echo "Displaying network status...."
 ifconfig -a
 route -n
