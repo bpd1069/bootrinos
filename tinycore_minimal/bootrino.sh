@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
-  "name": "Tiny Core 64",
+  "name": "Tiny Core 64 minimal",
   "version": "0.0.1",
   "versionDate": "2017-11-14T02:55:14Z",
-  "description": "Tiny Core 64",
+  "description": "Tiny Core 64 minimal",
   "options": "",
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/tiny-core-linux-7-logo.png",
   "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/README.md",
@@ -22,7 +22,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   ]
 }
 BOOTRINOJSONMARKER
-URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/
+URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/
 #wget "${URL_BASE}test.py"
 #python3 ./test.py
 #/usr/bin/sudo su
