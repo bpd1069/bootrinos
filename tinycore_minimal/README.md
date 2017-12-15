@@ -29,39 +29,21 @@ username is tc with no password
 
 on boot, tinycore loads the packages that are listed in in /opt/tce/onboot.lst
 
-our default tinycore build includes this in onboot.lst:
+tinycore_minimal includes:
 
 tc@box:/opt$ cat tce/onboot.lst
-bash.tcz
 curl.tcz
-dhcp.tcz
-expat2.tcz
-iproute2.tcz
-iptables.tcz
-libdb.tcz
-libffi.tcz
-ncurses.tcz
-nginx.tcz
-openssh.tcz
-openssl.tcz
-pcre.tcz
-python3-requests.tcz
-python3.tcz
-readline.tcz
-sqlite3.tcz
-strace.tcz
-tk.tcz
 
 the packages are stored in /opt/tce/optional
 
 ******* to update the initramfs:
 
 The source for the rootfs_overlay_initramfs.gz initramfs is in:
-tinycore_ssh_nginx.src/rootfs_overlay_initramfs.src
+tinycore_minimal.src/rootfs_overlay_initramfs.src
 
 - to rebuild the rootfs_overlay_initramfs.gz initramfs:
 
-cd tinycore_ssh_nginx/rootfs_overlay_initramfs.src
+cd tinycore_minimal/rootfs_overlay_initramfs.src
 find . | cpio -H newc -o | gzip -9 > ../rootfs_overlay_initramfs.gz
 
 
