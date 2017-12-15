@@ -22,7 +22,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   ]
 }
 BOOTRINOJSONMARKER
-URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/
+URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimalrun    /
 #wget "${URL_BASE}test.py"
 #python3 ./test.py
 #/usr/bin/sudo su
