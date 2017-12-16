@@ -256,7 +256,7 @@ make_bootrino_initramfsgz()
     sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
     sudo cp ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
 }
-
+sleep 20
 setup
 
 if [ ${BOOTRINO_CLOUD_TYPE} == "googlecomputeengine" ]; then
