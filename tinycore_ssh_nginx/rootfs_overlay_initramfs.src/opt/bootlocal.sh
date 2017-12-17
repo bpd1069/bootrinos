@@ -5,10 +5,10 @@ set +xe
 setup_busybox()
 {
     echo Setting up busybox...
+    # CRITICAL! we need the latest version of busybox for run-parts and latest wget
     # set up busybox first cause we'll need it later
     # our own static binary of busybox should have been provided in initramfs
     # which has extra commands we need for networking that standard tc busybox does not have
-    # location: https://busybox.net/downloads/binaries/busybox-x86_64
 
     # create symbolic links for all supported commands
     for i in $(/bin/busybox --list)
@@ -132,7 +132,7 @@ run_next_bootrino()
     echo "system is up, get the next bootrino and run it"
     # run next bootrino
     cd /bootrino
-    exec sh /bootrino/runnextbootrino.sh
+    sh /bootrino/runnextbootrino.sh
 }
 run_next_bootrino
 

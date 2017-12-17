@@ -23,6 +23,8 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 }
 BOOTRINOJSONMARKER
 URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/
+# this script is intended to run on Ubuntu
+OS=ubuntu
 
 # download the operating system files for tinycore
 cd /boot

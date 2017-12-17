@@ -4,7 +4,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "name": "Tiny Core 64 wiperoot",
   "version": "0.0.1",
   "versionDate": "2017-12-14T09:00:00Z",
-  "description": "Tiny Core 64 Python boot disk wiper. This script WIPES THE ROOT DISK! See the README for more information.",
+  "description": "Tiny Core 64 boot disk wiper. This script WIPES THE ROOT DISK! See the README for more information.",
   "options": "",
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/tiny-core-linux-7-logo.png",
   "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_wiperoot/README.md",
@@ -30,6 +30,7 @@ setup()
     export PATH=$PATH:/usr/local/bin:/usr/bin:/usr/local/sbin:/bin
     OS=tinycore
     set +xe
+    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_wiperoot/
 
     if [ ${OS} == "ubuntu" ]; then
         apt-get update
@@ -39,7 +40,6 @@ setup()
 
     # TODO save these packages to S3, get them from there
     if [ ${OS} == "tinycore" ]; then
-        URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_wiperoot/
         # download the tinycore packages that contain the utilities we need
         cd /opt/tce/optional
         sudo wget -O /opt/tce/optional/syslinux.tcz ${URL_BASE}syslinux.tcz
@@ -92,6 +92,10 @@ setup()
       DISK_DEVICE_NAME_CURRENT_OS="vda"
     fi;
 
+}
+
+delete_all_partitions()
+{
     echo "------->>> Configure ${BOOTRINO_CLOUD_TYPE}.... DISK_DEVICE_NAME_CURRENT_OS=${DISK_DEVICE_NAME_CURRENT_OS} DISK_DEVICE_NAME_TARGET_OS=${DISK_DEVICE_NAME_TARGET_OS}"
 
     # explicitly unmount because we need to mount later
@@ -101,10 +105,7 @@ setup()
     if mountpoint -q "/mnt/boot_partition"; then
         sudo umount /mnt/boot_partition
     fi
-}
 
-delete_all_partitions()
-{
     echo "------->>> unmount all partitions on device"
     sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo umount /dev/${DISK_DEVICE_NAME_CURRENT_OS}?*
