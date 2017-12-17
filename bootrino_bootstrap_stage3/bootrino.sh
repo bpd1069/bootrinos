@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
-  "name": "bootrino bootstrap (Tiny Core 64 minimal)",
+  "name": "bootrino bootstrap stage 3",
   "version": "0.0.1",
   "versionDate": "2017-11-14T02:55:14Z",
   "description": "bootrino bootstrap (Tiny Core 64 minimal). Run this as the FIRST bootrino. It installs Tiny Core 64 and reboots. On next boot, Tiny Core 64 starts and runs the next bootrino.",

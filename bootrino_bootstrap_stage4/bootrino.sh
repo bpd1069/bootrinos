@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
-  "name": "Tiny Core 64 wiperoot",
+  "name": "bootrino bootstrap stage 4",
   "version": "0.0.1",
   "versionDate": "2017-12-14T09:00:00Z",
   "description": "Tiny Core 64 boot disk wiper. This script WIPES THE ROOT DISK! See the README for more information.",
