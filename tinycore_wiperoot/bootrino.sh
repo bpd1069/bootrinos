@@ -51,12 +51,13 @@ setup()
         sudo wget -O /opt/tce/optional/gdisk.tcz ${URL_BASE}gdisk.tcz
         sudo chmod ug+rx *
         # install the tinycore packages
-        tce-load -i ./popt.tcz
-        tce-load -i ./syslinux.tcz
-        tce-load -i ./parted.tcz
-        tce-load -i ./gdisk.tcz
+        # tinycore requires not runnning rce-load as root
+        su - tc tce-load -i ./popt.tcz
+        su - tc tce-load -i ./syslinux.tcz
+        su - tc tce-load -i ./parted.tcz
+        su - tc tce-load -i ./gdisk.tcz
         # sfdisk is in this package
-        tce-load -i ./util-linux.tcz
+        su - tc tce-load -i ./util-linux.tcz
         GPTMBR_LOCATION=/usr/local/share/syslinux/gptmbr.bin
     fi;
 
