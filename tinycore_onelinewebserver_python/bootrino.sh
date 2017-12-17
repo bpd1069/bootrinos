@@ -1,4 +1,4 @@
-#!/usr/bin/ash
+#!/usr/bin/env sh
 read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
   "name": "Tiny Core 64 Python one line web server",

@@ -1,4 +1,4 @@
-#!/usr/bin/ash
+#!/usr/bin/env sh
 read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
   "name": "Tiny Core 64 wiperoot",
@@ -74,6 +74,8 @@ setup()
 
     # Sometimes different operating systems name the hard disk devices differently even on the same cloud.
     # So we need to define the name for the current OS, plus the root_partition OS
+    # This ise useful when for example running a script on Ubuntu that is preparing to boot Tiny Core, where
+    # the hard disk devices names are different
 
     if [ ${BOOTRINO_CLOUD_TYPE} == "googlecomputeengine" ]; then
       DISK_DEVICE_NAME_TARGET_OS="sda"
@@ -104,10 +106,11 @@ setup()
 delete_all_partitions()
 {
     echo "------->>> unmount all partitions on device"
+    sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo umount /dev/${DISK_DEVICE_NAME_CURRENT_OS}?*
 
     echo "------->>> remove all partitions from device"
-    sudo sgdisk -Z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -Z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 }
 
@@ -117,14 +120,6 @@ prepare_disk_uefi()
     delete_all_partitions
     ROOT_PARTITION_NUMBER=1
     BOOT_PARTITION_NUMBER=13
-
-    echo "------->>> unmount all partitions on device"
-    sudo umount /dev/${DISK_DEVICE_NAME_CURRENT_OS}?*
-
-    echo "------->>> remove all partitions from device"
-    sudo sgdisk -Z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
-    sudo sgdisk -Z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
-
 
     echo "------->>> display all partitions"
     sudo sgdisk --print /dev/${DISK_DEVICE_NAME_CURRENT_OS}
@@ -139,21 +134,25 @@ prepare_disk_uefi()
     while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}" ]; do sleep 1; done
 
     echo echo "------->>> format the boot partition - makes it vfat"
+    sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo mkdosfs -v /dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}
 
     echo "------->>> set bootable flag on boot partition"
+    sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -A ${BOOT_PARTITION_NUMBER}:set:2 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
     echo "------->>> write the mbr"
+    sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo dd if=/usr/local/share/syslinux/gptmbr.bin of=/dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
     echo "------->>> set disk label of root partition to /"
-    #sudo /sbin/tune2fs -L rootfs /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
+    sudo /sbin/tune2fs -L rootfs /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
 
     echo "------->>> partitioning asynchronous, waiting for devices to appear"
     while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}" ]; do sleep 1; done
 
     echo "------->>> format the root partition as ext4"
+    sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo mkfs.ext4 -F /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
 
     echo "------->>> create a mount point for the root partition"
@@ -164,7 +163,6 @@ prepare_disk_uefi()
 
     echo "------->>> create a mount point for the boot partition"
     sudo mkdir -p /mnt/boot_partition
-
 
     echo "------->>> mount the boot partition"
     sudo mount /dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER} /mnt/boot_partition
@@ -178,7 +176,7 @@ prepare_disk_uefi()
 prepare_disk_mbr()
 {
     delete_all_partitions
-    DISK_DEVICE_NAME_CURRENT_OS=xvda
+    DISK_DEVICE_NAME_CURRENT_OS=${DISK_DEVICE_NAME_CURRENT_OS}
     ROOT_PARTITION_NUMBER=1
     echo "------->>> create one single MBR partition for entire disk"
     # https://suntong.github.io/blogs/2015/12/25/use-sfdisk-to-partition-disks/
@@ -256,6 +254,8 @@ make_bootrino_initramfsgz()
     sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
     sudo cp ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
 }
+
+
 sleep 20
 setup
 

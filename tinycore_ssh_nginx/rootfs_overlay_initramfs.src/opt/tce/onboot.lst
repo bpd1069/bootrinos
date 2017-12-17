@@ -17,6 +17,7 @@ libffi.tcz
 libndp.tcz
 libnl.tcz
 libsoup.tcz
+mirrors.tcz
 modemmanager.tcz
 ncurses.tcz
 networkmanager.tcz
