@@ -41,23 +41,23 @@ setup()
     # TODO save these packages to S3, get them from there
     if [ ${OS} == "tinycore" ]; then
         # download the tinycore packages that contain the utilities we need
-        cd /opt/tce/optional
-        sudo wget -O /opt/tce/optional/syslinux.tcz ${URL_BASE}syslinux.tcz
-        sudo wget -O /opt/tce/optional/parted.tcz ${URL_BASE}parted.tcz
-        sudo wget -O /opt/tce/optional/util-linux.tcz ${URL_BASE}util-linux.tcz
+        cd /home/tc
+        sudo wget -O /home/tc/syslinux.tcz ${URL_BASE}syslinux.tcz
+        sudo wget -O /home/tc/parted.tcz ${URL_BASE}parted.tcz
+        sudo wget -O /home/tc/util-linux.tcz ${URL_BASE}util-linux.tcz
         # sgdisk needs the popt libraries
-        sudo wget -O /opt/tce/optional/popt.tcz ${URL_BASE}popt.tcz
+        sudo wget -O /home/tc/popt.tcz ${URL_BASE}popt.tcz
         # sgdisk is in gdisk.tcz
-        sudo wget -O /opt/tce/optional/gdisk.tcz ${URL_BASE}gdisk.tcz
+        sudo wget -O /home/tc/gdisk.tcz ${URL_BASE}gdisk.tcz
         sudo chmod ug+rx *
         # install the tinycore packages
-        # tinycore requires not runnning rce-load as root
-        su - tc tce-load -i ./popt.tcz
-        su - tc tce-load -i ./syslinux.tcz
-        su - tc tce-load -i ./parted.tcz
-        su - tc tce-load -i ./gdisk.tcz
+        # tinycore requires not runnning tce-load as root so we run it as tiny core default user tc
+        su - tc -c "tce-load -i /home/tc/popt.tcz"
+        su - tc -c "tce-load -i /home/tc/syslinux.tcz"
+        su - tc -c "tce-load -i /home/tc/parted.tcz"
+        su - tc -c "tce-load -i /home/tc/gdisk.tcz"
         # sfdisk is in this package
-        su - tc tce-load -i ./util-linux.tcz
+        su - tc -c "tce-load -i /home/tc/util-linux.tcz"
         GPTMBR_LOCATION=/usr/local/share/syslinux/gptmbr.bin
     fi;
 
