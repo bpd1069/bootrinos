@@ -107,11 +107,11 @@ delete_all_partitions()
     fi
 
     echo "------->>> unmount all partitions on device"
-    sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    #sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo umount /dev/${DISK_DEVICE_NAME_CURRENT_OS}?*
 
     echo "------->>> remove all partitions from device"
-    sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    #sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -Z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 }
 
@@ -135,15 +135,15 @@ prepare_disk_uefi()
     while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}" ]; do sleep 1; done
 
     echo echo "------->>> format the boot partition - makes it vfat"
-    sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    #sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo mkdosfs -v /dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}
 
     echo "------->>> set bootable flag on boot partition"
-    sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    #sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -A ${BOOT_PARTITION_NUMBER}:set:2 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
     echo "------->>> write the mbr"
-    sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    #sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo dd if=/usr/local/share/syslinux/gptmbr.bin of=/dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
     echo "------->>> set disk label of root partition to /"
@@ -153,7 +153,7 @@ prepare_disk_uefi()
     while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}" ]; do sleep 1; done
 
     echo "------->>> format the root partition as ext4"
-    sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    #sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo mkfs.ext4 -F /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
 
     echo "------->>> create a mount point for the root partition"
