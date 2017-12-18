@@ -112,7 +112,6 @@ EOF
 
 install_tinycore()
 {
-    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/
     # download the operating system files for tinycore
     cd /mnt/boot_partition
     sudo wget -O /mnt/boot_partition/vmlinuz64 ${URL_BASE}vmlinuz64
