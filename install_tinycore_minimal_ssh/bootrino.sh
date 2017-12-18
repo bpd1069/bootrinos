@@ -86,7 +86,6 @@ install_tinycore()
     sudo wget -O /mnt/boot_partition/vmlinuz64 ${URL_BASE}vmlinuz64
     sudo wget -O /mnt/boot_partition/corepure64.gz ${URL_BASE}corepure64.gz
     sudo wget -O /mnt/boot_partition/rootfs_overlay_initramfs.gz ${URL_BASE}rootfs_overlay_initramfs.gz
-    sudo wget -O /mnt/boot_partition/extras_initramfs.gz ${URL_BASE}extras_initramfs.gz
     # COPY OVER THE BOOTRINO DIRECTORY TO THE HARD DISK NEW ROOT PARTITION
     cd /mnt/root_partition
     sudo mkdir -p /mnt/root_partition/bootrino/
@@ -106,7 +105,7 @@ DEFAULT tinycore
 # console=ttyS0 console=tty0
 LABEL tinycore
     KERNEL vmlinuz64 tce=/opt/tce noswap modules=ext4 console=ttyS0,115200
-    INITRD corepure64.gz,rootfs_overlay_initramfs.gz,bootrino_initramfs.gz,extras_initramfs.gz
+    INITRD corepure64.gz,rootfs_overlay_initramfs.gz,bootrino_initramfs.gz
 EOF
 }
 
