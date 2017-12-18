@@ -68,9 +68,9 @@ configure_network()
         #need to install curl for this (curl.tcz into /opt/tce/optional and add curl.tcz to /opt/tce/onboot.lst)
         sudo ifconfig eth0 169.254.1.1 netmask 255.255.0.0
         sudo route add -net 169.254.0.0 netmask 255.255.0.0 dev eth0
-        export PUBLIC_IPV4=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
-        export NETMASK=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/netmask)
-        export GATEWAY=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/gateway)
+        export PUBLIC_IPV4=$(wget -O - http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
+        export NETMASK=$(wget -O - http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/netmask)
+        export GATEWAY=$(wget -O - http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/gateway)
         sudo ip addr add ${PUBLIC_IPV4}/${NETMASK} dev eth0
         sudo ip route add default via ${GATEWAY}
     fi;
