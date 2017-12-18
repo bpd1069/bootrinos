@@ -79,19 +79,6 @@ download_install_tinycore_packages()
 }
 
 
-install_tinycore()
-{
-    # download the operating system files for tinycore
-    cd /mnt/boot_partition
-    sudo wget -O /mnt/boot_partition/vmlinuz64 ${URL_BASE}vmlinuz64
-    sudo wget -O /mnt/boot_partition/corepure64.gz ${URL_BASE}corepure64.gz
-    sudo wget -O /mnt/boot_partition/rootfs_overlay_initramfs.gz ${URL_BASE}rootfs_overlay_initramfs.gz
-    # COPY OVER THE BOOTRINO DIRECTORY TO THE HARD DISK NEW ROOT PARTITION
-    cd /mnt/root_partition
-    sudo mkdir -p /mnt/root_partition/bootrino/
-    sudo cp -r /bootrino /mnt/root_partition
-}
-
 create_syslinuxcfg()
 {
 #APPEND root=/dev/${DISK_DEVICE_NAME_TARGET_OS}1 console=ttyS0 console=tty0
@@ -118,9 +105,9 @@ install_tinycore()
     sudo wget -O /mnt/boot_partition/corepure64.gz ${URL_BASE}corepure64.gz
     sudo wget -O /mnt/boot_partition/rootfs_overlay_initramfs.gz ${URL_BASE}rootfs_overlay_initramfs.gz
     # COPY OVER THE BOOTRINO DIRECTORY TO THE HARD DISK NEW ROOT PARTITION
-    cd /mnt/boot_partition
-    sudo mkdir -p /mnt/boot_partition/bootrino/
-    sudo cp -r /bootrino /mnt/boot_partition
+    cd /mnt/root_partition
+    sudo mkdir -p /mnt/root_partition/bootrino/
+    sudo cp -r /bootrino /mnt/root_partition
 }
 
 make_bootrino_initramfsgz()
