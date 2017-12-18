@@ -118,9 +118,9 @@ install_tinycore()
     sudo wget -O /mnt/boot_partition/corepure64.gz ${URL_BASE}corepure64.gz
     sudo wget -O /mnt/boot_partition/rootfs_overlay_initramfs.gz ${URL_BASE}rootfs_overlay_initramfs.gz
     # COPY OVER THE BOOTRINO DIRECTORY TO THE HARD DISK NEW ROOT PARTITION
-    cd /mnt/root_partition
-    sudo mkdir -p /mnt/root_partition/bootrino/
-    sudo cp -r /bootrino /mnt/root_partition
+    cd /mnt/boot_partition
+    sudo mkdir -p /mnt/boot_partition/bootrino/
+    sudo cp -r /bootrino /mnt/boot_partition
 }
 
 make_bootrino_initramfsgz()
