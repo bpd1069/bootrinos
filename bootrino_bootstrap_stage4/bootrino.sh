@@ -213,7 +213,7 @@ EOF
 
 }
 
-sleep 20
+#sleep 20
 setup
 download_install_tinycore_packages
 
