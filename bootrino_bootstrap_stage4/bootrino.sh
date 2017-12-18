@@ -4,7 +4,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "name": "bootrino bootstrap stage 4",
   "version": "0.0.1",
   "versionDate": "2017-12-14T09:00:00Z",
-  "description": "Tiny Core 64 boot disk wiper. This script WIPES THE ROOT DISK! See the README for more information.",
+  "description": "bootrino Tiny Core 64 boot disk wiper. This script WIPES THE ROOT DISK! See the README for more information.",
   "options": "",
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/tiny-core-linux-7-logo.png",
   "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_wiperoot/README.md",
@@ -32,34 +32,7 @@ setup()
     set +xe
     URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/bootrino_bootstrap_stage4/
 
-    if [ ${OS} == "ubuntu" ]; then
-        apt-get update
-        apt-get install -y extlinux
-        GPTMBR_LOCATION=/usr/lib/syslinux/mbr/gptmbr.bin
-    fi;
-
-    # TODO save these packages to S3, get them from there
-    if [ ${OS} == "tinycore" ]; then
-        # download the tinycore packages that contain the utilities we need
-        cd /home/tc
-        sudo wget -O /home/tc/syslinux.tcz ${URL_BASE}syslinux.tcz
-        sudo wget -O /home/tc/parted.tcz ${URL_BASE}parted.tcz
-        sudo wget -O /home/tc/util-linux.tcz ${URL_BASE}util-linux.tcz
-        # sgdisk needs the popt libraries
-        sudo wget -O /home/tc/popt.tcz ${URL_BASE}popt.tcz
-        # sgdisk is in gdisk.tcz
-        sudo wget -O /home/tc/gdisk.tcz ${URL_BASE}gdisk.tcz
-        sudo chmod ug+rx *
-        # install the tinycore packages
-        # tinycore requires not runnning tce-load as root so we run it as tiny core default user tc
-        su - tc -c "tce-load -i /home/tc/popt.tcz"
-        su - tc -c "tce-load -i /home/tc/syslinux.tcz"
-        su - tc -c "tce-load -i /home/tc/parted.tcz"
-        su - tc -c "tce-load -i /home/tc/gdisk.tcz"
-        # sfdisk is in this package
-        su - tc -c "tce-load -i /home/tc/util-linux.tcz"
-        GPTMBR_LOCATION=/usr/local/share/syslinux/gptmbr.bin
-    fi;
+    GPTMBR_LOCATION=/usr/local/share/syslinux/gptmbr.bin
 
     # load the bootrino environment variables: BOOTRINO_CLOUD_TYPE BOOTRINO_URL BOOTRINO_PROTOCOL BOOTRINO_SHA256
     # allexport ensures exported variables come into current environment
@@ -94,6 +67,32 @@ setup()
     fi;
 
 }
+
+download_install_tinycore_packages()
+{
+    # TODO save these packages to S3, get them from there
+    if [ ${OS} == "tinycore" ]; then
+        # download the tinycore packages that contain the utilities we need
+        cd /home/tc
+        sudo wget -O /home/tc/syslinux.tcz ${URL_BASE}syslinux.tcz
+        sudo wget -O /home/tc/parted.tcz ${URL_BASE}parted.tcz
+        sudo wget -O /home/tc/util-linux.tcz ${URL_BASE}util-linux.tcz
+        # sgdisk needs the popt libraries
+        sudo wget -O /home/tc/popt.tcz ${URL_BASE}popt.tcz
+        # sgdisk is in gdisk.tcz
+        sudo wget -O /home/tc/gdisk.tcz ${URL_BASE}gdisk.tcz
+        sudo chmod ug+rx *
+        # install the tinycore packages
+        # tinycore requires not runnning tce-load as root so we run it as tiny core default user tc
+        su - tc -c "tce-load -i /home/tc/popt.tcz"
+        su - tc -c "tce-load -i /home/tc/syslinux.tcz"
+        su - tc -c "tce-load -i /home/tc/parted.tcz"
+        su - tc -c "tce-load -i /home/tc/gdisk.tcz"
+        # sfdisk is in this package
+        su - tc -c "tce-load -i /home/tc/util-linux.tcz"
+    fi;
+}
+
 
 delete_all_partitions()
 {
@@ -171,7 +170,6 @@ prepare_disk_uefi()
 
     echo "------->>> install extlinux/syslinux to boot partition"
     sudo extlinux --install /mnt/boot_partition
-    create_syslinuxcfg
 }
 
 
@@ -213,53 +211,11 @@ EOF
     echo "------->>> set disk label to /"
     sudo /sbin/tune2fs -L / /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
 
-    create_syslinuxcfg
-    sudo umount /mnt/root_partition/
 }
-
-create_syslinuxcfg()
-{
-#APPEND root=/dev/${DISK_DEVICE_NAME_TARGET_OS}1 console=ttyS0 console=tty0
-    echo "------->>> create syslinux.cfg"
-sudo sh -c 'cat > /mnt/boot_partition/syslinux.cfg' << EOF
-SERIAL 0
-TIMEOUT 1
-PROMPT 1
-DEFAULT tinycore
-# on EC2 this ensures output to both VGA and serial consoles
-# console=ttyS0 console=tty0
-LABEL tinycore
-    KERNEL vmlinuz64 tce=/opt/tce noswap modules=ext4 console=ttyS0,115200
-    INITRD corepure64.gz,rootfs_overlay_initramfs.gz,bootrino_initramfs.gz
-EOF
-}
-
-install_tinycore()
-{
-    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/
-    # download the operating system files for tinycore
-    cd /mnt/boot_partition
-    sudo wget -O /mnt/boot_partition/vmlinuz64 ${URL_BASE}vmlinuz64
-    sudo wget -O /mnt/boot_partition/corepure64.gz ${URL_BASE}corepure64.gz
-    sudo wget -O /mnt/boot_partition/rootfs_overlay_initramfs.gz ${URL_BASE}rootfs_overlay_initramfs.gz
-    # COPY OVER THE BOOTRINO DIRECTORY TO THE HARD DISK NEW ROOT PARTITION
-    cd /mnt/root_partition
-    sudo mkdir -p /mnt/root_partition/bootrino/
-    sudo cp -r /bootrino /mnt/root_partition
-}
-
-make_bootrino_initramfsgz()
-{
-    # we have to pack up the bootrino directory into an initramfs in order for it to be in the tinycore filesystem
-    HOME_DIR=/home/tc/
-    cd ${HOME_DIR}
-    sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
-    sudo cp ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
-}
-
 
 sleep 20
 setup
+download_install_tinycore_packages
 
 if [ ${BOOTRINO_CLOUD_TYPE} == "googlecomputeengine" ]; then
     prepare_disk_uefi
@@ -273,18 +229,13 @@ if [ ${BOOTRINO_CLOUD_TYPE} == "digitalocean" ]; then
     prepare_disk_uefi
 fi;
 
-#install_tinycore
-#make_bootrino_initramfsgz
-
-# run next bootrino
-
-#works with google
-#serial 0 115200
-#	append root=/dev/sda1 console=ttyS0,115200 console=ttyS0
-
-#sudo /sbin/reboot
-#	initrd /boot/yocto_initramfs_rootfs.cpio.gz
-#	append root=/dev/ram0 rw console=ttyS0,115200 console=tty0
-
+run_next_bootrino()
+{
+    echo "system is up, get the next bootrino and run it"
+    # run next bootrino
+    cd /bootrino
+    sh /bootrino/runnextbootrino.sh
+}
+run_next_bootrino
 
 
