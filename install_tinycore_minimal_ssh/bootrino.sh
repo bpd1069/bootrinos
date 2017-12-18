@@ -105,7 +105,7 @@ DEFAULT tinycore
 # console=ttyS0 console=tty0
 LABEL tinycore
     KERNEL vmlinuz64 tce=/opt/tce noswap modules=ext4 console=ttyS0,115200
-    INITRD corepure64.gz,rootfs_overlay_initramfs.gz,bootrino_initramfs.gz
+    INITRD corepure64.gz,rootfs_overlay_initramfs.gz,bootrino_initramfs.gz, extras_initramfs.gz
 EOF
 }
 
