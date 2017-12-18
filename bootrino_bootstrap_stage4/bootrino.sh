@@ -30,7 +30,7 @@ setup()
     export PATH=$PATH:/usr/local/bin:/usr/bin:/usr/local/sbin:/bin
     OS=tinycore
     set +xe
-    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_wiperoot/
+    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/bootrino_bootstrap_stage4/
 
     if [ ${OS} == "ubuntu" ]; then
         apt-get update

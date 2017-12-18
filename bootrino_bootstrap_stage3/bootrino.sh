@@ -22,7 +22,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   ]
 }
 BOOTRINOJSONMARKER
-URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/
+URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/bootrino_bootstrap_stage3/
 # this script is intended to run on Ubuntu
 OS=ubuntu
 
