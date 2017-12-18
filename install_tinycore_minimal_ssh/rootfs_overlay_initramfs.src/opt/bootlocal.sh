@@ -113,7 +113,7 @@ set_password
 
 start_ssh()
 {
-    echo "Starting ssh.... login with ssh tc@<ip address> no password"
+    echo "Starting ssh.... password is in boot log or /opt/rootpassword.txt"
     sudo /usr/local/etc/init.d/openssh start
 }
 start_ssh
