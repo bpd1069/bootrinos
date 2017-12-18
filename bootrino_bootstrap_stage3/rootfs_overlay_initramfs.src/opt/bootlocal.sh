@@ -77,6 +77,7 @@ configure_network()
 
     if [ "${BOOTRINO_CLOUD_TYPE}" == "googlecomputeengine" ]; then
         echo Configure googlecomputeengine....
+        # is this sleep needed?  why?
         sleep 10
         sudo mkdir /var/db
         sudo touch /var/db/dhclient.leases
