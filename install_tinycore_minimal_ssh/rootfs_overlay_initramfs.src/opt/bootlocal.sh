@@ -106,6 +106,7 @@ set_password()
       NEWPW=${PASSWORD}
     fi
     echo "Password for tc user is ${NEWPW}"
+    echo "Password for tc user is ${NEWPW}" > /opt/rootpassword.txt
     echo "tc:${NEWPW}" | chpasswd
 }
 set_password
