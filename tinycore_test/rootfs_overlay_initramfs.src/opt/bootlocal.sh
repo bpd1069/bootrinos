@@ -18,6 +18,7 @@ setup_busybox()
 }
 setup_busybox
 
+mkdir -p /opt/bootlocal_enabled
 # create links to required scripts
 ln -s /opt/bootlocal/50_bootrino_setup_env_vars.sh /opt/bootlocal_enabled/50_bootrino_setup_env_vars.sh
 ln -s /opt/bootlocal/55_bootrino_setup_network.sh /opt/bootlocal_enabled/55_bootrino_setup_network.sh
@@ -25,7 +26,8 @@ ln -s /opt/bootlocal/60_bootrino_set_password.sh /opt/bootlocal_enabled/60_bootr
 ln -s /opt/bootlocal/65_bootrino_start_ssh.sh /opt/bootlocal_enabled/65_bootrino_start_ssh.sh
 ln -s /opt/bootlocal/70_bootrino_start_nginx.sh /opt/bootlocal_enabled/70_bootrino_start_nginx.sh
 ln -s /opt/bootlocal/90_bootrino_run_next_bootrino.sh /opt/bootlocal_enabled/90_bootrino_run_next_bootrino.sh
-ln -s /opt/bootlocal/95_bootrino_reboot.sh /opt/bootlocal_enabled/95_bootrino_reboot.sh
+#ln -s /opt/bootlocal/95_bootrino_reboot.sh /opt/bootlocal_enabled/95_bootrino_reboot.sh
 
+chmod +x /opt/bootlocal_enabled
 run-parts /opt/bootlocal_enabled
 
