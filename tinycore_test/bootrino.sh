@@ -7,7 +7,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "description": "Tiny Core 64",
   "options": "",
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/tiny-core-linux-7-logo.png",
-  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/README.md",
+  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_test/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
   "websiteURL": "https://github.com/bootrino/samples",
   "author": {
@@ -22,7 +22,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   ]
 }
 BOOTRINOJSONMARKER
-URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/
+URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_test/
 # this script is intended to run on Ubuntu
 OS=ubuntu
 
