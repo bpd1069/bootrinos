@@ -6,7 +6,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "versionDate": "2017-12-14T09:00:00Z",
   "description": "bootrino boostrap - root disk wiper. This script WIPES THE ROOT DISK in preparation for install of new OS.",
   "options": "",
-  "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/tiny-core-linux-7-logo.png",
+  "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal-8.2.1_x86-64/tiny-core-linux-7-logo.png",
   "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/wipe_root_disk/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
   "websiteURL": "https://github.com/bootrino/",

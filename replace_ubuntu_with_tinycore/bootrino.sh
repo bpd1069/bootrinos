@@ -6,7 +6,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "versionDate": "2017-11-14T02:55:14Z",
   "description": "bootrino bootstrap - run this as the FIRST bootrino. It installs Tiny Core 64 on top of Ubuntu and reboots.",
   "options": "",
-  "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/tiny-core-linux-7-logo.png",
+  "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal-8.2.1_x86-64/tiny-core-linux-7-logo.png",
   "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/replace_ubuntu_with_tinycore/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
   "websiteURL": "https://github.com/bootrino",
@@ -22,7 +22,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   ]
 }
 BOOTRINOJSONMARKER
-URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/
+URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal-8.2.1_x86-64/
 # THIS SCRIPT RUNS ON UBUNTU AND REPLACES THE OPERATING SYSTEM WITH TINYCORE!
 OS=ubuntu
 

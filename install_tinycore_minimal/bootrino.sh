@@ -1,13 +1,13 @@
 #!/usr/bin/env sh
 read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
-  "name": "Install Tiny Core 64 minimal with SSH",
+  "name": "Install Tiny Core 64 minimal",
   "version": "0.0.1",
   "versionDate": "2017-12-14T09:00:00Z",
   "description": "Installs Tiny Core 64 minimal. Expects to be run after bootrino root disk wipe.",
   "options": "",
-  "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/tiny-core-linux-7-logo.png",
-  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/install_tinycore_minimal/README.md",
+  "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal-8.2.1_x86-64/tiny-core-linux-7-logo.png",
+  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/install_tinycore_minimal-8.2.1_x86-64/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
   "websiteURL": "",
   "author": {
@@ -30,7 +30,7 @@ setup()
     export PATH=$PATH:/usr/local/bin:/usr/bin:/usr/local/sbin:/bin
     OS=tinycore
     set +xe
-    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/
+    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal-8.2.1_x86-64/
 
     # load the bootrino environment variables: BOOTRINO_CLOUD_TYPE BOOTRINO_URL BOOTRINO_PROTOCOL BOOTRINO_SHA256
     # allexport ensures exported variables come into current environment
