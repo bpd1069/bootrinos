@@ -4,7 +4,7 @@ set +xe
 
 start_ssh()
 {
-    echo "Starting ssh.... login with ssh tc@<ip address> no password"
+    echo "Starting ssh.... login with ssh tc@<ip address>"
     sudo /usr/local/etc/init.d/openssh start
 }
 start_ssh

@@ -30,6 +30,9 @@ configure_network()
         export GATEWAY=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/gateway)
         sudo ip addr add ${PUBLIC_IPV4}/${NETMASK} dev eth0
         sudo ip route add default via ${GATEWAY}
+        # configure name servers
+        echo nameserver 8.8.8.8 > /etc/resolv.conf
+        echo nameserver 8.8.4.4 >> /etc/resolv.conf
     fi;
 
     if [ "${BOOTRINO_CLOUD_TYPE}" == "googlecomputeengine" ]; then
@@ -41,11 +44,10 @@ configure_network()
         echo cat /etc/resolv.conf
         # tinycore default mtu is 1500, Google needs it to be 1460 or ssh won't work
         sudo ip link set mtu 1460 dev eth0
+        # configure name servers
+        echo nameserver 8.8.8.8 > /etc/resolv.conf
+        echo nameserver 8.8.4.4 >> /etc/resolv.conf
     fi;
-
-    # configure name servers
-    echo nameserver 8.8.8.8 > /etc/resolv.conf
-    echo nameserver 8.8.4.4 >> /etc/resolv.conf
 
     echo "Displaying network status...."
     ifconfig -a
