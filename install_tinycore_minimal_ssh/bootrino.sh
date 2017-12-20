@@ -30,7 +30,7 @@ setup()
     export PATH=$PATH:/usr/local/bin:/usr/bin:/usr/local/sbin:/bin
     OS=tinycore
     set +xe
-    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/install_tinycore_minimal_ssh/
+    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/
 
     # load the bootrino environment variables: BOOTRINO_CLOUD_TYPE BOOTRINO_URL BOOTRINO_PROTOCOL BOOTRINO_SHA256
     # allexport ensures exported variables come into current environment
