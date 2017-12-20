@@ -2,6 +2,16 @@
 # don't crash out if there is an error
 set +xe
 
+setup_bootrino_environment_variables()
+{
+    # allexport ensures exported variables come into current environment
+    sudo chmod +x /bootrino/envvars.sh
+    set -o allexport
+    [ -f /bootrino/envvars.sh ] && . /bootrino/envvars.sh
+    set +o allexport
+}
+setup_bootrino_environment_variables
+
 configure_network()
 {
     if [ "${BOOTRINO_CLOUD_TYPE}" == "amazonwebservices" ]; then
