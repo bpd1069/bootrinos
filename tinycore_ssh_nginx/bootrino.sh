@@ -49,17 +49,17 @@ set +o allexport
 
 # Sometimes different operating systems name the hard disk devices differently even on the same cloud.
 # So we need to define the name for the current OS, plus the root_partition OS
-if [ ${BOOTRINO_CLOUD_TYPE} == "googlecomputeengine" ]; then
+if [ "${BOOTRINO_CLOUD_TYPE}" == "googlecomputeengine" ]; then
   DISK_DEVICE_NAME_TARGET_OS="sda"
   DISK_DEVICE_NAME_CURRENT_OS="sda"
 fi;
 
-if [ ${BOOTRINO_CLOUD_TYPE} == "amazonwebservices" ]; then
+if [ "${BOOTRINO_CLOUD_TYPE}" == "amazonwebservices" ]; then
   DISK_DEVICE_NAME_TARGET_OS="hda"
   DISK_DEVICE_NAME_CURRENT_OS="xvda"
 fi;
 
-if [ ${BOOTRINO_CLOUD_TYPE} == "digitalocean" ]; then
+if [ "${BOOTRINO_CLOUD_TYPE}" == "digitalocean" ]; then
   DISK_DEVICE_NAME_TARGET_OS="vda"
   DISK_DEVICE_NAME_CURRENT_OS="vda"
 fi;

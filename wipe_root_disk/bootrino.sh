@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
-  "name": "bootrino bootstrap stage 4",
+  "name": "bootrino wipe root disk",
   "version": "0.0.1",
   "versionDate": "2017-12-14T09:00:00Z",
-  "description": "bootrino boostrap - root disk wiper. This script WIPES THE ROOT DISK! See the README for more information.",
+  "description": "bootrino boostrap - root disk wiper. This script WIPES THE ROOT DISK in preparation for install of new OS.",
   "options": "",
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/tiny-core-linux-7-logo.png",
   "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/wipe_root_disk/README.md",
@@ -22,8 +22,6 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   ]
 }
 BOOTRINOJSONMARKER
-# this script DESTROYS THE BOOT/ROOT DISK WITHOUT ASKING!!!!!!!!
-# YOU HAVE BEEN WARNED.
 
 setup()
 {
@@ -32,18 +30,22 @@ setup()
     set +xe
     URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/wipe_root_disk/
 
-    GPTMBR_LOCATION=/usr/local/share/syslinux/gptmbr.bin
-
-    # load the bootrino environment variables: BOOTRINO_CLOUD_TYPE BOOTRINO_URL BOOTRINO_PROTOCOL BOOTRINO_SHA256
-    # allexport ensures exported variables come into current environment
-    set -o allexport
-    [ -f /bootrino/envvars.sh ] && . /bootrino/envvars.sh
-    set +o allexport
-
     # base directory for running this script
     sudo mkdir -p /opt
     cd /opt
+}
 
+setup_bootrino_environment_variables()
+{
+    # allexport ensures exported variables come into current environment
+    sudo chmod +x /bootrino/envvars.sh
+    set -o allexport
+    [ -f /bootrino/envvars.sh ] && . /bootrino/envvars.sh
+    set +o allexport
+}
+
+setup_disk_device_name_environment_variables()
+{
     echo "------->>> cloud type: ${BOOTRINO_CLOUD_TYPE}"
 
     # Sometimes different operating systems name the hard disk devices differently even on the same cloud.
@@ -51,48 +53,43 @@ setup()
     # This ise useful when for example running a script on Ubuntu that is preparing to boot Tiny Core, where
     # the hard disk devices names are different
 
-    if [ ${BOOTRINO_CLOUD_TYPE} == "googlecomputeengine" ]; then
+    if [ "${BOOTRINO_CLOUD_TYPE}" == "googlecomputeengine" ]; then
       DISK_DEVICE_NAME_TARGET_OS="sda"
       DISK_DEVICE_NAME_CURRENT_OS="sda"
     fi;
 
-    if [ ${BOOTRINO_CLOUD_TYPE} == "amazonwebservices" ]; then
+    if [ "${BOOTRINO_CLOUD_TYPE}" == "amazonwebservices" ]; then
       DISK_DEVICE_NAME_TARGET_OS="xvda"
       DISK_DEVICE_NAME_CURRENT_OS="xvda"
     fi;
 
-    if [ ${BOOTRINO_CLOUD_TYPE} == "digitalocean" ]; then
+    if [ "${BOOTRINO_CLOUD_TYPE}" == "digitalocean" ]; then
       DISK_DEVICE_NAME_TARGET_OS="vda"
       DISK_DEVICE_NAME_CURRENT_OS="vda"
     fi;
-
 }
 
 download_install_tinycore_packages()
 {
-    # TODO save these packages to S3, get them from there
-    if [ ${OS} == "tinycore" ]; then
-        # download the tinycore packages that contain the utilities we need
-        cd /home/tc
-        sudo wget -O /home/tc/syslinux.tcz ${URL_BASE}syslinux.tcz
-        sudo wget -O /home/tc/parted.tcz ${URL_BASE}parted.tcz
-        sudo wget -O /home/tc/util-linux.tcz ${URL_BASE}util-linux.tcz
-        # sgdisk needs the popt libraries
-        sudo wget -O /home/tc/popt.tcz ${URL_BASE}popt.tcz
-        # sgdisk is in gdisk.tcz
-        sudo wget -O /home/tc/gdisk.tcz ${URL_BASE}gdisk.tcz
-        sudo chmod ug+rx *
-        # install the tinycore packages
-        # tinycore requires not runnning tce-load as root so we run it as tiny core default user tc
-        su - tc -c "tce-load -i /home/tc/popt.tcz"
-        su - tc -c "tce-load -i /home/tc/syslinux.tcz"
-        su - tc -c "tce-load -i /home/tc/parted.tcz"
-        su - tc -c "tce-load -i /home/tc/gdisk.tcz"
-        # sfdisk is in this package
-        su - tc -c "tce-load -i /home/tc/util-linux.tcz"
-    fi;
+    # download the tinycore packages that contain the utilities we need
+    cd /home/tc
+    sudo wget -O /home/tc/syslinux.tcz ${URL_BASE}syslinux.tcz
+    sudo wget -O /home/tc/parted.tcz ${URL_BASE}parted.tcz
+    sudo wget -O /home/tc/util-linux.tcz ${URL_BASE}util-linux.tcz
+    # sgdisk needs the popt libraries
+    sudo wget -O /home/tc/popt.tcz ${URL_BASE}popt.tcz
+    # sgdisk is in gdisk.tcz
+    sudo wget -O /home/tc/gdisk.tcz ${URL_BASE}gdisk.tcz
+    sudo chmod ug+rx *
+    # install the tinycore packages
+    # tinycore requires not runnning tce-load as root so we run it as tiny core default user tc
+    su - tc -c "tce-load -i /home/tc/popt.tcz"
+    su - tc -c "tce-load -i /home/tc/syslinux.tcz"
+    su - tc -c "tce-load -i /home/tc/parted.tcz"
+    su - tc -c "tce-load -i /home/tc/gdisk.tcz"
+    # sfdisk is in this package
+    su - tc -c "tce-load -i /home/tc/util-linux.tcz"
 }
-
 
 delete_all_partitions()
 {
@@ -107,20 +104,17 @@ delete_all_partitions()
     fi
 
     echo "------->>> unmount all partitions on device"
-    #sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo umount /dev/${DISK_DEVICE_NAME_CURRENT_OS}?*
 
     echo "------->>> remove all partitions from device"
-    #sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -Z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 }
 
-
 prepare_disk_uefi()
 {
-    delete_all_partitions
     ROOT_PARTITION_NUMBER=1
     BOOT_PARTITION_NUMBER=13
+    GPTMBR_LOCATION=/usr/local/share/syslinux/gptmbr.bin
 
     echo "------->>> display all partitions"
     sudo sgdisk --print /dev/${DISK_DEVICE_NAME_CURRENT_OS}
@@ -135,16 +129,13 @@ prepare_disk_uefi()
     while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}" ]; do sleep 1; done
 
     echo echo "------->>> format the boot partition - makes it vfat"
-    #sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo mkdosfs -v /dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}
 
     echo "------->>> set bootable flag on boot partition"
-    #sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -A ${BOOT_PARTITION_NUMBER}:set:2 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
     echo "------->>> write the mbr"
-    #sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
-    sudo dd if=/usr/local/share/syslinux/gptmbr.bin of=/dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    sudo dd if=${GPTMBR_LOCATION} of=/dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
     echo "------->>> set disk label of root partition to /"
     sudo /sbin/tune2fs -L rootfs /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
@@ -153,7 +144,6 @@ prepare_disk_uefi()
     while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}" ]; do sleep 1; done
 
     echo "------->>> format the root partition as ext4"
-    #sudo hdparm -z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo mkfs.ext4 -F /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
 
     echo "------->>> create a mount point for the root partition"
@@ -172,12 +162,13 @@ prepare_disk_uefi()
     sudo extlinux --install /mnt/boot_partition
 }
 
-
 prepare_disk_mbr()
 {
-    delete_all_partitions
+    # this function is unused and untested. here mainly if needed in future.
     DISK_DEVICE_NAME_CURRENT_OS=${DISK_DEVICE_NAME_CURRENT_OS}
     ROOT_PARTITION_NUMBER=1
+    GPTMBR_LOCATION=/usr/local/share/syslinux/mbr.bin
+
     echo "------->>> create one single MBR partition for entire disk"
     # https://suntong.github.io/blogs/2015/12/25/use-sfdisk-to-partition-disks/
 sudo sfdisk  --label dos /dev/${DISK_DEVICE_NAME_CURRENT_OS} <<EOF
@@ -201,37 +192,38 @@ EOF
     echo "------->>> mount the root partition"
     sudo mount /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER} /mnt/root_partition
 
-    echo "------->>> install extlinux/syslinux"
-    sudo mkdir -p  /mnt/root_partition/boot
-    sudo extlinux --install /mnt/root_partition/boot
+    echo "------->>> install extlinux/syslinux to root partition"
+    sudo extlinux --install /mnt/root_partition
 
     echo "------->>> install the mbr"
-    sudo dd if=/usr/local/share/syslinux/mbr.bin of=/dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    sudo dd if=${GPTMBR_LOCATION} of=/dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
     echo "------->>> set disk label to /"
     sudo /sbin/tune2fs -L / /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
 
 }
 
-#sleep 20
 setup
+setup_bootrino_environment_variables
+setup_disk_device_name_environment_variables
 download_install_tinycore_packages
+delete_all_partitions
 
-if [ ${BOOTRINO_CLOUD_TYPE} == "googlecomputeengine" ]; then
+if [ "${BOOTRINO_CLOUD_TYPE}" == "googlecomputeengine" ]; then
     prepare_disk_uefi
 fi;
 
-if [ ${BOOTRINO_CLOUD_TYPE} == "amazonwebservices" ]; then
+if [ "${BOOTRINO_CLOUD_TYPE}" == "amazonwebservices" ]; then
     prepare_disk_uefi
 fi;
 
-if [ ${BOOTRINO_CLOUD_TYPE} == "digitalocean" ]; then
+if [ "${BOOTRINO_CLOUD_TYPE}" == "digitalocean" ]; then
     prepare_disk_uefi
 fi;
 
 run_next_bootrino()
 {
-    echo "system is up, get the next bootrino and run it"
+    echo "root disk wiped, run the next bootrino...."
     # run next bootrino
     cd /bootrino
     sh /bootrino/runnextbootrino.sh

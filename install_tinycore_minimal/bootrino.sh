@@ -4,9 +4,9 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "name": "Install Tiny Core 64 minimal with SSH",
   "version": "0.0.1",
   "versionDate": "2017-12-14T09:00:00Z",
-  "description": "Installs Tiny Core 64 minimal with SSH, expects to be run after bootrino bootstrap stage 4",
+  "description": "Installs Tiny Core 64 minimal. Expects to be run after bootrino root disk wipe.",
   "options": "",
-  "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/install_tinycore_minimal/tiny-core-linux-7-logo.png",
+  "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal/tiny-core-linux-7-logo.png",
   "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/install_tinycore_minimal/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
   "websiteURL": "",
@@ -49,17 +49,17 @@ setup()
     # This ise useful when for example running a script on Ubuntu that is preparing to boot Tiny Core, where
     # the hard disk devices names are different
 
-    if [ ${BOOTRINO_CLOUD_TYPE} == "googlecomputeengine" ]; then
+    if [ "${BOOTRINO_CLOUD_TYPE}" == "googlecomputeengine" ]; then
       DISK_DEVICE_NAME_TARGET_OS="sda"
       DISK_DEVICE_NAME_CURRENT_OS="sda"
     fi;
 
-    if [ ${BOOTRINO_CLOUD_TYPE} == "amazonwebservices" ]; then
+    if [ "${BOOTRINO_CLOUD_TYPE}" == "amazonwebservices" ]; then
       DISK_DEVICE_NAME_TARGET_OS="xvda"
       DISK_DEVICE_NAME_CURRENT_OS="xvda"
     fi;
 
-    if [ ${BOOTRINO_CLOUD_TYPE} == "digitalocean" ]; then
+    if [ "${BOOTRINO_CLOUD_TYPE}" == "digitalocean" ]; then
       DISK_DEVICE_NAME_TARGET_OS="vda"
       DISK_DEVICE_NAME_CURRENT_OS="vda"
     fi;
