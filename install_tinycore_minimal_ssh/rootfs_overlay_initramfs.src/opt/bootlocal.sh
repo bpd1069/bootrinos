@@ -120,8 +120,7 @@ start_ssh
 
 run_next_bootrino()
 {
-    echo "system is up, get the next bootrino and run it"
-    # run next bootrino
+    echo "running next bootrino"
     cd /bootrino
     sh /bootrino/runnextbootrino.sh
 }

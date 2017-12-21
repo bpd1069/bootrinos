@@ -115,7 +115,7 @@ set_password
 
 start_ssh()
 {
-    echo "Starting ssh.... login with ssh tc@<ip address> no password"
+    echo "Starting ssh.... login with ssh tc@<ip address>"
     sudo /usr/local/etc/init.d/openssh start
 }
 start_ssh
@@ -129,8 +129,7 @@ start_nginx
 
 run_next_bootrino()
 {
-    echo "system is up, get the next bootrino and run it"
-    # run next bootrino
+    echo "running next bootrino"
     cd /bootrino
     sh /bootrino/runnextbootrino.sh
 }

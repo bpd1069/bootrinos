@@ -22,8 +22,6 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   ]
 }
 BOOTRINOJSONMARKER
-# this script DESTROYS THE BOOT/ROOT DISK WITHOUT ASKING!!!!!!!!
-# YOU HAVE BEEN WARNED.
 
 setup()
 {
@@ -65,19 +63,6 @@ setup()
     fi;
 
 }
-
-download_install_tinycore_packages()
-{
-    echo No extra packages to install...
-    # download the tinycore packages that contain the utilities we need
-    #cd /home/tc
-    #sudo wget -O /home/tc/syslinux.tcz ${URL_BASE}syslinux.tcz
-    #sudo chmod ug+rx *
-    # install the tinycore packages
-    # tinycore requires not runnning tce-load as root so we run it as tiny core default user tc
-    #su - tc -c "tce-load -i /home/tc/util-linux.tcz"
-}
-
 
 create_syslinuxcfg()
 {
@@ -121,14 +106,12 @@ make_bootrino_initramfsgz()
 
 run_next_bootrino()
 {
-    echo "system is up, get the next bootrino and run it"
-    # run next bootrino
+    echo "running next bootrino"
     cd /bootrino
     sh /bootrino/runnextbootrino.sh
 }
 
 setup
-download_install_tinycore_packages
 create_syslinuxcfg
 make_bootrino_initramfsgz
 install_tinycore
