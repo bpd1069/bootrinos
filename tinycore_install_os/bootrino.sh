@@ -7,7 +7,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "description": "Installs Tiny Core 64 minimal. Expects to be run after bootrino root disk wipe.",
   "options": "",
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal-8.2.1_x86-64/tiny-core-linux-7-logo.png",
-  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/install_tinycore_minimal-8.2.1_x86-64/README.md",
+  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal-8.2.1_x86-64/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
   "websiteURL": "",
   "author": {
@@ -22,8 +22,6 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   ]
 }
 BOOTRINOJSONMARKER
-# this script DESTROYS THE BOOT/ROOT DISK WITHOUT ASKING!!!!!!!!
-# YOU HAVE BEEN WARNED.
 
 setup()
 {
@@ -75,7 +73,7 @@ download_install_tinycore_packages()
     #sudo chmod ug+rx *
     # install the tinycore packages
     # tinycore requires not runnning tce-load as root so we run it as tiny core default user tc
-    #su - tc -c "tce-load -i /home/tc/util-linux.tcz"
+    #sudo su - tc -c "tce-load -i /home/tc/util-linux.tcz"
 }
 
 
@@ -121,8 +119,7 @@ make_bootrino_initramfsgz()
 
 run_next_bootrino()
 {
-    echo "system is up, get the next bootrino and run it"
-    # run next bootrino
+    echo "running next bootrino"
     cd /bootrino
     sh /bootrino/runnextbootrino.sh
 }
