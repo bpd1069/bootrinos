@@ -79,7 +79,7 @@ append_to_bootrino_initramfsgz()
     # we have to pack up the bootrino directory into an initramfs in order for it to be in the tinycore filesystem
     cd /home/tc/rootfs_overlay_initramfs.src
     BOOT_LOCATION=/mnt/boot_partition/
-    find /home/tc/rootfs_overlay_initramfs.src | cpio -H newc -o | gzip -9 | sudo tee -a ${BOOT_LOCATION}bootrino_initramfs.gz
+    find /home/tc/rootfs_overlay_initramfs.src | cpio -H newc -o | gzip -9 >> ${BOOT_LOCATION}bootrino_initramfs.gz
 }
 
 setup
