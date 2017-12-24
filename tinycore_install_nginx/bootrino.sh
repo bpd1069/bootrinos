@@ -29,23 +29,25 @@ setup()
     export PATH=$PATH:/usr/local/bin:/usr/bin:/usr/local/sbin:/bin
     OS=tinycore
     set +xe
+    PACKAGE_NAME="nginx"
 }
 
 download_tinycore_packages()
 {
     # download the tinycore packages needed
     URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_nginx/
-    mkdir -p /home/tc/rootfs_overlay_initramfs.src/opt/tce/optional
-    cd /home/tc/rootfs_overlay_initramfs.src/opt/tce/optional
-    sudo wget -O /home/tc/rootfs_overlay_initramfs.src/opt/tce/optional/nginx.tcz ${URL_BASE}nginx.tcz
+    mkdir -p /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional
+    cd /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional
+    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/nginx.tcz ${URL_BASE}nginx.tcz
     sudo chmod ug+rx *
 }
 
 make_start_script()
 {
-mkdir -p /home/tc/rootfs_overlay_initramfs.src/opt/bootlocal_enabled
-cd /home/tc/rootfs_overlay_initramfs.src/opt/bootlocal_enabled
-sudo sh -c 'cat > /home/tc/rootfs_overlay_initramfs.src/opt/bootlocal_enabled/60_bootrino_start_nginx' << EOF
+DIRECTORY=/home/tc/${PACKAGE_NAME}_initramfs.src/opt/bootlocal_enabled/
+mkdir -p ${DIRECTORY}
+cd ${DIRECTORY}
+sudo sh -c 'cat > ${DIRECTORY}60_bootrino_start_nginx' << EOF
 #!/usr/bin/env sh
 # don't crash out if there is an error
 set +xe
@@ -65,30 +67,36 @@ chmod u=rwx,g=rx,o=rx 60_bootrino_start_nginx
 
 make_index_html()
 {
-mkdir -p /home/tc/rootfs_overlay_initramfs.src/usr/local/nginx/html
-cd /home/tc/rootfs_overlay_initramfs.src/usr/local/nginx/html
+DIRECTORY=/home/tc/${PACKAGE_NAME}_initramfs.src/usr/local/nginx/html/
+mkdir -p ${DIRECTORY} 
+cd ${DIRECTORY}
 # make an index.html for nginx to serve
-sudo sh -c 'cat > /home/tc/rootfs_overlay_initramfs.src/usr/local/nginx/html/index.html' << EOF
+sudo sh -c 'cat > ${DIRECTORY}index.html' << EOF
 hello world<br/>
 EOF
 chmod u=rwx,g=rx,o=rx index.html
 }
 
-append_to_bootrino_initramfsgz()
+make_initramfs()
 {
-    # we have to pack up the bootrino directory into an initramfs in order for it to be in the tinycore filesystem
-    cd /home/tc/rootfs_overlay_initramfs.src
     BOOT_LOCATION=/mnt/boot_partition/
-    cp ${BOOT_LOCATION}rootfs_overlay_initramfs.gz ${BOOT_LOCATION}rootfs_overlay_initramfs.gz.old
-    cp ${BOOT_LOCATION}rootfs_overlay_initramfs.gz ~/rootfs_overlay_initramfs.gz.old
-    find /home/tc/rootfs_overlay_initramfs.src | cpio -H newc -o | gzip -9 >> ${BOOT_LOCATION}rootfs_overlay_initramfs.gz
+    cd /home/tc/${PACKAGE_NAME}_initramfs.src
+    find /home/tc/${PACKAGE_NAME}_initramfs.src | cpio -H newc -o | gzip -9 > ${BOOT_LOCATION}${PACKAGE_NAME}_initramfs.gz
+}
+
+append_to_syslinuxcfg()
+{
+sudo sh -c 'cat >> /mnt/bootpartition/syslinux.cfg' << EOF
+    initrd+=${PACKAGE_NAME}_initramfs.gz
+EOF
 }
 
 setup
 download_tinycore_packages
 make_start_script
 make_index_html
-append_to_bootrino_initramfsgz
+make_initramfs
+append_to_syslinuxcfg
 
 run_next_bootrino()
 {
