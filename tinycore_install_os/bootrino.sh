@@ -89,7 +89,7 @@ DEFAULT tinycore
 # on EC2 this ensures output to both VGA and serial consoles
 # console=ttyS0 console=tty0
 LABEL tinycore
-    KERNEL vmlinuz64 tce=/opt/tce noswap modules=ext4 console=ttyS0
+    KERNEL vmlinuz64 tce=/opt/tce noswap modules=ext4 console=tty0 console=ttyS0
     INITRD corepure64.gz,rootfs_overlay_initramfs.gz,bootrino_initramfs.gz
 EOF
 }
@@ -116,6 +116,23 @@ make_bootrino_initramfsgz()
     sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
     sudo cp ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
 }
+
+set_password()
+{
+    # if bootrino user has not defined a password environment variable when launching then make a random one
+    NEWPW=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c10`
+    if ! [[ -z "${PASSWORD}" ]]; then
+      NEWPW=${PASSWORD}
+    fi
+    echo "tc:${NEWPW}" | chpasswd
+    echo "Password for tc user is ${NEWPW}"
+    echo "Password for tc user is ${NEWPW}" > /dev/console
+    echo "Password for tc user is ${NEWPW}" > /dev/tty0
+    echo "Password can also be found in /opt/tcuserpassword.txt"
+    echo "${NEWPW}" > /opt/tcuserpassword.txt
+}
+set_password
+
 
 run_next_bootrino()
 {
