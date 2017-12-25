@@ -81,12 +81,12 @@ make_initramfs()
 {
     BOOT_LOCATION=/mnt/boot_partition/
     cd /home/tc/${PACKAGE_NAME}_initramfs.src
-    find /home/tc/${PACKAGE_NAME}_initramfs.src | cpio -H newc -o | gzip -9 > ${BOOT_LOCATION}${PACKAGE_NAME}_initramfs.gz
+    find . | cpio -H newc -o | gzip -9 > ${BOOT_LOCATION}${PACKAGE_NAME}_initramfs.gz
 }
 
 append_to_syslinuxcfg()
 {
-sudo sh -c 'cat >> /mnt/bootpartition/syslinux.cfg' << EOF
+sudo sh -c 'cat >> /mnt/boot_partition/syslinux.cfg' << EOF
     initrd+=${PACKAGE_NAME}_initramfs.gz
 EOF
 }
