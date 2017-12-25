@@ -73,22 +73,22 @@ download_install_tinycore_packages()
 {
     # download the tinycore packages that contain the utilities we need
     cd /opt/tce/optional/
-    sudo wget -O /opt/tce/optional//syslinux.tcz ${URL_BASE}syslinux.tcz
-    sudo wget -O /opt/tce/optional//parted.tcz ${URL_BASE}parted.tcz
-    sudo wget -O /opt/tce/optional//util-linux.tcz ${URL_BASE}util-linux.tcz
+    sudo wget -O /opt/tce/optional/syslinux.tcz ${URL_BASE}syslinux.tcz
+    sudo wget -O /opt/tce/optional/parted.tcz ${URL_BASE}parted.tcz
+    sudo wget -O /opt/tce/optional/util-linux.tcz ${URL_BASE}util-linux.tcz
     # sgdisk needs the popt libraries
-    sudo wget -O /opt/tce/optional//popt.tcz ${URL_BASE}popt.tcz
+    sudo wget -O /opt/tce/optional/popt.tcz ${URL_BASE}popt.tcz
     # sgdisk is in gdisk.tcz
-    sudo wget -O /opt/tce/optional//gdisk.tcz ${URL_BASE}gdisk.tcz
+    sudo wget -O /opt/tce/optional/gdisk.tcz ${URL_BASE}gdisk.tcz
     sudo chmod ug+rx *
     # install the tinycore packages
     # tinycore requires not runnning tce-load as root so we run it as tiny core default user tc
-    sudo su - tc -c "tce-load -i /opt/tce/optional//popt.tcz"
-    sudo su - tc -c "tce-load -i /opt/tce/optional//syslinux.tcz"
-    sudo su - tc -c "tce-load -i /opt/tce/optional//parted.tcz"
-    sudo su - tc -c "tce-load -i /opt/tce/optional//gdisk.tcz"
+    sudo su - tc -c "tce-load -i /opt/tce/optional/popt.tcz"
+    sudo su - tc -c "tce-load -i /opt/tce/optional/syslinux.tcz"
+    sudo su - tc -c "tce-load -i /opt/tce/optional/parted.tcz"
+    sudo su - tc -c "tce-load -i /opt/tce/optional/gdisk.tcz"
     # sfdisk is in this package
-    sudo su - tc -c "tce-load -i /opt/tce/optional//util-linux.tcz"
+    sudo su - tc -c "tce-load -i /opt/tce/optional/util-linux.tcz"
 }
 
 delete_all_partitions()
@@ -160,6 +160,9 @@ prepare_disk_uefi()
 
     echo "------->>> install extlinux/syslinux to boot partition"
     sudo extlinux --install /mnt/boot_partition
+
+    echo "------->>> the syslinux module linux.c32 is needed. copy it to the boot partition."
+    sudo cp /usr/local/share/syslinux/linux.c32 /mnt/boot_partition/.
 }
 
 prepare_disk_mbr()
