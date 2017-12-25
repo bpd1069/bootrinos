@@ -58,26 +58,6 @@ sudo su - tc -c "tce-load -i /opt/tce/optional/nginx.tcz"
 start_nginx()
 {
     echo "Starting nginx...."
-    if [ ! -e /usr/local/etc/nginx/nginx.conf ]; then
-        if [ -e /usr/local/etc/nginx/original/nginx.conf.default ]; then
-            echo "$(date) $(uname -r) can't find nginx.conf, copying from original/nginx.conf.default"
-            cd /usr/local/etc/nginx
-            cp original/nginx.conf.default ./nginx.conf
-        else
-            echo "$(date) $(uname -r) can't find nginx.conf, cant find original/nginx.conf.default, exiting"
-            exit 1
-        fi
-    fi
-    if [ ! -e /usr/local/etc/nginx/mime.types ]; then
-        if [ -e /usr/local/etc/nginx/original/mime.types.default ]; then
-            echo "$(date) $(uname -r) can't find mime.types, copying from original/mime.types.default"
-            cd /usr/local/etc/nginx
-            cp original/mime.types.default ./mime.types
-        else
-            echo "$(date) $(uname -r) can't find mime.types, cant find original/mime.types.default, exiting"
-            exit 1
-        fi
-    fi
     sudo /usr/local/etc/init.d/nginx start
 }
 start_nginx
