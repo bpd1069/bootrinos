@@ -164,7 +164,6 @@ prepare_disk_uefi()
     echo "------->>> the syslinux module linux.c32 is needed. copy it to the boot partition."
     sudo cp /usr/local/share/syslinux/linux.c32 /mnt/boot_partition/.
     sudo cp /usr/local/share/syslinux/libcom32.c32 /mnt/boot_partition/.
-
 }
 
 prepare_disk_mbr()
