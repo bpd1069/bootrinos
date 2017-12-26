@@ -110,8 +110,6 @@ delete_all_partitions()
     sudo sgdisk -Z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 }
 
-X
-
 prepare_disk_uefi()
 {
     ROOT_PARTITION_NUMBER=1
