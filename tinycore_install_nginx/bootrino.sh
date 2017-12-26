@@ -87,7 +87,7 @@ make_initramfs()
 append_to_syslinuxcfg()
 {
 sudo sh -c 'cat >> /mnt/boot_partition/syslinux.cfg' << EOF
-    initrd+=${PACKAGE_NAME}_initramfs.gz
+    APPEND initrd+=${PACKAGE_NAME}_initramfs.gz
 EOF
 }
 
