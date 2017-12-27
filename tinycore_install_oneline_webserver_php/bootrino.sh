@@ -38,6 +38,9 @@ download_tinycore_packages()
     mkdir -p /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional
     cd /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional
     sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/php7-cli.tcz ${URL_BASE}php7-cli.tcz
+    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/php7-cli.tcz ${URL_BASE}libxml2.tcz
+    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/php7-cli.tcz ${URL_BASE}pcre.tcz
+    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/php7-cli.tcz ${URL_BASE}php7-ext.tcz
     sudo chmod ug+rx *
 }
 
@@ -53,6 +56,9 @@ set +xe
 # install the tinycore packages
 # tinycore requires not runnning tce-load as root so we run it as tiny core default user tc
 sudo su - tc -c "tce-load -i /opt/tce/optional/php7-cli.tcz"
+sudo su - tc -c "tce-load -i /opt/tce/optional/plibxml2.tcz"
+sudo su - tc -c "tce-load -i /opt/tce/optional/pcre.tcz"
+sudo su - tc -c "tce-load -i /opt/tce/optional/php7-ext.tcz"
 
 start_application()
 {
