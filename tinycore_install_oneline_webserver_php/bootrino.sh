@@ -65,7 +65,7 @@ start_application()
     echo "Starting oneline_webserver_php...."
     # switch to directory containing index.html otherwise directory will be served
     cd /opt
-    sudo php -S localhost:80 &
+    sudo php -S 0.0.0.0:80 &
 }
 start_application
 EOF
