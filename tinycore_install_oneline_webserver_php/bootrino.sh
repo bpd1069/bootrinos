@@ -56,7 +56,7 @@ set +xe
 # install the tinycore packages
 # tinycore requires not runnning tce-load as root so we run it as tiny core default user tc
 sudo su - tc -c "tce-load -i /opt/tce/optional/php7-cli.tcz"
-sudo su - tc -c "tce-load -i /opt/tce/optional/plibxml2.tcz"
+sudo su - tc -c "tce-load -i /opt/tce/optional/libxml2.tcz"
 sudo su - tc -c "tce-load -i /opt/tce/optional/pcre.tcz"
 sudo su - tc -c "tce-load -i /opt/tce/optional/php7-ext.tcz"
 
