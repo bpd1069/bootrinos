@@ -38,6 +38,10 @@ download_tinycore_packages()
     mkdir -p /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional
     cd /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional
     sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/ruby.tcz ${URL_BASE}ruby.tcz
+    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/gdbm.tcz ${URL_BASE}gdbm.tcz
+    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/gmp.tcz ${URL_BASE}gmp.tcz
+    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/libffi.tcz ${URL_BASE}libffi.tcz
+    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/readline.tcz ${URL_BASE}readline.tcz
     sudo chmod ug+rx *
 }
 
@@ -53,6 +57,10 @@ set +xe
 # install the tinycore packages
 # tinycore requires not runnning tce-load as root so we run it as tiny core default user tc
 sudo su - tc -c "tce-load -i /opt/tce/optional/ruby.tcz"
+sudo su - tc -c "tce-load -i /opt/tce/optional/gdbm.tcz"
+sudo su - tc -c "tce-load -i /opt/tce/optional/gmp.tcz"
+sudo su - tc -c "tce-load -i /opt/tce/optional/libffi.tcz"
+sudo su - tc -c "tce-load -i /opt/tce/optional/readline.tcz"
 
 start_application()
 {

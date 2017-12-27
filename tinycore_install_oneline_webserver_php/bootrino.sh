@@ -38,9 +38,9 @@ download_tinycore_packages()
     mkdir -p /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional
     cd /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional
     sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/php7-cli.tcz ${URL_BASE}php7-cli.tcz
-    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/php7-cli.tcz ${URL_BASE}libxml2.tcz
-    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/php7-cli.tcz ${URL_BASE}pcre.tcz
-    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/php7-cli.tcz ${URL_BASE}php7-ext.tcz
+    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/libxml2.tcz ${URL_BASE}libxml2.tcz
+    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/pcre.tcz ${URL_BASE}pcre.tcz
+    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/php7-ext.tcz ${URL_BASE}php7-ext.tcz
     sudo chmod ug+rx *
 }
 
