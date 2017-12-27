@@ -1,4 +1,4 @@
-This installs Tiny Core busybox httpd one line web server.
+This installs a busybox httpd one line web server on Tiny Core.
 
 REQUIRED:
 

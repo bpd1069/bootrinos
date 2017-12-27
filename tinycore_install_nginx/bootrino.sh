@@ -55,12 +55,12 @@ set +xe
 # tinycore requires not runnning tce-load as root so we run it as tiny core default user tc
 sudo su - tc -c "tce-load -i /opt/tce/optional/nginx.tcz"
 
-start_nginx()
+start_application()
 {
     echo "Starting nginx...."
     sudo /usr/local/etc/init.d/nginx start
 }
-start_nginx
+start_application
 EOF
 chmod u=rwx,g=rx,o=rx 60_bootrino_start_nginx
 }
@@ -70,7 +70,7 @@ make_index_html()
 DIRECTORY=/home/tc/${PACKAGE_NAME}_initramfs.src/usr/local/nginx/html/
 mkdir -p ${DIRECTORY} 
 cd ${DIRECTORY}
-# make an index.html for nginx to serve
+# make an index.html to serve
 sudo sh -c 'cat > ${DIRECTORY}index.html' << EOF
 hello world<br/>
 EOF

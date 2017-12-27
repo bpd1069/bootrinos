@@ -7,7 +7,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "description": "Installs Tiny Core 64 minimal. Expects to be run after bootrino root disk wipe.",
   "options": "",
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal-8.2.1_x86-64/tiny-core-linux-7-logo.png",
-  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal-8.2.1_x86-64/README.md",
+  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_os/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
   "websiteURL": "",
   "author": {

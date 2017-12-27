@@ -1,4 +1,4 @@
-This installs  Tiny Core Python 3.6 one line web server.
+This installs a PHP one line web server on Tiny Core.
 
 REQUIRED:
 

@@ -1,13 +1,13 @@
 #!/usr/bin/env sh
 read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
-  "name": "PHP one line web server for Tiny Core",
+  "name": "Ruby one line web server for Tiny Core",
   "version": "0.0.1",
   "versionDate": "2017-12-14T09:00:00Z",
   "description": "PHP one line web server for Tiny Core",
   "options": "",
   "logoURL": "",
-  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_oneline_webserver_php/README.md",
+  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_oneline_webserver_ruby/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
   "websiteURL": "https://github.com/bootrino/",
   "author": {
@@ -18,7 +18,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
     "linux",
     "runfromram",
     "tinycore",
-    "php"
+    "ruby"
   ]
 }
 BOOTRINOJSONMARKER
