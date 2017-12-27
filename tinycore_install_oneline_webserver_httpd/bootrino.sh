@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
-  "name": "httpd one line web server for Tiny Core",
+  "name": "busybox httpd one line web server for Tiny Core",
   "version": "0.0.1",
   "versionDate": "2017-12-14T09:00:00Z",
   "description": "one line web server for Tiny Core using busybox httpd",
