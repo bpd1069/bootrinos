@@ -71,7 +71,7 @@ start_application()
     # annoying but ld-linux-x86-64.so.2 is in /lib so we need to link /lib64 to /lib
     sudo ln -s /lib /lib64
     cd /opt
-    sudo conduit_server &
+    sudo ./conduit_server &
 }
 start_application
 EOF
