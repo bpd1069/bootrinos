@@ -34,9 +34,9 @@ setup()
 download_files()
 {
     # download the tinycore packages needed
-    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_mirageos_webserver_linux/
-    cd /boot
-    sudo wget -O /boot/${KERNEL_FILENAME} ${URL_BASE}${KERNEL_FILENAME}
+    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_mirageos_webserver_unikernel/
+    cd /mnt/boot_partition
+    sudo wget -O /mnt/boot_partition/${KERNEL_FILENAME} ${URL_BASE}${KERNEL_FILENAME}
     sudo chmod ug+rx *
 }
 
