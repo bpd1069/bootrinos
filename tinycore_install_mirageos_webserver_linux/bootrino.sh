@@ -94,6 +94,7 @@ EOF
 
 setup
 download_files
+download_tinycore_packages
 make_start_script
 make_initramfs
 append_to_syslinuxcfg
