@@ -41,6 +41,18 @@ download_files()
     sudo chmod ug+rx *
 }
 
+download_tinycore_packages()
+{
+    # download the tinycore packages needed
+    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_mirageos_webserver_linux/
+    mkdir -p /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional
+    cd /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional
+    # MirageOS needs libgmp.so.10 and its in gmp.tcz so install it
+    sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/gmp.tcz ${URL_BASE}gmp.tcz
+    sudo chmod ug+rx *
+}
+
+
 make_start_script()
 {
 DIRECTORY=/home/tc/${PACKAGE_NAME}_initramfs.src/opt/bootlocal_enabled/
@@ -54,6 +66,10 @@ set +xe
 start_application()
 {
     echo "Starting mirageos_webserver_linux...."
+    # Tiny Core has most of the libraries that we need except libgmp.so.10
+    sudo su - tc -c "tce-load -i /opt/tce/optional/gmp.tcz"
+    # annoying but ld-linux-x86-64.so.2 is in /lib so we need to link /lib64 to /lib
+    sudo ln -s /lib /lib64
     cd /opt
     sudo conduit_server &
 }
