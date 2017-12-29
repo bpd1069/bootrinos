@@ -30,8 +30,6 @@ OS=ubuntu
 cd /boot
 /usr/bin/wget -O /boot/vmlinuz64 ${URL_BASE}vmlinuz64
 /usr/bin/wget -O /boot/corepure64.gz ${URL_BASE}corepure64.gz
-URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_ssh_nginx/
-
 /usr/bin/wget -O /boot/rootfs_overlay_initramfs.gz ${URL_BASE}rootfs_overlay_initramfs.gz
 
 # copy the Ubuntu network configuration into a ramfs which will then be available in tinycore when it boots up
