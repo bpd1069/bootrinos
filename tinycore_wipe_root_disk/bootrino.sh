@@ -3,7 +3,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
   "name": "bootrino wipe root disk",
   "version": "0.0.1",
-  "versionDate": "2017-12-14T09:00:00Z",
+  "versionDate": "2018-01-01T09:00:00Z",
   "description": "bootrino boostrap - root disk wiper. This script WIPES THE ROOT DISK in preparation for install of new OS.",
   "options": "",
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal-8.2.1_x86-64/tiny-core-linux-7-logo.png",
@@ -162,6 +162,7 @@ prepare_disk_uefi()
     sudo extlinux --install /mnt/boot_partition
 
     echo "------->>> the syslinux module linux.c32 is needed. copy it to the boot partition."
+    sudo cp /usr/local/share/syslinux/mboot.c32 /mnt/boot_partition/.
     sudo cp /usr/local/share/syslinux/linux.c32 /mnt/boot_partition/.
     sudo cp /usr/local/share/syslinux/libcom32.c32 /mnt/boot_partition/.
 }
