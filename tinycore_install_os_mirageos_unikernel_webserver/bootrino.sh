@@ -7,7 +7,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "description": "MirageOS web server Unikernel on Solo5",
   "options": "",
   "logoURL": "",
-  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_mirageos_webserver_unikernel/README.md",
+  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_os_mirageos_unikernel_webserver/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
   "websiteURL": "https://github.com/bootrino/",
   "author": {
@@ -35,7 +35,7 @@ setup()
 download_files()
 {
     # download the tinycore packages needed
-    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_mirageos_webserver_unikernel/
+    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_os_mirageos_unikernel_webserver/
     cd /mnt/boot_partition
     sudo wget -O /mnt/boot_partition/${KERNEL_FILENAME} ${URL_BASE}${KERNEL_FILENAME}
     sudo chmod ug+rx *

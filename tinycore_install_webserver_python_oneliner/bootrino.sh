@@ -7,7 +7,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "description": "Python 3 one line web server for Tiny Core",
   "options": "",
   "logoURL": "",
-  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_oneline_webserver_python/README.md",
+  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_webserver_python_oneliner/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
   "websiteURL": "https://github.com/bootrino/",
   "author": {
@@ -34,7 +34,7 @@ setup()
 download_tinycore_packages()
 {
     # download the tinycore packages needed
-    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_oneline_webserver_python/
+    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_webserver_python_oneliner/
     mkdir -p /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional
     cd /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional
     sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/python3.6.tcz ${URL_BASE}python3.6.tcz
