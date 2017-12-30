@@ -28,7 +28,7 @@ setup()
     export PATH=$PATH:/usr/local/bin:/usr/bin:/usr/local/sbin:/bin
     OS=tinycore
     set +xe
-    KERNEL_FILENAME="bzImage.bin"
+    KERNEL_FILENAME="bzImage"
     INITRAMFS_FILENAME="core-image-minimal-qemux86-64.cpio.gz"
 }
 
