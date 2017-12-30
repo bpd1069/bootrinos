@@ -1,0 +1,20 @@
+{
+  "applicationURL": "http://www.bootrino.com",
+  "name": "alpinelinux64",
+  "version": "0.0.1",
+  "versionDate": "2016-08-14T02:55:14Z",
+  "description": "alpine linux 64",
+  "canonicalURL": "http://www.supercoders.com.au/bootrino/alpinelinux/",
+  "logoURL": "",
+  "official": false,
+  "websiteURL": "http://www.supercoders.com.au",
+  "owners": ["andrewstuart//f8ee344c9261ddbb9b7f568f071bdbee7cca4c56fa772dd0a261076ec288637d.bZWrlsw7KKZvACBo4RjrI_xZsAU", "andrewstuart//f8ee344c9261ddbb9b7f568f071bdbee7cca4c56fa772dd0a261076ec288637d.bZWrlsw7KKZvACBo4RjrI_xZsAU"],
+  "scriptType": "bash",
+    "tags": [
+      "rumpkernel",
+      "ocaml",
+      "tinycore"
+    ],
+  "private": false
+}
+

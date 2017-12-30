@@ -1,0 +1,28 @@
+#!/bin/bash
+/usr/bin/sudo su
+cd /boot
+# what type of cloud this instance has booted on
+mkdir opt
+rm ./opt/envvars.sh
+touch ./opt/envvars.sh
+# bootrino cloud type 
+echo "export BOOTRINO_CLOUD_TYPE=$BOOTRINO_CLOUD_TYPE" >> ./opt/envvars.sh
+# bootrino metadata json file
+echo "export BOOTRINO_DOT_JSON=$BOOTRINO_DOT_JSON" >> ./opt/envvars.sh
+# the full URL that the user entered to start this bootrino
+echo "export BOOTRINO_URL_FULL=$BOOTRINO_URL_FULL" >> ./opt/envvars.sh
+# the base of the URL that points to this bootrino
+echo "export BOOTRINO_URL_BASE=$BOOTRINO_URL_BASE" >> ./opt/envvars.sh
+# was this bootrino started via HTTPS? boolean 0/1
+echo "export BOOTRINO_URL_IS_HTTP=$BOOTRINO_URL_IS_HTTPS" >> ./opt/envvars.sh
+/usr/bin/wget ${BOOTRINO_URL_BASE}vmlinuz64
+/usr/bin/wget ${BOOTRINO_URL_BASE}corepure64.gz
+/usr/bin/wget ${BOOTRINO_URL_BASE}ug_initramfs.gz
+# copy the Ubuntu network configuration into a ramfs which will then be available in tinycore
+/usr/bin/find /etc/network | /bin/cpio -H newc -o | /bin/gzip -9 > /boot/nw_initramfs.gz
+ls ./opt/envvars.sh | /bin/cpio -H newc -o | /bin/gzip -9 > /boot/envvars_initramfs.gz
+cd /boot/grub
+mv grub.cfg grub.cfg.old
+/usr/bin/wget http://www.supercoders.com.au/bootrino/tinycore/grub.cfg
+/sbin/reboot
+
