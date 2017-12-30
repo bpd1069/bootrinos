@@ -3,7 +3,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
   "name": "Install Tiny Core 64 minimal with SSH",
   "version": "0.0.1",
-  "versionDate": "2017-12-14T09:00:00Z",
+  "versionDate": "2018-01-01T09:00:00Z",
   "description": "Installs Tiny Core 64 minimal with SSH, expects to be run after bootrino bootstrap stage 4",
   "options": "",
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/install_tinycore_minimal_ssh/tiny-core-linux-7-logo.png",
@@ -72,10 +72,10 @@ sudo sh -c 'cat > /mnt/boot_partition/syslinux.cfg' << EOF
 SERIAL 0
 TIMEOUT 1
 PROMPT 1
-DEFAULT tinycore
+DEFAULT operatingsystem
 # on EC2 this ensures output to both VGA and serial consoles
 # console=ttyS0 console=tty0
-LABEL tinycore
+LABEL operatingsystem
     KERNEL vmlinuz64 tce=/opt/tce noswap modules=ext4 console=ttyS0
     INITRD corepure64.gz,rootfs_overlay_initramfs.gz,bootrino_initramfs.gz
 EOF

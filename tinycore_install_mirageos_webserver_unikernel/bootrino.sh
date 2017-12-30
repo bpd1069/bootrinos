@@ -45,8 +45,8 @@ overwrite_syslinuxcfg()
 {
 sudo sh -c 'cat > /mnt/boot_partition/syslinux.cfg' << EOF
 SERIAL 0 115200
-DEFAULT unikernel
-LABEL unikernel
+DEFAULT operatingsystem
+LABEL operatingsystem
     KERNEL mboot.c32
     APPEND ${KERNEL_FILENAME}
 EOF

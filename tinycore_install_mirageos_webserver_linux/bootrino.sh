@@ -66,7 +66,7 @@ set +xe
 start_application()
 {
     echo "Starting mirageos_webserver_linux...."
-    # Tiny Core has most of the libraries that we need except libgmp.so.10
+    # Tiny Core has most of the libraries that we need for MirageOS except libgmp.so.10 which is in gmp.tcz
     sudo su - tc -c "tce-load -i /opt/tce/optional/gmp.tcz"
     # annoying but ld-linux-x86-64.so.2 is in /lib so we need to link /lib64 to /lib
     sudo ln -s /lib /lib64
