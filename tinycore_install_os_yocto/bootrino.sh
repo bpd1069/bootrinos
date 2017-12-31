@@ -57,7 +57,6 @@ LABEL operatingsystem
     COM32 linux.c32 ${KERNEL_FILENAME} console=tty0 console=xvc0
     INITRD ${INITRAMFS_FILENAME}
     APPEND initrd+=rootfs_overlay_initramfs.gz
-    APPEND initrd+=${PACKAGE_NAME}_initramfs.gz
 EOF
 }
 
