@@ -44,7 +44,7 @@ download_files()
 overwrite_syslinuxcfg()
 {
 sudo sh -c 'cat > /mnt/boot_partition/syslinux.cfg' << EOF
-SERIAL 0 115200
+SERIAL 0
 DEFAULT operatingsystem
 LABEL operatingsystem
     KERNEL mboot.c32

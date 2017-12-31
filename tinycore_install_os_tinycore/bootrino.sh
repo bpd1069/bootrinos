@@ -64,33 +64,32 @@ setup()
 
 }
 
-download_install_tinycore_packages()
-{
-    echo No extra packages to install...
-    # download the tinycore packages that contain the utilities we need
-    #cd /home/tc
-    #sudo wget -O /home/tc/syslinux.tcz ${URL_BASE}syslinux.tcz
-    #sudo chmod ug+rx *
-    # install the tinycore packages
-    # tinycore requires not runnning tce-load as root so we run it as tiny core default user tc
-    #sudo su - tc -c "tce-load -i /home/tc/util-linux.tcz"
-}
-
-
 create_syslinuxcfg()
 {
 #APPEND root=/dev/${DISK_DEVICE_NAME_TARGET_OS}1 console=ttyS0 console=tty0
 echo "------->>> create syslinux.cfg"
 sudo sh -c 'cat > /mnt/boot_partition/syslinux.cfg' << EOF
 SERIAL 0
-TIMEOUT 1
 PROMPT 1
 DEFAULT operatingsystem
 # on EC2 this ensures output to both VGA and serial consoles
 # console=ttyS0 console=tty0
 LABEL operatingsystem
     COM32 linux.c32 vmlinuz64 tce=/opt/tce noswap modules=ext4 console=tty0 console=ttyS0
-    INITRD corepure64.gz,rootfs_overlay_initramfs.gz,bootrino_initramfs.gz
+    INITRD corepure64.gz
+    APPEND initrd+=rootfs_overlay_initramfs.gz
+EOF
+}
+
+make_bootrino_initramfsgz()
+{
+    # we have to pack up the bootrino directory into an initramfs in order for it to be in the tinycore filesystem
+    HOME_DIR=/home/tc/
+    cd ${HOME_DIR}
+    sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
+    sudo cp ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
+sudo sh -c 'cat >> /mnt/boot_partition/syslinux.cfg' << EOF
+    APPEND initrd+=bootrino_initramfs.gz
 EOF
 }
 
@@ -105,15 +104,6 @@ install_tinycore()
     cd /mnt/root_partition
     sudo mkdir -p /mnt/root_partition/bootrino/
     sudo cp -r /bootrino /mnt/root_partition
-}
-
-make_bootrino_initramfsgz()
-{
-    # we have to pack up the bootrino directory into an initramfs in order for it to be in the tinycore filesystem
-    HOME_DIR=/home/tc/
-    cd ${HOME_DIR}
-    sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
-    sudo cp ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
 }
 
 set_password()
@@ -132,7 +122,6 @@ set_password()
 }
 set_password
 
-
 run_next_bootrino()
 {
     echo "running next bootrino"
@@ -141,8 +130,8 @@ run_next_bootrino()
 }
 
 setup
-download_install_tinycore_packages
 create_syslinuxcfg
+# must make the bootrino_initramfsgz after syslinux.cfg has been created because we append a line to syslinux.cfg
 make_bootrino_initramfsgz
 install_tinycore
 run_next_bootrino
