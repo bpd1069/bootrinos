@@ -46,7 +46,21 @@ download_files()
     sudo chmod ug+rx *
 }
 
-overwrite_syslinuxcfg()
+make_bootrino_initramfsgz()
+{
+    # we have to pack up the bootrino directory into an initramfs in order for it to be in the tinycore filesystem
+    HOME_DIR=/home/tc/
+    cd ${HOME_DIR}
+    sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
+    sudo cp ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
+}
+
+add_initrd_to_APPEND_in_syslinuxcfg()
+{
+sed -i "/^[[:space:]]*APPEND/ {/ initrd+=${1}/! s/.*/& initrd+=${1}/}" /mnt/boot_partition/syslinux.cfg
+}
+
+make_syslinuxcfg()
 {
 sudo sh -c 'cat > /mnt/boot_partition/syslinux.cfg' << EOF
 SERIAL 0
@@ -55,29 +69,16 @@ DEFAULT operatingsystem
 # console=ttyS0 console=tty0
 LABEL operatingsystem
     COM32 linux.c32 ${KERNEL_FILENAME} console=tty0 console=xvc0
-    INITRD ${INITRAMFS_FILENAME}
-    APPEND initrd+=rootfs_overlay_initramfs.gz
+    APPEND initrd=${INITRAMFS_FILENAME}
 EOF
 }
-
-make_bootrino_initramfsgz()
-{
-    # we have to pack up the bootrino directory into an initramfs in order for it to be in the tinycore filesystem
-    HOME_DIR=/home/tc/
-    cd ${HOME_DIR}
-    sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
-    sudo cp ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
-sudo sh -c 'cat >> /mnt/boot_partition/syslinux.cfg' << EOF
-    APPEND initrd+=bootrino_initramfs.gz
-EOF
-}
-
 
 setup
 download_files
-overwrite_syslinuxcfg
-# must make the bootrino_initramfsgz after syslinux.cfg has been created because we append a line to syslinux.cfg
+make_syslinuxcfg
+add_initrd_to_APPEND_in_syslinuxcfg "rootfs_overlay_initramfs.gz"
 make_bootrino_initramfsgz
+add_initrd_to_APPEND_in_syslinuxcfg "bootrino_initramfs.gz"
 
 run_next_bootrino()
 {
