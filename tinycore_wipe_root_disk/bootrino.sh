@@ -135,6 +135,10 @@ prepare_disk_uefi()
     echo partitioning asynchronous, waiting for devices to appear
     while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}" ]; do sleep 1; done
 
+    echo Ask kernel to rescan partition table
+    # note here we explicitly use busybox partprobe because the one that comes in via package is missing libraries
+    sudo busybox partprobe /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+
     echo echo "------->>> format the boot partition - makes it vfat"
     sudo mkdosfs -v /dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}
 
