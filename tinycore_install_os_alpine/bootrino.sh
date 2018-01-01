@@ -17,7 +17,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "tags": [
     "linux",
     "alpine",
-    "runfromram",
+    "runfromram"
   ]
 }
 BOOTRINOJSONMARKER
