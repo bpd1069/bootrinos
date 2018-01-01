@@ -89,8 +89,13 @@ make_bootrino_initramfsgz()
     sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
     sudo cp ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
 sudo sh -c 'cat >> /mnt/boot_partition/syslinux.cfg' << EOF
-    APPEND initrd+=bootrino_initramfs.gz
 EOF
+}
+
+add_initrd_to_APPEND_in_syslinuxcfg()
+{
+BOOT_PARTITION=/mnt/boot_partition
+sed -i "/^[[:space:]]*APPEND/ {/ initrd+=${1}/! s/.*/& initrd+=${1}/}" ${BOOT_PARTITION}boot/syslinux.cfg
 }
 
 install_tinycore()
@@ -133,6 +138,7 @@ setup
 create_syslinuxcfg
 # must make the bootrino_initramfsgz after syslinux.cfg has been created because we append a line to syslinux.cfg
 make_bootrino_initramfsgz
+add_initrd_to_APPEND_in_syslinuxcfg bootrino_initramfs.gz
 install_tinycore
 run_next_bootrino
 
