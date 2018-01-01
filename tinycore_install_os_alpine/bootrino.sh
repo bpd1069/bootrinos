@@ -61,10 +61,9 @@ sed -i "/^[[:space:]]*APPEND/ {/ initrd+=${1}/! s/.*/& initrd+=${1}/}" ${BOOT_PA
 
 copy_alpine_from_iso_to_boot()
 {
-    sudo mkdir ${ROOT_PARTITION}alpinefiles
+    sudo mkdir -p ${ROOT_PARTITION}alpinefiles
     sudo mount -o loop ${ROOT_PARTITION}alpine-virt-3.7.0-x86_64.iso ${ROOT_PARTITION}alpinefiles
-    sudo mount -o loop ${ROOT_PARTITION}alpine-virt-3.7.0-x86_64.iso ${ROOT_PARTITION}alpinefiles/
-    sudo cp -r ${ROOT_PARTITION}source/* ${BOOT_PARTITION}.
+    sudo cp -r ${ROOT_PARTITION}alpinefiles/* ${BOOT_PARTITION}.
 }
 
 setup
