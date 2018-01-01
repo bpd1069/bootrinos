@@ -79,3 +79,50 @@ run_next_bootrino()
 run_next_bootrino
 
 
+
+
+
+download to opt
+mount iso
+copy contents of iso to boot partition
+add our rootfs overlay
+# network
+# sshd
+# nginx
+
+
+#sudo rm ${BOOTRINO_URL_BASE}amazon.apkovl.tar.gz
+#sudo /usr/bin/wget ${BOOTRINO_URL_BASE}amazon.apkovl.tar.gz
+sudo wget http://dl-cdn.alpinelinux.org/alpine/v3.4/releases/x86_64/${ALPINE_ISO_NAME}
+
+# COPY THE ALPINE LINUX FILES FROM THE ISO ONTO THE TARGET DISK
+sudo /bin/mount -o loop /opt/${ALPINE_ISO_NAME}  /mnt/alpineiso
+sudo cp -av /mnt/alpineiso/boot /mnt/target/.
+sudo cp -av /mnt/alpineiso/apks /mnt/target/.
+sudo cp /opt/dhclient-4.3.4-r2.apk /mnt/target/apks/x86_64/.
+
+# INSTALL THE ALPINE LINUX CONFIGURATION FILES
+#sudo cp -av /opt/bootrino.apkovl.tar.gz /mnt/target/.
+sudo cp -av /opt/floob.apkovl.tar.gz /mnt/target/.
+
+# COPY OVER THE POSTBOOT SCRIPT TO GO INTO /etc/local.d
+sudo cp -av /opt/bootrino_alpine_postboot.start /mnt/target/bootrino/.
+
+# COPY OVER THE SSHD CONFIG FILE
+sudo cp -av /usr/local/etc/ssh/sshd_config /mnt/target/bootrino/.
+
+# MODIFY GRUB TO BOOT ALPINE
+cd /mnt/target/boot/
+sudo bash -c 'cat > /mnt/target/boot/grub/grub.cfg' << EOF
+serial --speed=115200 --word=8 --parity=no --stop=1
+terminal_input --append  serial
+terminal_output --append serial
+set timeout=1
+GRUB_TIMEOUT=1
+menuentry 'alpine linux 64' {
+linux /boot/virtgrsec alpine_dev=${DISK_DEVICE_NAME}:ext4 modules=loop,squashfs,sd-mod,ext4 console=hvc0 pax_nouderef BOOT_IMAGE=/boot/vmlinuz-virtgrsec
+initrd /boot/initramfs-virtgrsec
+}
+EOF
+cd /opt
+
