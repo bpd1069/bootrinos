@@ -132,9 +132,9 @@ prepare_disk_uefi()
     sudo sgdisk --print /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -n 1:2048:4095 -c 1:"BIOS Boot Partition" -t 1:ef02 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -n 2:4096:413695 -c 2:"EFI System Partition" -t 2:ef00 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
-    sudo sgdisk -n ${BOOT_PARTITION_NUMBER}:413696:823295 -c ${BOOT_PARTITION_NUMBER}:"Linux /boot" -t ${BOOT_PARTITION_NUMBER}:8300 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    sudo sgdisk -n ${BOOT_PARTITION_NUMBER}:413696:1437695 -c ${BOOT_PARTITION_NUMBER}:"Linux /boot" -t ${BOOT_PARTITION_NUMBER}:8300 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     ENDSECTOR=`sgdisk -E /dev/${DISK_DEVICE_NAME_CURRENT_OS}`
-    sudo sgdisk -n ${ROOT_PARTITION_NUMBER}:823296:$ENDSECTOR -c ${ROOT_PARTITION_NUMBER}:"Linux LVM" -t ${ROOT_PARTITION_NUMBER}:8e00 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    sudo sgdisk -n ${ROOT_PARTITION_NUMBER}:1437696:$ENDSECTOR -c ${ROOT_PARTITION_NUMBER}:"Linux LVM" -t ${ROOT_PARTITION_NUMBER}:8e00 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -p /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
     echo "------->>> Ask kernel to rescan partition table"
