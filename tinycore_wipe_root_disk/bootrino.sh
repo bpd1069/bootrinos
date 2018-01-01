@@ -124,14 +124,14 @@ delete_all_partitions()
 
 prepare_disk_uefi()
 {
-    ROOT_PARTITION_NUMBER=4
-    BOOT_PARTITION_NUMBER=3
+    ROOT_PARTITION_NUMBER=1
+    BOOT_PARTITION_NUMBER=13
     GPTMBR_LOCATION=/usr/local/share/syslinux/gptmbr.bin
 
     echo "------->>> display all partitions"
     sudo sgdisk --print /dev/${DISK_DEVICE_NAME_CURRENT_OS}
-    sudo sgdisk -n 1:2048:4095 -c 1:"BIOS Boot Partition" -t 1:ef02 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
-    sudo sgdisk -n 2:4096:413695 -c 2:"EFI System Partition" -t 2:ef00 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    sudo sgdisk -n 11:2048:4095 -c 11:"BIOS Boot Partition" -t 1:ef02 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    sudo sgdisk -n 12:4096:413695 -c 12:"EFI System Partition" -t 2:ef00 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -n ${BOOT_PARTITION_NUMBER}:413696:1437695 -c ${BOOT_PARTITION_NUMBER}:"Linux /boot" -t ${BOOT_PARTITION_NUMBER}:8300 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     ENDSECTOR=`sgdisk -E /dev/${DISK_DEVICE_NAME_CURRENT_OS}`
     sudo sgdisk -n ${ROOT_PARTITION_NUMBER}:1437696:$ENDSECTOR -c ${ROOT_PARTITION_NUMBER}:"Linux LVM" -t ${ROOT_PARTITION_NUMBER}:8e00 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
@@ -154,15 +154,11 @@ prepare_disk_uefi()
     ls -l /dev/vda*
     while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}4" ]; do sleep 1; done
 
-    echo "------->>> set bootable flag on boot partition"
-    sudo sgdisk -A ${BOOT_PARTITION_NUMBER}:set:2 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
-
-    echo "------->>> Ask kernel to rescan partition table"
-    # note here we explicitly use busybox partprobe because the one that comes in via package is missing libraries
-    sudo busybox partprobe /dev/${DISK_DEVICE_NAME_CURRENT_OS}
-
     echo "------->>> format the boot partition - makes it vfat"
     sudo mkdosfs -v /dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}
+
+    echo "------->>> set bootable flag on boot partition"
+    sudo sgdisk -A ${BOOT_PARTITION_NUMBER}:set:2 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
     echo "------->>> write the mbr"
     sudo dd if=${GPTMBR_LOCATION} of=/dev/${DISK_DEVICE_NAME_CURRENT_OS}
