@@ -115,6 +115,11 @@ delete_all_partitions()
 
     echo "------->>> remove all partitions from device"
     sudo sgdisk -Z /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+
+    echo "------->>> Ask kernel to rescan partition table"
+    # note here we explicitly use busybox partprobe because the one that comes in via package is missing libraries
+    sudo busybox partprobe /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+
 }
 
 prepare_disk_uefi()
@@ -132,15 +137,22 @@ prepare_disk_uefi()
     sudo sgdisk -n ${ROOT_PARTITION_NUMBER}:823296:$ENDSECTOR -c ${ROOT_PARTITION_NUMBER}:"Linux LVM" -t ${ROOT_PARTITION_NUMBER}:8e00 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -p /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
-    echo "------->>> partitioning asynchronous, waiting for devices to appear"
-    while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}" ]; do sleep 1; done
-
     echo "------->>> Ask kernel to rescan partition table"
     # note here we explicitly use busybox partprobe because the one that comes in via package is missing libraries
     sudo busybox partprobe /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
-    echo "------->>> format the boot partition - makes it vfat"
-    sudo mkdosfs -v /dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}
+    echo "------->>> partitioning asynchronous, waiting for partition 1 to appear"
+    ls -l /dev/vda*
+    while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}1" ]; do sleep 1; done
+    echo "------->>> partitioning asynchronous, waiting for partition 2  to appear"
+    ls -l /dev/vda*
+    while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}2" ]; do sleep 1; done
+    echo "------->>> partitioning asynchronous, waiting for partition 3  to appear"
+    ls -l /dev/vda*
+    while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}3" ]; do sleep 1; done
+    echo "------->>> partitioning asynchronous, waiting for partition 4  to appear"
+    ls -l /dev/vda*
+    while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}4" ]; do sleep 1; done
 
     echo "------->>> set bootable flag on boot partition"
     sudo sgdisk -A ${BOOT_PARTITION_NUMBER}:set:2 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
@@ -149,14 +161,17 @@ prepare_disk_uefi()
     # note here we explicitly use busybox partprobe because the one that comes in via package is missing libraries
     sudo busybox partprobe /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
+    echo "------->>> format the boot partition - makes it vfat"
+    sudo mkdosfs -v /dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}
+
     echo "------->>> write the mbr"
     sudo dd if=${GPTMBR_LOCATION} of=/dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
-    echo "------->>> set disk label of root partition to /"
-    sudo /sbin/tune2fs -L rootfs /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
-
     echo "------->>> format the root partition as ext4"
     sudo mkfs.ext4 -F /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
+
+    echo "------->>> set disk label of root partition to /"
+    sudo /sbin/tune2fs -L rootfs /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}
 
     echo "------->>> create a mount point for the root partition"
     sudo mkdir -p /mnt/root_partition
