@@ -27,11 +27,12 @@ setup()
     export PATH=$PATH:/usr/local/bin:/usr/bin:/usr/local/sbin:/bin
     OS=tinycore
     set +xe
+    BOOT_PARTITION=/mnt/boot_partition/
+    ROOT_PARTITION=/mnt/root_partition/
 }
 
 download_alpine()
 {
-    ROOT_PARTITION=/mnt/root_partition/
     ALPINE_ISO_NAME=alpine-virt-3.7.0-x86_64.iso
     ALPINE_ISO_URL=http://dl-cdn.alpinelinux.org/alpine/v3.7/releases/x86_64/
     cd ${ROOT_PARTITION}
@@ -40,7 +41,6 @@ download_alpine()
 
 download_additional_files()
 {
-    BOOT_PARTITION=/mnt/boot_partition/
     URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_os_alpine/
     cd ${BOOT_PARTITION}boot
     sudo wget ${URL_BASE}rootfs_overlay_initramfs.gz
