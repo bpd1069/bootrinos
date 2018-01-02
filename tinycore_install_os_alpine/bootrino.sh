@@ -72,8 +72,8 @@ add_rootfs_overlay_to_INITRD()
 }
 
 setup
-download_files
 copy_alpine_from_iso_to_boot
+download_files
 make_bootrino_initramfsgz
 add_rootfs_overlay_to_INITRD
 
