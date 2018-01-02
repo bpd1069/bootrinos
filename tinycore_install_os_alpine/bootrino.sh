@@ -29,21 +29,21 @@ setup()
     set +xe
 }
 
-download_files()
+download_alpine()
 {
     ROOT_PARTITION=/mnt/root_partition/
-    BOOT_PARTITION=/mnt/boot_partition/
     ALPINE_ISO_NAME=alpine-virt-3.7.0-x86_64.iso
     ALPINE_ISO_URL=http://dl-cdn.alpinelinux.org/alpine/v3.7/releases/x86_64/
-    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_os_alpine/
     cd ${ROOT_PARTITION}
     sudo wget ${ALPINE_ISO_URL}${ALPINE_ISO_NAME}
+}
+
+download_additional_files()
+{
+    BOOT_PARTITION=/mnt/boot_partition/
+    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_os_alpine/
     cd ${BOOT_PARTITION}boot
     sudo wget ${URL_BASE}rootfs_overlay_initramfs.gz
-    # COPY OVER THE BOOTRINO DIRECTORY TO THE HARD DISK NEW ROOT PARTITION
-    cd ${ROOT_PARTITION}
-    sudo mkdir -p ${ROOT_PARTITION}bootrino/
-    sudo cp -r /bootrino ${ROOT_PARTITION}
     sudo chmod ug+rx *
 }
 
@@ -72,9 +72,10 @@ add_rootfs_overlay_to_INITRD()
 }
 
 setup
+download_alpine
 copy_alpine_from_iso_to_boot
-download_files
 make_bootrino_initramfsgz
+download_additional_files
 add_rootfs_overlay_to_INITRD
 
 
