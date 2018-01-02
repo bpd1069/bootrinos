@@ -88,8 +88,6 @@ make_bootrino_initramfsgz()
     cd ${HOME_DIR}
     sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
     sudo cp ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
-sudo sh -c 'cat >> /mnt/boot_partition/syslinux.cfg' << EOF
-EOF
 }
 
 add_initrd_to_APPEND_in_syslinuxcfg()
@@ -118,12 +116,16 @@ set_password()
     if ! [[ -z "${PASSWORD}" ]]; then
       NEWPW=${PASSWORD}
     fi
-    echo "tc:${NEWPW}" | chpasswd
+    sudo sh -c 'chpasswd' << EOF
+tc:${NEWPW}
+EOF
     echo "Password for tc user is ${NEWPW}"
     echo "Password for tc user is ${NEWPW}" > /dev/console
     echo "Password for tc user is ${NEWPW}" > /dev/tty0
     echo "Password can also be found in /opt/tcuserpassword.txt"
-    echo "${NEWPW}" > /opt/tcuserpassword.txt
+    sudo sh -c 'cat > /opt/tcuserpassword.txt' << EOF
+${NEWPW}
+EOF
 }
 set_password
 
