@@ -53,7 +53,7 @@ make_bootrino_initramfsgz()
     sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
     sudo cp ${HOME_DIR}bootrino_initramfs.gz ${BOOT_PARTITION}boot/bootrino_initramfs.gz
     # in Alpine Linux, syslinux.cfg is in /boot/syslinux/syslinux.cfg
-    sudo sed -i '/^[[:space:]]*INITRD/ {/bootrino_initramfs.gz/! s/.*/&,\/bootrino_initramfs.gz/}' ${BOOT_PARTITION}boot/syslinux/syslinux.cfg
+    sudo sed -i '/^[[:space:]]*INITRD/ {/bootrino_initramfs.gz/! s/.*/&,\/boot\/bootrino_initramfs.gz/}' ${BOOT_PARTITION}boot/syslinux/syslinux.cfg
 }
 
 copy_alpine_from_iso_to_boot()
@@ -66,7 +66,7 @@ copy_alpine_from_iso_to_boot()
 add_rootfs_overlay_to_INITRD()
 {
     # in Alpine Linux, syslinux.cfg is in /boot/syslinux/syslinux.cfg
-    sudo sed -i '/^[[:space:]]*INITRD/ {/rootfs_overlay_initramfs.gz/! s/.*/&,\/rootfs_overlay_initramfs.gz/}' ${BOOT_PARTITION}boot/syslinux/syslinux.cfg
+    sudo sed -i '/^[[:space:]]*INITRD/ {/rootfs_overlay_initramfs.gz/! s/.*/&,\/boot\/rootfs_overlay_initramfs.gz/}' ${BOOT_PARTITION}boot/syslinux/syslinux.cfg
 }
 
 setup
