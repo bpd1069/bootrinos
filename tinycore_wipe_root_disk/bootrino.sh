@@ -125,17 +125,22 @@ delete_all_partitions()
 prepare_disk_uefi()
 {
     ROOT_PARTITION_NUMBER=1
+    BIOS_PARTITION_NUMBER=11
+    EFI_PARTITION_NUMBER=12
     BOOT_PARTITION_NUMBER=13
     GPTMBR_LOCATION=/usr/local/share/syslinux/gptmbr.bin
 
     echo "------->>> display all partitions"
     sudo sgdisk --print /dev/${DISK_DEVICE_NAME_CURRENT_OS}
-    sudo sgdisk -n 11:2048:+1M -c 11:"BIOS Boot Partition" -t 11:ef02 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
-    sudo sgdisk -n 12::+200M -c 12:"EFI System Partition" -t 12:ef00 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    sudo sgdisk -n ${BIOS_PARTITION_NUMBER}:2048:+1M -c ${BIOS_PARTITION_NUMBER}:"BIOS Boot Partition" -t ${BIOS_PARTITION_NUMBER}:ef02 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+    sudo sgdisk -n ${EFI_PARTITION_NUMBER}::+200M -c ${EFI_PARTITION_NUMBER}:"EFI System Partition" -t ${EFI_PARTITION_NUMBER}:ef00 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -n ${BOOT_PARTITION_NUMBER}::+500M -c ${BOOT_PARTITION_NUMBER}:"Linux /boot" -t ${BOOT_PARTITION_NUMBER}:8300 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     ENDSECTOR=`sgdisk -E /dev/${DISK_DEVICE_NAME_CURRENT_OS}`
     sudo sgdisk -n ${ROOT_PARTITION_NUMBER}::$ENDSECTOR -c ${ROOT_PARTITION_NUMBER}:"Linux LVM" -t ${ROOT_PARTITION_NUMBER}:8e00 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
     sudo sgdisk -p /dev/${DISK_DEVICE_NAME_CURRENT_OS}
+
+    echo "------->>> set bootable flag on boot partition"
+    sudo sgdisk -A ${BOOT_PARTITION_NUMBER}:set:2 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
     echo "------->>> Ask kernel to rescan partition table"
     # note here we explicitly use busybox partprobe because the one that comes in via package is missing libraries
@@ -143,22 +148,19 @@ prepare_disk_uefi()
 
     echo "------->>> partitioning asynchronous, waiting for partition 1 to appear"
     ls -l /dev/vda*
-    while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}1" ]; do sleep 1; done
+    while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER}" ]; do sleep 1; done
     echo "------->>> partitioning asynchronous, waiting for partition 2  to appear"
     ls -l /dev/vda*
-    while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}2" ]; do sleep 1; done
+    while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}${BIOS_PARTITION_NUMBER}" ]; do sleep 1; done
     echo "------->>> partitioning asynchronous, waiting for partition 3  to appear"
     ls -l /dev/vda*
-    while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}3" ]; do sleep 1; done
+    while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}${EFI_PARTITION_NUMBER}" ]; do sleep 1; done
     echo "------->>> partitioning asynchronous, waiting for partition 4  to appear"
     ls -l /dev/vda*
-    while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}4" ]; do sleep 1; done
+    while [ ! -e "/dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}" ]; do sleep 1; done
 
     echo "------->>> format the boot partition - makes it vfat"
     sudo mkdosfs -v /dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER}
-
-    echo "------->>> set bootable flag on boot partition"
-    sudo sgdisk -A ${BOOT_PARTITION_NUMBER}:set:2 /dev/${DISK_DEVICE_NAME_CURRENT_OS}
 
     echo "------->>> write the mbr"
     sudo dd if=${GPTMBR_LOCATION} of=/dev/${DISK_DEVICE_NAME_CURRENT_OS}
