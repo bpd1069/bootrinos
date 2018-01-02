@@ -70,14 +70,12 @@ create_syslinuxcfg()
 echo "------->>> create syslinux.cfg"
 sudo sh -c 'cat > /mnt/boot_partition/syslinux.cfg' << EOF
 SERIAL 0
-PROMPT 1
 DEFAULT operatingsystem
 # on EC2 this ensures output to both VGA and serial consoles
 # console=ttyS0 console=tty0
 LABEL operatingsystem
-    COM32 linux.c32 vmlinuz64 tce=/opt/tce noswap modules=ext4 console=tty0 console=ttyS0
-    INITRD corepure64.gz
-    APPEND initrd+=rootfs_overlay_initramfs.gz
+    KERNEL vmlinuz64 tce=/opt/tce noswap modules=ext4 console=tty0 console=ttyS0
+    APPEND initrd=corepure64.gz,rootfs_overlay_initramfs.gz,bootrino_initramfs.gz
 EOF
 }
 
@@ -88,12 +86,6 @@ make_bootrino_initramfsgz()
     cd ${HOME_DIR}
     sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
     sudo cp ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
-}
-
-add_initrd_to_APPEND_in_syslinuxcfg()
-{
-BOOT_PARTITION=/mnt/boot_partition
-sed -i "/^[[:space:]]*APPEND/ {/ initrd+=${1}/! s/.*/& initrd+=${1}/}" ${BOOT_PARTITION}boot/syslinux.cfg
 }
 
 install_tinycore()
@@ -138,9 +130,7 @@ run_next_bootrino()
 
 setup
 create_syslinuxcfg
-# must make the bootrino_initramfsgz after syslinux.cfg has been created because we append a line to syslinux.cfg
 make_bootrino_initramfsgz
-add_initrd_to_APPEND_in_syslinuxcfg bootrino_initramfs.gz
 install_tinycore
 run_next_bootrino
 
