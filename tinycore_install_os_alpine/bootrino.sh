@@ -70,9 +70,9 @@ copy_alpine_from_iso_to_boot()
 setup
 download_files
 copy_alpine_from_iso_to_boot
-append_to_INITRD_in_syslinuxcfg "rootfs_overlay_initramfs.gz"
+append_to_INITRD_in_syslinuxcfg "/rootfs_overlay_initramfs.gz"
 make_bootrino_initramfsgz
-append_to_INITRD_in_syslinuxcfg "bootrino_initramfs.gz"
+append_to_INITRD_in_syslinuxcfg "/bootrino_initramfs.gz"
 
 run_next_bootrino()
 {
