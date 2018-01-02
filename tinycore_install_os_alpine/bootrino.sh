@@ -37,7 +37,7 @@ download_files()
     ALPINE_ISO_URL=http://dl-cdn.alpinelinux.org/alpine/v3.7/releases/x86_64/
     URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_os_alpine/
     sudo wget -O ${ROOT_PARTITION}${ALPINE_ISO_NAME} ${ALPINE_ISO_URL}${ALPINE_ISO_NAME}
-    #sudo wget -O ${BOOT_PARTITION}rootfs_overlay_initramfs.gz ${URL_BASE}rootfs_overlay_initramfs.gz
+    sudo wget -O ${BOOT_PARTITION}rootfs_overlay_initramfs.gz ${URL_BASE}rootfs_overlay_initramfs.gz
     # COPY OVER THE BOOTRINO DIRECTORY TO THE HARD DISK NEW ROOT PARTITION
     cd ${ROOT_PARTITION}
     sudo mkdir -p ${ROOT_PARTITION}bootrino/
