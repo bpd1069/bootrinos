@@ -20,7 +20,6 @@ determine_cloud_type()
     SIGNATURE=$(cat /sys/class/dmi/id/sys_vendor)
     case $SIGNATURE in
          DigitalOcean)
-            echo Detected cloud DigitalOcean....
             CLOUD_TYPE="digitalocean"
             ;;
     esac
@@ -41,6 +40,8 @@ determine_cloud_type()
             CLOUD_TYPE="amazonwebservices"
             ;;
     esac
+    echo Detected cloud ${CLOUD_TYPE}
+    echo Detected cloud ${CLOUD_TYPE} >> /var/log/start.log
 
 }
 determine_cloud_type
@@ -103,10 +104,14 @@ EOF
     fi;
 
     echo "Displaying network status...."
+    ifconfig -a >> /var/log/start.log
     ifconfig -a
+    echo network configured >> /var/log/start.log
+    route -n >> /var/log/start.log
     route -n
-    cat /etc/resolv.conf
+    ip addr show >> /var/log/start.log
     ip addr show
+    cat /etc/resolv.conf
 }
 configure_network
 
