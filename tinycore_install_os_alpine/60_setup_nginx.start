@@ -14,6 +14,8 @@ determine_if_sudo_available
 ${SUDO} apk update
 echo adding nginx package >> /var/log/start.log
 ${SUDO} apk add nginx
+echo enable nginx at boot >> /var/log/start.log
+rc-update add nginx
 echo starting nginx >> /var/log/start.log
 ${SUDO} /etc/init.d/nginx start
 

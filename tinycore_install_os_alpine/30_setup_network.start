@@ -18,23 +18,21 @@ determine_cloud_type()
     # case with wildcard pattern is how to do "endswith" in shell
 
     SIGNATURE=$(cat /sys/class/dmi/id/sys_vendor)
-    case $SIGNATURE in
-         DigitalOcean)
+    case "${SIGNATURE}" in
+         "DigitalOcean")
             CLOUD_TYPE="digitalocean"
             ;;
     esac
 
-    # TODO check exactly what is returned on Google
     SIGNATURE=$(cat /sys/class/dmi/id/product_name)
-    case $SIGNATURE in
-         gce)
-            echo Detected cloud Google Compute Engine....
+    case "${SIGNATURE}" in
+         "Google Compute Engine")
             CLOUD_TYPE="googlecomputeengine"
             ;;
     esac
 
     SIGNATURE=$(cat /sys/class/dmi/id/product_version)
-    case $SIGNATURE in
+    case ${SIGNATURE} in
          *amazon)
             echo Detected cloud Amazon Web Services....
             CLOUD_TYPE="amazonwebservices"
