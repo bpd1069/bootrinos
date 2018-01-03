@@ -11,6 +11,8 @@ fi
 }
 determine_if_sudo_available
 
+ifdown eth0
+ifup eth0
 ${SUDO} apk update
 echo adding nginx package >> /var/log/start.log
 ${SUDO} apk add nginx
