@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+# don't crash out if there is an error
+set +xe
+
+determine_if_sudo_available()
+{
+SUDO=''
+if [ -x "$(command -v ${SUDO})" ]; then
+  SUDO=$(command -v ${SUDO})
+fi
+}
+determine_if_sudo_available
+
+${SUDO} apk update
+${SUDO} apk add nginx
+${SUDO} /etc/init.d/sshd start
+
