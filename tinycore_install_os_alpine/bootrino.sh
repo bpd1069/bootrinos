@@ -47,6 +47,16 @@ download_additional_files()
     sudo chmod ug+rx *
 }
 
+download_apk_ovl()
+{
+    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_os_alpine/
+    cd ${BOOT_PARTITION}
+    # goes in the root of the boot volume, where Alpine picks it ip
+    sudo wget ${URL_BASE}cloud_ssh_nginx.apkovl.tar.gz
+    sudo chmod ug+rx *
+}
+download_apk_ovl
+
 make_bootrino_initramfsgz()
 {
     # we have to pack up the bootrino directory into an initramfs for it to be in the filesystem
