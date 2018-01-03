@@ -55,7 +55,6 @@ download_apk_ovl()
     sudo wget ${URL_BASE}cloud_ssh_nginx.apkovl.tar.gz
     sudo chmod ug+rx *
 }
-download_apk_ovl
 
 make_bootrino_initramfsgz()
 {
