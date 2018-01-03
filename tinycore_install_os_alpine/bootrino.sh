@@ -86,6 +86,7 @@ download_alpine
 copy_alpine_from_iso_to_boot
 make_bootrino_initramfsgz
 download_additional_files
+download_apk_ovl
 add_rootfs_overlay_to_INITRD
 
 
