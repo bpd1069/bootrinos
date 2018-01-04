@@ -1,23 +1,36 @@
 #!/usr/bin/env sh
-# don't crash out if there is an error
-set +xe
+# andrew.stuart@supercoders.com.au
+# 4 jan 2018
+# install nginx onto Alpine for demo purposes.
 
-determine_if_sudo_available()
-{
-SUDO=''
-if [ -x "$(command -v ${SUDO})" ]; then
-  SUDO=$(command -v ${SUDO})
-fi
-}
-determine_if_sudo_available
-
-ifdown eth0
-ifup eth0
+echo update package cache >> /var/log/start.log
 ${SUDO} apk update
-echo adding nginx package >> /var/log/start.log
+
+echo add nginx package >> /var/log/start.log
 ${SUDO} apk add nginx
+
+echo create an index.html >> /var/log/start.log
+mkdir -p /usr/share/nginx/html
+sh -c 'cat > /usr/share/nginx/html/index.html' << EOF
+hello world
+EOF
+
+echo create a simple config file for nginx >> /var/log/start.log
+sh -c 'cat > /etc/nginx/conf.d/default.conf' << EOF
+http {
+    server {
+        listen 80;
+        location / {
+            root /usr/share/nginx/html;
+        }
+    }
+}
+EOF
+
 echo enable nginx at boot >> /var/log/start.log
 ${SUDO} rc-update add nginx
+
 echo starting nginx >> /var/log/start.log
 ${SUDO} rc-service nginx start
+
 
