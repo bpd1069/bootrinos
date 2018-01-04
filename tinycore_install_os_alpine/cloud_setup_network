@@ -6,6 +6,8 @@ PATH=$PATH:/bin:/sbin
 
 depend() {
     # must run before the network is initialized
+    need localmount
+    after bootmisc hwdrivers modules
     before net
 }
 
