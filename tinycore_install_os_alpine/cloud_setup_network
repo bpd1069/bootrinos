@@ -67,6 +67,8 @@ EOF
         echo nameserver 8.8.8.8 > /etc/resolv.conf
         echo nameserver 8.8.4.4 >> /etc/resolv.conf
         sh -c 'cat > /etc/network/interfaces' << EOF
+auto lo
+iface lo inet loopback
 auto eth0
 iface eth0 inet static
     address ${PUBLIC_IPV4}
