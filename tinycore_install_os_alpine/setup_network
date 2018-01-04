@@ -1,0 +1,110 @@
+#!/sbin/openrc-run
+# andrew.stuart@supercoders.com.au
+# 4 jan 2018
+# sets up the network configuration files for Amazon, DigitalOcean and Google Compute Engine
+# this is an OpenRC script for Alpine Linux
+
+PATH=$PATH:/bin:/sbin
+
+
+depend() {
+    # must run before the network is initialized
+    need localmount
+    after bootmisc hwdrivers modules
+    before net
+}
+
+determine_cloud_type()
+{
+    # case with wildcard pattern is how to do "endswith" in shell
+
+    SIGNATURE=$(cat /sys/class/dmi/id/sys_vendor)
+    case "${SIGNATURE}" in
+         "DigitalOcean")
+            CLOUD_TYPE="digitalocean"
+            ;;
+    esac
+
+    SIGNATURE=$(cat /sys/class/dmi/id/product_name)
+    case "${SIGNATURE}" in
+         "Google Compute Engine")
+            CLOUD_TYPE="googlecomputeengine"
+            ;;
+    esac
+
+    SIGNATURE=$(cat /sys/class/dmi/id/product_version)
+    case ${SIGNATURE} in
+         *amazon)
+            echo Detected cloud Amazon Web Services....
+            CLOUD_TYPE="amazonwebservices"
+            ;;
+    esac
+    echo Detected cloud ${CLOUD_TYPE}
+}
+
+configure_network()
+{
+    if [ "${CLOUD_TYPE}" == "amazonwebservices" ]; then
+      echo Configure amazonwebservices....
+      # dhcp seems to work properly on AWS so no specific additional network setup needed
+        sudo sh -c 'cat > /etc/network/interfaces' << EOF
+auto eth0
+allow-hotplug eth0
+iface eth0 inet dhcp
+EOF
+
+    fi;
+
+    if [ "${CLOUD_TYPE}" == "digitalocean" ]; then
+    echo Configure digitalocean....
+        # if on digitalocean
+        ifconfig eth0 169.254.1.1 netmask 255.255.0.0
+        route add -net 169.254.0.0 netmask 255.255.0.0 dev eth0
+        export PUBLIC_IPV4=$(wget -O - http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
+        export NETMASK=$(wget -O - http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/netmask)
+        export GATEWAY=$(wget -O - http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/gateway)
+        ip addr add ${PUBLIC_IPV4}/${NETMASK} dev eth0
+        echo NETMASK ${NETMASK}
+        echo PUBLIC_IPV4 ${PUBLIC_IPV4}
+        echo GATEWAY ${GATEWAY}
+        ip route add default via ${GATEWAY}
+        # configure name servers
+        echo nameserver 8.8.8.8 > /etc/resolv.conf
+        echo nameserver 8.8.4.4 >> /etc/resolv.conf
+        sh -c 'cat > /etc/network/interfaces' << EOF
+auto lo
+iface lo inet loopback
+auto eth0
+iface eth0 inet static
+    address ${PUBLIC_IPV4}
+    netmask ${NETMASK}
+    gateway ${GATEWAY}
+EOF
+    fi;
+
+    if [ "${CLOUD_TYPE}" == "googlecomputeengine" ]; then
+        echo Configure googlecomputeengine....
+        sleep 10 # needed?
+        mkdir /var/db
+        touch /var/db/dhclient.leases
+        dhclient -v -cf /etc/dhcp/dhclient.conf
+        echo cat /etc/resolv.conf
+        # tinycore default mtu is 1500, Google needs it to be 1460 or ssh won't work
+        ip link set mtu 1460 dev eth0
+        # configure name servers
+        echo nameserver 8.8.8.8 > /etc/resolv.conf
+        echo nameserver 8.8.4.4 >> /etc/resolv.conf
+    fi;
+
+    # on Alpine, we need to flush out the manual network config and then restart network with ifup
+    # if we don't do this then startng nginx says "* ERROR: networking failed to start"
+    ip addr flush dev eth0
+    ifup eth0
+}
+
+start() {
+    determine_cloud_type
+    configure_network
+}
+
+
