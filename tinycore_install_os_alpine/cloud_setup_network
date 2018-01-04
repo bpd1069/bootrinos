@@ -1,8 +1,11 @@
 #!/sbin/openrc-run
-PATH=$PATH:/bin:/sbin
-
+# andrew.stuart@supercoders.com.au
+# 4 jan 2018
 # sets up the network configuration files for Amazon, DigitalOcean and Google Compute Engine
 # this is an OpenRC script for Alpine Linux
+
+PATH=$PATH:/bin:/sbin
+
 
 depend() {
     # must run before the network is initialized
