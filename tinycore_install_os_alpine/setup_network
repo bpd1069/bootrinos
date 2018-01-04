@@ -48,8 +48,10 @@ configure_network()
       echo Configure amazonwebservices....
       # dhcp seems to work properly on AWS so no specific additional network setup needed
         sudo sh -c 'cat > /etc/network/interfaces' << EOF
+auto lo
+iface lo inet loopback
+
 auto eth0
-allow-hotplug eth0
 iface eth0 inet dhcp
 EOF
 
