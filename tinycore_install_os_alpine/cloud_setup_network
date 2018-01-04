@@ -104,6 +104,4 @@ start() {
     configure_network
 }
 
-stop() {
-}
 
