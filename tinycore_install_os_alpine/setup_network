@@ -113,16 +113,19 @@ EOF
     # if we don't do this then startng nginx says "* ERROR: networking failed to start"
     ip addr flush dev eth0
     ifup eth0
-    /sbin/udhcpc -i eth0 -s /usr/share/udhcpc/default.script
-    /etc/init.d/networking restart
+    #/sbin/udhcpc -i eth0 -s /usr/share/udhcpc/default.script
+    #/etc/init.d/networking restart
     echo cloud type: ${CLOUD_TYPE} > /dev/console
     echo cloud type: ${CLOUD_TYPE} > /dev/tty0
+    echo cloud type: ${CLOUD_TYPE} > /dev/tty1
     echo cloud type: ${CLOUD_TYPE} > /dev/ttyS0
     ifconfig -a > /dev/console > /dev/console
     ifconfig -a > /dev/console > /dev/tty0
+    ifconfig -a > /dev/console > /dev/tty1
     ifconfig -a > /dev/console > /dev/ttyS0
     route -n > /dev/console > /dev/console
     route -n > /dev/console > /dev/tty0
+    route -n > /dev/console > /dev/tty1
     route -n > /dev/console > /dev/ttyS0
 }
 
