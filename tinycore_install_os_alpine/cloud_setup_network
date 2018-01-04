@@ -96,7 +96,7 @@ EOF
     # on Alpine, we need to flush out the manual network config and then restart network with ifup
     # if we don't do this then startng nginx says "* ERROR: networking failed to start"
     ip addr flush dev eth0
-    ifdown eth0
+    ifup eth0
 }
 
 start() {
