@@ -2,6 +2,35 @@
 # don't crash out if there is an error
 set +xe
 
+determine_cloud_type()
+{
+    # case with wildcard pattern is how to do "endswith" in shell
+
+    SIGNATURE=$(cat /sys/class/dmi/id/sys_vendor)
+    case "${SIGNATURE}" in
+         "DigitalOcean")
+            CLOUD_TYPE="digitalocean"
+            ;;
+    esac
+
+    SIGNATURE=$(cat /sys/class/dmi/id/product_name)
+    case "${SIGNATURE}" in
+         "Google Compute Engine")
+            CLOUD_TYPE="googlecomputeengine"
+            ;;
+    esac
+
+    SIGNATURE=$(cat /sys/class/dmi/id/product_version)
+    case ${SIGNATURE} in
+         *amazon)
+            echo Detected cloud Amazon Web Services....
+            CLOUD_TYPE="amazonwebservices"
+            ;;
+    esac
+
+    echo Detected cloud ${CLOUD_TYPE}
+}
+
 setup_bootrino_environment_variables()
 {
     # allexport ensures exported variables come into current environment
@@ -10,16 +39,16 @@ setup_bootrino_environment_variables()
     [ -f /bootrino/envvars.sh ] && . /bootrino/envvars.sh
     set +o allexport
 }
-setup_bootrino_environment_variables
+
 
 configure_network()
 {
-    if [ "${BOOTRINO_CLOUD_TYPE}" == "amazonwebservices" ]; then
+    if [ "${CLOUD_TYPE}" == "amazonwebservices" ]; then
       echo Configure amazonwebservices....
       # dhcp seems to work properly on AWS so no specific additional network setup needed
     fi;
 
-    if [ "${BOOTRINO_CLOUD_TYPE}" == "digitalocean" ]; then
+    if [ "${CLOUD_TYPE}" == "digitalocean" ]; then
     echo Configure digitalocean....
         # if on digitalocean
         #need to install curl for this (curl.tcz into /opt/tce/optional and add curl.tcz to /opt/tce/onboot.lst)
@@ -35,11 +64,21 @@ configure_network()
         echo nameserver 8.8.4.4 >> /etc/resolv.conf
     fi;
 
-    if [ "${BOOTRINO_CLOUD_TYPE}" == "googlecomputeengine" ]; then
+    if [ "${CLOUD_TYPE}" == "googlecomputeengine" ]; then
+        echo Configure googlecomputeengine....
+        /sbin/udhcpc -i eth0 -s /usr/share/udhcpc/default.script -O staticroutes -O msstaticroutes
+        ip link set mtu 1460 dev eth0
+        # configure name servers
+        echo nameserver 8.8.8.8 > /etc/resolv.conf
+        echo nameserver 8.8.4.4 >> /etc/resolv.conf
+    fi;
+
+    if [ "${CLOUD_TYPE}" == "Xgooglecomputeengine" ]; then
         echo Configure googlecomputeengine....
         sleep 10 # needed?
-        sudo mkdir /var/db
+        sudo mkdir -p /var/db
         sudo touch /var/db/dhclient.leases
+        # IMPORTANT! dhclient REQUIRES BASH TO RUN ITS SCRIPTS!
         sudo /usr/local/sbin/dhclient -v -cf /etc/dhcp/dhclient.conf
         echo cat /etc/resolv.conf
         # tinycore default mtu is 1500, Google needs it to be 1460 or ssh won't work
@@ -50,10 +89,24 @@ configure_network()
     fi;
 
     echo "Displaying network status...."
-    ifconfig -a
-    route -n
-    cat /etc/resolv.conf
-    ip addr show
+    echo cloud type: ${CLOUD_TYPE} > /dev/console
+    echo cloud type: ${CLOUD_TYPE} > /dev/tty0
+    echo cloud type: ${CLOUD_TYPE} > /dev/tty1
+    echo cloud type: ${CLOUD_TYPE} > /dev/ttyS0
+    ifconfig -a > /dev/console
+    ifconfig -a > /dev/tty0
+    ifconfig -a > /dev/tty1
+    ifconfig -a > /dev/ttyS0
+    route -n > /dev/console
+    route -n > /dev/tty0
+    route -n > /dev/tty1
+    route -n > /dev/ttyS0
+    ip addr show > /dev/console
+    ip addr show > /dev/tty0
+    ip addr show > /dev/tty1
+    ip addr show > /dev/ttyS0
 }
-configure_network
 
+determine_cloud_type
+setup_bootrino_environment_variables
+configure_network
