@@ -137,18 +137,11 @@ EOF
     route -n > /dev/tty0
     route -n > /dev/tty1
     route -n > /dev/ttyS0
-    echo cloud type: ${CLOUD_TYPE} > /dev/console
-    echo cloud type: ${CLOUD_TYPE} > /dev/tty0
-    echo cloud type: ${CLOUD_TYPE} > /dev/tty1
-    echo cloud type: ${CLOUD_TYPE} > /dev/ttyS0
-    ifconfig -a > /dev/console
-    ifconfig -a > /dev/tty0
-    ifconfig -a > /dev/tty1
-    ifconfig -a > /dev/ttyS0
-    route -n > /dev/console
-    route -n > /dev/tty0
-    route -n > /dev/tty1
-    route -n > /dev/ttyS0
+    ip addr show > /dev/console
+    ip addr show > /dev/tty0
+    ip addr show > /dev/tty1
+    ip addr show > /dev/ttyS0
+
 }
 
 

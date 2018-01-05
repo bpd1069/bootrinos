@@ -39,11 +39,22 @@ download_alpine()
     sudo wget ${ALPINE_ISO_URL}${ALPINE_ISO_NAME}
 }
 
-download_additional_files()
+download_rootfs_overlay_initramfs()
 {
     URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_os_alpine/
     cd ${BOOT_PARTITION}boot
     sudo wget ${URL_BASE}rootfs_overlay_initramfs.gz
+    sudo chmod ug+rx *
+}
+
+download_alpine_packages()
+{
+    URL_BASE=http://dl-cdn.alpinelinux.org/alpine/v3.7/main/x86_64/
+    mkdir -p ${BOOT_PARTITION}boot/apk
+    cd ${BOOT_PARTITION}boot/apk
+    sudo wget ${URL_BASE}dhclient-4.3.5-r0.apk
+    # dhclient's scripts need bash
+    sudo wget ${URL_BASE}bash-4.4.12-r2.apk
     sudo chmod ug+rx *
 }
 
@@ -84,7 +95,8 @@ setup
 download_alpine
 copy_alpine_from_iso_to_boot
 make_bootrino_initramfsgz
-download_additional_files
+download_rootfs_overlay_initramfs
+download_alpine_packages
 download_apk_ovl
 add_rootfs_overlay_to_INITRD
 
