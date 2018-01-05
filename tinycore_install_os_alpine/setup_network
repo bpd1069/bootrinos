@@ -53,8 +53,6 @@ auto eth0
 iface eth0 inet dhcp
 EOF
 
-
-
     if [ "${CLOUD_TYPE}" == "amazonwebservices" ]; then
       echo Configure amazonwebservices....
       # dhcp seems to work properly on AWS so no specific additional network setup needed
@@ -93,38 +91,26 @@ iface eth0 inet static
     netmask ${NETMASK}
     gateway ${GATEWAY}
 EOF
+        # on Alpine, we need to flush out the manual network config and then restart network with ifup
+        # if we don't do this then startng nginx says "* ERROR: networking failed to start"
+        ip addr flush dev eth0
     fi;
-
 
     if [ "${CLOUD_TYPE}" == "googlecomputeengine" ]; then
-        echo Configure googlecomputeengine....
-        /sbin/udhcpc -i eth0 -s /usr/share/udhcpc/default.script -O staticroutes -O msstaticroutes
-        ip link set mtu 1460 dev eth0
-        # configure name servers
-        echo nameserver 8.8.8.8 > /etc/resolv.conf
-        echo nameserver 8.8.4.4 >> /etc/resolv.conf
-    fi;
-
-    if [ "${CLOUD_TYPE}" == "Xgooglecomputeengine" ]; then
+        # could not find a way to make udhcpc work with classless static routes
+        #/sbin/udhcpc -i eth0 -O routes -O msstaticroutes -O staticroutes -s /usr/share/udhcpc/default.script
         echo Configure googlecomputeengine....
         #sleep 10 # needed?
         mkdir /var/db
         touch /var/db/dhclient.leases
         dhclient -v -cf /etc/dhcp/dhclient.conf
-        echo cat /etc/resolv.conf
         # tinycore default mtu is 1500, Google needs it to be 1460 or ssh won't work
         ip link set mtu 1460 dev eth0
-        # configure name servers
-        echo nameserver 8.8.8.8 > /etc/resolv.conf
-        echo nameserver 8.8.4.4 >> /etc/resolv.conf
+        # dhclient configures name servers
     fi;
 
-    # on Alpine, we need to flush out the manual network config and then restart network with ifup
-    # if we don't do this then startng nginx says "* ERROR: networking failed to start"
-    ip addr flush dev eth0
     ifup eth0
-    #/sbin/udhcpc -i eth0 -s /usr/share/udhcpc/default.script
-    #/etc/init.d/networking restart
+
     echo cloud type: ${CLOUD_TYPE} > /dev/console
     echo cloud type: ${CLOUD_TYPE} > /dev/tty0
     echo cloud type: ${CLOUD_TYPE} > /dev/tty1

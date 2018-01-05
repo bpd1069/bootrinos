@@ -53,8 +53,21 @@ download_alpine_packages()
     mkdir -p ${BOOT_PARTITION}boot/apk
     cd ${BOOT_PARTITION}boot/apk
     sudo wget ${URL_BASE}dhclient-4.3.5-r0.apk
+    # dhclient depends libgcc
+    sudo wget ${URL_BASE}libgcc-6.4.0-r5.apk
     # dhclient's scripts need bash
     sudo wget ${URL_BASE}bash-4.4.12-r2.apk
+    # bash depends:
+    sudo wget ${URL_BASE}pkgconf-1.3.10-r0.apk
+    # bash depends:
+    sudo wget ${URL_BASE}ncurses-terminfo-base-6.0_p20170930-r0.apk
+    # bash depends:
+    sudo wget ${URL_BASE}ncurses-terminfo-6.0_p20170930-r0.apk
+    # bash depends:
+    sudo wget ${URL_BASE}ncurses5-libs-5.9-r1.apk
+    # bash depends:
+    sudo wget ${URL_BASE}readline-7.0.003-r0.apk
+
     sudo chmod ug+rx *
 }
 
