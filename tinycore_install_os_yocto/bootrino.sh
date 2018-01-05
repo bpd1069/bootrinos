@@ -29,7 +29,8 @@ setup()
     OS=tinycore
     set +xe
     KERNEL_FILENAME="bzImage"
-    INITRAMFS_FILENAME="core-image-minimal-qemux86-64.cpio.gz"
+    #INITRAMFS_FILENAME="core-image-minimal-qemux86-64.cpio.gz"
+    INITRAMFS_FILENAME="core-image-minimal-initramfs-genericx86-64.cpio.gz"
 }
 
 download_files()
