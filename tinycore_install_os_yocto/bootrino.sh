@@ -81,7 +81,7 @@ EOF
 setup
 download_files
 make_syslinuxcfg
-add_initrd_to_APPEND_in_syslinuxcfg "rootfs_overlay_initramfs.gz"
+#add_initrd_to_APPEND_in_syslinuxcfg "rootfs_overlay_initramfs.gz"
 make_bootrino_initramfsgz
 add_initrd_to_APPEND_in_syslinuxcfg "bootrino_initramfs.gz"
 
