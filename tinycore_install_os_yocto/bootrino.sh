@@ -58,7 +58,7 @@ make_bootrino_initramfsgz()
 
 add_initrd_to_APPEND_in_syslinuxcfg()
 {
-sed -i "/^[[:space:]]*APPEND/ {/ initrd+=${1}/! s/.*/& initrd+=${1}/}" /mnt/boot_partition/syslinux.cfg
+sudo sed -i "/^[[:space:]]*APPEND/ {/ initrd+=${1}/! s/.*/& initrd+=${1}/}" /mnt/boot_partition/syslinux.cfg
 }
 
 make_syslinuxcfg()
