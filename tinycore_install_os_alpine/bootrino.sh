@@ -47,6 +47,35 @@ download_rootfs_overlay_initramfs()
     sudo chmod ug+rx *
 }
 
+download_alpine_packages()
+{
+    # if you want packages to be available on boot, put them in the cache dir on the boot_partition
+    # https://wiki.alpinelinux.org/wiki/Local_APK_cache
+    # note that these files cannot be stored on a ram disk
+    # The cache is enabled by creating a symlink named /etc/apk/cache that points to the cache directory
+    # setup-apkcache
+    URL_BASE=http://dl-cdn.alpinelinux.org/alpine/v3.7/main/x86_64/
+    sudo mkdir -p ${BOOT_PARTITION}cache
+    cd ${BOOT_PARTITION}boot/apks/x86_64
+    sudo wget ${URL_BASE}dhclient-4.3.5-r0.apk
+    # dhclient depends libgcc
+    sudo wget ${URL_BASE}libgcc-6.4.0-r5.apk
+    # dhclient's scripts need bash
+    sudo wget ${URL_BASE}bash-4.4.12-r2.apk
+    # bash depends:
+    sudo wget ${URL_BASE}pkgconf-1.3.10-r0.apk
+    # bash depends:
+    sudo wget ${URL_BASE}ncurses-terminfo-base-6.0_p20170930-r0.apk
+    # bash depends:
+    sudo wget ${URL_BASE}ncurses-terminfo-6.0_p20170930-r0.apk
+    # bash depends:
+    sudo wget ${URL_BASE}ncurses5-libs-5.9-r1.apk
+    # bash depends:
+    sudo wget ${URL_BASE}readline-7.0.003-r0.apk
+
+    sudo chmod ug+rx *
+}
+
 download_apk_ovl()
 {
     URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_os_alpine/
@@ -85,6 +114,7 @@ download_alpine
 copy_alpine_from_iso_to_boot
 make_bootrino_initramfsgz
 download_rootfs_overlay_initramfs
+download_alpine_packages
 download_apk_ovl
 add_rootfs_overlay_to_INITRD
 
