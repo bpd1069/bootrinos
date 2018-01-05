@@ -26,13 +26,13 @@ chmod +x /opt/bootlocal/*
 chmod +x /opt/bootlocal_enabled/*
 
 # comment in or out to create links to scripts that you want to run when the OS starts
-ln -s /opt/bootlocal/30_bootrino_setup_network /opt/bootlocal_enabled/30_bootrino_setup_network
-ln -s /opt/bootlocal/35_bootrino_set_password /opt/bootlocal_enabled/35_bootrino_set_password
-ln -s /opt/bootlocal/40_bootrino_mount_harddisk /opt/bootlocal_enabled/40_bootrino_mount_harddisk
-ln -s /opt/bootlocal/60_bootrino_start_ssh /opt/bootlocal_enabled/60_bootrino_start_ssh
-#ln -s /opt/bootlocal/60_bootrino_start_nginx /opt/bootlocal_enabled/60_bootrino_start_nginx
-ln -s /opt/bootlocal/90_bootrino_run_next_bootrino /opt/bootlocal_enabled/90_bootrino_run_next_bootrino
-#ln -s /opt/bootlocal/95_bootrino_reboot /opt/bootlocal_enabled/95_bootrino_reboot
+ln -s /opt/bootlocal/30_setup_network /opt/bootlocal_enabled/30_setup_network
+ln -s /opt/bootlocal/35_set_password /opt/bootlocal_enabled/35_set_password
+ln -s /opt/bootlocal/40_mount_harddisk /opt/bootlocal_enabled/40_mount_harddisk
+ln -s /opt/bootlocal/60_start_ssh /opt/bootlocal_enabled/60_start_ssh
+#ln -s /opt/bootlocal/60_start_nginx /opt/bootlocal_enabled/60_start_nginx
+ln -s /opt/bootlocal/90_run_next_bootrino /opt/bootlocal_enabled/90_run_next_bootrino
+#ln -s /opt/bootlocal/95_reboot /opt/bootlocal_enabled/95_reboot
 
 ## RUNPARTS DOES NOT WORK WITH .sh extensions!!!!!!!!!!!!!!!!!!
 ## RUNPARTS DOES NOT WORK WITH .sh extensions!!!!!!!!!!!!!!!!!!

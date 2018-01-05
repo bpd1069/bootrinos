@@ -1,0 +1,97 @@
+#!/usr/bin/env sh
+
+setup()
+{
+    export PATH=$PATH:/usr/local/bin:/usr/bin:/usr/local/sbin:/bin
+    OS=tinycore
+    set +xe
+}
+
+determine_cloud_type()
+{
+    # case with wildcard pattern is how to do "endswith" in shell
+
+    SIGNATURE=$(cat /sys/class/dmi/id/sys_vendor)
+    case "${SIGNATURE}" in
+         "DigitalOcean")
+            CLOUD_TYPE="digitalocean"
+            ;;
+    esac
+
+    SIGNATURE=$(cat /sys/class/dmi/id/product_name)
+    case "${SIGNATURE}" in
+         "Google Compute Engine")
+            CLOUD_TYPE="googlecomputeengine"
+            ;;
+    esac
+
+    SIGNATURE=$(cat /sys/class/dmi/id/product_version)
+    case ${SIGNATURE} in
+         *amazon)
+            echo Detected cloud Amazon Web Services....
+            CLOUD_TYPE="amazonwebservices"
+            ;;
+    esac
+
+    echo Detected cloud ${CLOUD_TYPE}
+}
+
+setup_bootrino_environment_variables()
+{
+    # allexport ensures exported variables come into current environment
+    sudo chmod +x /bootrino/envvars.sh
+    set -o allexport
+    [ -f /bootrino/envvars.sh ] && . /bootrino/envvars.sh
+    set +o allexport
+}
+
+setup_disk_device_name_environment_variables()
+{
+    echo "------->>> cloud type: ${CLOUD_TYPE}"
+
+    # Sometimes different operating systems name the hard disk devices differently even on the same cloud.
+    # So we need to define the name for the current OS, plus the root_partition OS
+    # This ise useful when for example running a script on Ubuntu that is preparing to boot Tiny Core, where
+    # the hard disk devices names are different
+
+    if [ "${CLOUD_TYPE}" == "googlecomputeengine" ]; then
+      DISK_DEVICE_NAME_TARGET_OS="sda"
+      DISK_DEVICE_NAME_CURRENT_OS="sda"
+    fi;
+
+    if [ "${CLOUD_TYPE}" == "amazonwebservices" ]; then
+      DISK_DEVICE_NAME_TARGET_OS="xvda"
+      DISK_DEVICE_NAME_CURRENT_OS="xvda"
+    fi;
+
+    if [ "${CLOUD_TYPE}" == "digitalocean" ]; then
+      DISK_DEVICE_NAME_TARGET_OS="vda"
+      DISK_DEVICE_NAME_CURRENT_OS="vda"
+    fi;
+}
+
+mount_root_and_boot()
+{
+    ROOT_PARTITION_NUMBER=1
+    BOOT_PARTITION_NUMBER=13
+
+    echo "------->>> create a mount point for the root partition"
+    sudo mkdir -p /mnt/root_partition
+
+    echo "------->>> mount the root partition"
+    sudo mount /dev/${DISK_DEVICE_NAME_CURRENT_OS}${ROOT_PARTITION_NUMBER} /mnt/root_partition
+
+    echo "------->>> create a mount point for the boot partition"
+    sudo mkdir -p /mnt/boot_partition
+
+    echo "------->>> mount the boot partition"
+    sudo mount /dev/${DISK_DEVICE_NAME_CURRENT_OS}${BOOT_PARTITION_NUMBER} /mnt/boot_partition
+}
+
+setup
+determine_cloud_type
+setup_bootrino_environment_variables
+setup_disk_device_name_environment_variables
+mount_root_and_boot
+
+
