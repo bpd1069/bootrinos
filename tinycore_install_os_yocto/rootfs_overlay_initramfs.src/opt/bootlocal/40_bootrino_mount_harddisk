@@ -7,6 +7,34 @@ setup()
     set +xe
 }
 
+determine_cloud_type()
+{
+    # case with wildcard pattern is how to do "endswith" in shell
+
+    SIGNATURE=$(cat /sys/class/dmi/id/sys_vendor)
+    case "${SIGNATURE}" in
+         "DigitalOcean")
+            CLOUD_TYPE="digitalocean"
+            ;;
+    esac
+
+    SIGNATURE=$(cat /sys/class/dmi/id/product_name)
+    case "${SIGNATURE}" in
+         "Google Compute Engine")
+            CLOUD_TYPE="googlecomputeengine"
+            ;;
+    esac
+
+    SIGNATURE=$(cat /sys/class/dmi/id/product_version)
+    case ${SIGNATURE} in
+         *amazon)
+            echo Detected cloud Amazon Web Services....
+            CLOUD_TYPE="amazonwebservices"
+            ;;
+    esac
+    echo Detected cloud ${CLOUD_TYPE}
+}
+
 setup_bootrino_environment_variables()
 {
     # allexport ensures exported variables come into current environment
@@ -18,24 +46,24 @@ setup_bootrino_environment_variables()
 
 setup_disk_device_name_environment_variables()
 {
-    echo "------->>> cloud type: ${BOOTRINO_CLOUD_TYPE}"
+    echo "------->>> cloud type: ${CLOUD_TYPE}"
 
     # Sometimes different operating systems name the hard disk devices differently even on the same cloud.
     # So we need to define the name for the current OS, plus the root_partition OS
     # This ise useful when for example running a script on Ubuntu that is preparing to boot Tiny Core, where
     # the hard disk devices names are different
 
-    if [ "${BOOTRINO_CLOUD_TYPE}" == "googlecomputeengine" ]; then
+    if [ "${CLOUD_TYPE}" == "googlecomputeengine" ]; then
       DISK_DEVICE_NAME_TARGET_OS="sda"
       DISK_DEVICE_NAME_CURRENT_OS="sda"
     fi;
 
-    if [ "${BOOTRINO_CLOUD_TYPE}" == "amazonwebservices" ]; then
+    if [ "${CLOUD_TYPE}" == "amazonwebservices" ]; then
       DISK_DEVICE_NAME_TARGET_OS="xvda"
       DISK_DEVICE_NAME_CURRENT_OS="xvda"
     fi;
 
-    if [ "${BOOTRINO_CLOUD_TYPE}" == "digitalocean" ]; then
+    if [ "${CLOUD_TYPE}" == "digitalocean" ]; then
       DISK_DEVICE_NAME_TARGET_OS="vda"
       DISK_DEVICE_NAME_CURRENT_OS="vda"
     fi;
@@ -60,6 +88,7 @@ mount_root_and_boot()
 }
 
 setup
+determine_cloud_type
 setup_bootrino_environment_variables
 setup_disk_device_name_environment_variables
 mount_root_and_boot
