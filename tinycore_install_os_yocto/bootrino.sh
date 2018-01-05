@@ -52,8 +52,11 @@ make_bootrino_initramfsgz()
     # we have to pack up the bootrino directory into an initramfs in order for it to be in the tinycore filesystem
     HOME_DIR=/home/tc/
     cd ${HOME_DIR}
-    sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
-    sudo cp ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
+    sudo rm -f bootrino_initramfs.gz
+    find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
+    sudo chmod +x bootrino_initramfs.gz
+    sudo chown root:root bootrino_initramfs.gz
+    sudo mv ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
 }
 
 add_initrd_to_APPEND_in_syslinuxcfg()
@@ -69,7 +72,7 @@ DEFAULT operatingsystem
 # on EC2 this ensures output to both VGA and serial consoles
 # console=ttyS0 console=tty0
 LABEL operatingsystem
-    COM32 linux.c32 ${KERNEL_FILENAME} console=tty0 console=xvc0
+    COM32 linux.c32 ${KERNEL_FILENAME} console=tty0 console=tty1 console=ttyS0
     APPEND initrd=${INITRAMFS_FILENAME}
 EOF
 }
