@@ -50,7 +50,7 @@ download_rootfs_overlay_initramfs()
 download_alpine_packages()
 {
     URL_BASE=http://dl-cdn.alpinelinux.org/alpine/v3.7/main/x86_64/
-    sudo mkdir -p ${BOOT_PARTITION}boot/apk
+    sudo mkdir -p ${BOOT_PARTITION}boot/apks/x86_64
     cd ${BOOT_PARTITION}boot/apks/x86_64
     sudo wget ${URL_BASE}dhclient-4.3.5-r0.apk
     # dhclient depends libgcc
