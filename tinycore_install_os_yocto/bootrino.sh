@@ -73,7 +73,7 @@ DEFAULT operatingsystem
 # on EC2 this ensures output to both VGA and serial consoles
 # console=ttyS0 console=tty0
 LABEL operatingsystem
-    COM32 linux.c32 ${KERNEL_FILENAME} console=hvc0
+    COM32 linux.c32 ${KERNEL_FILENAME} console=ttyS0
     APPEND initrd=${INITRAMFS_FILENAME}
 EOF
 }
