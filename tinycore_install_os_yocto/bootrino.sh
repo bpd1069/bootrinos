@@ -15,10 +15,9 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
     "email": "bootrino@gmail.com"
   },
   "tags": [
-    "unikernel",
-    "solo5",
-    "runfromram",
-    "mirageos"
+    "yocto",
+    "linux",
+    "runfromram"
   ]
 }
 BOOTRINOJSONMARKER
@@ -29,7 +28,7 @@ setup()
     OS=tinycore
     set +xe
     KERNEL_FILENAME="bzImage"
-    INITRAMFS_FILENAME="xen-guest-image-minimal-qemux86-64.cpio.gz"
+    INITRAMFS_FILENAME="core-image-minimal-qemux86-64.cpio.gz"
     BOOT_PARTITION=/mnt/boot_partition/
 }
 
