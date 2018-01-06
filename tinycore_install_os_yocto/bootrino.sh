@@ -124,8 +124,9 @@ make_systemd_network_config_file()
 
     if [ "${CLOUD_TYPE}" == "amazonwebservices" ]; then
       echo Configure amazonwebservices....
+        cd ${BOOT_PARTITION}
       # dhcp seems to work properly on AWS so no specific additional network setup needed
-        sh -c 'cat > /etc/systemd/network/wired.network' << EOF
+        sh -c 'cat > wired.network' << EOF
 [Match]
 Name=en*
 
@@ -135,7 +136,7 @@ EOF
     fi;
 
     if [ "${CLOUD_TYPE}" == "digitalocean" ]; then
-    echo Configure digitalocean....
+        echo Configure digitalocean....
         # if on digitalocean
         ifconfig eth0 169.254.1.1 netmask 255.255.0.0
         route add -net 169.254.0.0 netmask 255.255.0.0 dev eth0
@@ -151,7 +152,8 @@ EOF
         # configure name servers
         echo nameserver 67.207.67.3 > /etc/resolv.conf
         echo nameserver 67.207.67.2 >> /etc/resolv.conf
-        sh -c 'cat > /etc/systemd/network/wired.network' << EOF
+        cd ${BOOT_PARTITION}
+        sh -c 'cat > wired.network' << EOF
 [Match]
 Name=en*
 
@@ -165,8 +167,9 @@ EOF
 
     if [ "${CLOUD_TYPE}" == "googlecomputeengine" ]; then
         echo Configure googlecomputeengine....
+        cd ${BOOT_PARTITION}
         # Google needs mtu 1460
-        sh -c 'cat > /etc/systemd/network/wired.network' << EOF
+        sh -c 'cat > wired.network' << EOF
 [Match]
 Name=en*
 
@@ -184,7 +187,8 @@ sudo sed -i "/^[[:space:]]*APPEND/ {/ initrd+=${1}/! s/.*/& initrd+=${1}/}" ${BO
 
 make_syslinuxcfg()
 {
-sudo sh -c 'cat > ${BOOT_PARTITION}syslinux.cfg' << EOF
+cd ${BOOT_PARTITION}
+sudo sh -c 'cat > syslinux.cfg' << EOF
 SERIAL 0
 DEFAULT operatingsystem
 # on EC2 this ensures output to both VGA and serial consoles
