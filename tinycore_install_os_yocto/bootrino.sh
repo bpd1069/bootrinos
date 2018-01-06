@@ -142,7 +142,7 @@ EOF
         route add -net 169.254.0.0 netmask 255.255.0.0 dev eth0
         PUBLIC_IPV4=$(wget -O - http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address)
         NETMASK=$(wget -O - http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/netmask)
-        CIDR=$(_netmask2cidr ${NETMASK})
+        CIDR=$(netmask2cidr ${NETMASK})
         GATEWAY=$(wget -O - http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/gateway)
         ip addr add ${PUBLIC_IPV4}/${NETMASK} dev eth0
         echo NETMASK ${NETMASK}
