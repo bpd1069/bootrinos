@@ -33,7 +33,7 @@ setup()
     #INITRAMFS_FILENAME="core-image-minimal-initramfs-genericx86-64.cpio.gz"
     #INITRAMFS_FILENAME="core-image-minimal-initramfs-qemux86-64.cpio.gz"
     #INITRAMFS_FILENAME="xen-guest-image-minimal-qemux86-64.cpio.gz"
-    INITRAMFS_FILENAME="core-image-base-qemux86-64.cpio.gz"
+    INITRAMFS_FILENAME="core-image-minimal-qemux86-64.cpio.gz"
 }
 
 download_files()
