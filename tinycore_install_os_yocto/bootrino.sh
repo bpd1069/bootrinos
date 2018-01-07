@@ -131,6 +131,9 @@ Name=en*
 
 [Network]
 DHCP=ipv4
+
+[DHCP]
+UseMTU=true
 EOF
     fi;
 
