@@ -31,6 +31,18 @@ setup()
     PACKAGE_NAME="oneline_webserver_python"
 }
 
+install_tinycore_os()
+{
+    # download the tinycore packages needed
+    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_os_tinycore/
+    mkdir -p /opt/install_tinycore_os
+    cd /opt/install_tinycore_os
+    sudo wget -O ${URL_BASE}bootrino.sh
+    sudo chmod ug+rx bootrino.sh
+    sh ./bootrino.sh
+}
+install_tinycore_os
+
 download_tinycore_packages()
 {
     # download the tinycore packages needed
