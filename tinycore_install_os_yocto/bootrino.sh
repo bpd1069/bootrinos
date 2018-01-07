@@ -174,7 +174,10 @@ Name=en*
 
 [Network]
 DHCP=ipv4
-MTUBytes=1460
+
+[DHCP]
+UseMTU=true
+
 EOF
     fi;
 }
