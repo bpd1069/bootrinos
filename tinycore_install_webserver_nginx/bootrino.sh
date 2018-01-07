@@ -32,6 +32,17 @@ setup()
     PACKAGE_NAME="nginx"
 }
 
+install_tinycore_os()
+{
+    # download and run the bootrino that installs the tiny core OS
+    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_os_tinycore/
+    mkdir -p /opt/install_tinycore_os
+    cd /opt/install_tinycore_os
+    sudo wget ${URL_BASE}bootrino.sh
+    sudo chmod ug+rx bootrino.sh
+    source ./bootrino.sh
+}
+
 download_tinycore_packages()
 {
     # download the tinycore packages needed
@@ -92,10 +103,12 @@ EOF
 }
 
 setup
+install_tinycore_os
 download_tinycore_packages
 make_start_script
 make_index_html
 make_initramfs
 append_to_syslinuxcfg
+reboot
 
 
