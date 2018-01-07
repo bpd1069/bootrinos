@@ -94,7 +94,12 @@ setup()
 
 create_syslinuxcfg()
 {
-#APPEND root=/dev/${DISK_DEVICE_NAME_TARGET_OS}1 console=ttyS0 console=tty0
+# notice that we did not include bootrino_initramfs.gz on the initrd. This ensures the
+# bootrino does run again on next boot, which would be a problem because if it did,
+# then the install process would run over and over.
+# if you did want bootrino to run, then the initrd should look like this:
+#   INITRD corepure64.gz,rootfs_overlay_initramfs.gz,bootrino_initramfs.gz
+
 echo "------->>> create syslinux.cfg"
 sudo sh -c 'cat > /mnt/boot_partition/syslinux.cfg' << EOF
 SERIAL 0
@@ -105,18 +110,6 @@ LABEL operatingsystem
     KERNEL vmlinuz64 tce=/opt/tce noswap modules=ext4 console=tty0 console=ttyS0
     INITRD corepure64.gz,rootfs_overlay_initramfs.gz,bootrino_initramfs.gz
 EOF
-}
-
-make_bootrino_initramfsgz()
-{
-    # we have to pack up the bootrino directory into an initramfs in order for it to be in the filesystem
-    HOME_DIR=/home/tc/
-    cd ${HOME_DIR}
-    sudo rm -f bootrino_initramfs.gz
-    find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
-    sudo chmod +x bootrino_initramfs.gz
-    sudo chown root:root bootrino_initramfs.gz
-    sudo mv ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
 }
 
 install_tinycore()
@@ -155,5 +148,4 @@ set_password
 determine_cloud_type
 setup
 create_syslinuxcfg
-make_bootrino_initramfsgz
 install_tinycore

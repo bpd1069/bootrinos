@@ -97,6 +97,6 @@ make_start_script
 make_index_html
 make_initramfs
 append_to_syslinuxcfg
-reboot
+
 
 

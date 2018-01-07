@@ -46,18 +46,6 @@ download_files()
     sudo chmod ug+rx *
 }
 
-make_bootrino_initramfsgz()
-{
-    # we have to pack up the bootrino directory into an initramfs in order for it to be in the tinycore filesystem
-    HOME_DIR=/home/tc/
-    cd ${HOME_DIR}
-    sudo rm -f bootrino_initramfs.gz
-    find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
-    sudo chmod +x bootrino_initramfs.gz
-    sudo chown root:root bootrino_initramfs.gz
-    sudo mv ${HOME_DIR}bootrino_initramfs.gz ${BOOT_PARTITION}bootrino_initramfs.gz
-}
-
 determine_cloud_type()
 {
     # case with wildcard pattern is how to do "endswith" in shell
@@ -207,8 +195,6 @@ setup
 download_files
 make_syslinuxcfg
 #add_initrd_to_APPEND_in_syslinuxcfg "rootfs_overlay_initramfs.gz"
-make_bootrino_initramfsgz
-add_initrd_to_APPEND_in_syslinuxcfg "bootrino_initramfs.gz"
 determine_cloud_type
 make_systemd_network_config_file
 
