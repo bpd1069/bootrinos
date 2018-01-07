@@ -39,14 +39,6 @@ download_alpine()
     sudo wget ${ALPINE_ISO_URL}${ALPINE_ISO_NAME}
 }
 
-download_rootfs_overlay_initramfs()
-{
-    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_os_alpine/
-    cd ${BOOT_PARTITION}boot
-    sudo wget ${URL_BASE}rootfs_overlay_initramfs.gz
-    sudo chmod ug+rx *
-}
-
 download_alpine_packages()
 {
     # if you want packages to be available on boot, put them in the cache dir on the boot_partition
@@ -92,19 +84,12 @@ copy_alpine_from_iso_to_boot()
     sudo cp -r ${ROOT_PARTITION}alpinefiles/* ${BOOT_PARTITION}.
 }
 
-add_rootfs_overlay_to_INITRD()
-{
-    # in Alpine Linux, syslinux.cfg is in /boot/syslinux/syslinux.cfg
-    sudo sed -i "/^[[:space:]]*INITRD/ {/rootfs_overlay_initramfs.gz/! s/.*/&,\/boot\/rootfs_overlay_initramfs.gz/}" ${BOOT_PARTITION}boot/syslinux/syslinux.cfg
-}
 
 setup
 download_alpine
 copy_alpine_from_iso_to_boot
-download_rootfs_overlay_initramfs
 download_alpine_packages
 download_apk_ovl
-add_rootfs_overlay_to_INITRD
 
 
 
