@@ -96,13 +96,9 @@ make_initramfs()
     BOOT_LOCATION=/mnt/boot_partition/
     cd /home/tc/${PACKAGE_NAME}_initramfs.src
     find . | cpio -H newc -o | gzip -9 > ${BOOT_LOCATION}${PACKAGE_NAME}_initramfs.gz
-}
+    # append the initramfs to the INITRD line in syslinux.cfg
+    sudo sed -i "/^[[:space:]]*INITRD/ {/${PACKAGE_NAME}_initramfs.gz/! s/.*/&,${PACKAGE_NAME}_initramfs.gz/}" ${BOOT_PARTITION}boot/syslinux/syslinux.cfg
 
-append_to_syslinuxcfg()
-{
-sudo sh -c 'cat >> /mnt/boot_partition/syslinux.cfg' << EOF
-    APPEND initrd+=${PACKAGE_NAME}_initramfs.gz
-EOF
 }
 
 setup
@@ -110,5 +106,4 @@ download_tinycore_packages
 make_start_script
 make_index_html
 make_initramfs
-append_to_syslinuxcfg
 
