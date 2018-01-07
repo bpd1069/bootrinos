@@ -66,14 +66,14 @@ setup_disk_device_name_environment_variables()
 
 install_wiperoot_utils() {
     TCE_DIR=/opt/tce/optional/
-    tce-load -i ${TCE_DIR}/gdisk.tcz
-    tce-load -i ${TCE_DIR}/liblvm2.tcz
-    tce-load -i ${TCE_DIR}/ncurses.tcz
-    tce-load -i ${TCE_DIR}/parted.tcz
-    tce-load -i ${TCE_DIR}/popt.tcz
-    tce-load -i ${TCE_DIR}/syslinux.tcz
-    tce-load -i ${TCE_DIR}/udev-lib.tcz
-    tce-load -i ${TCE_DIR}/util-linux.tcz
+    sudo su - tc -c "tce-load -i /opt/tce/optional/gdisk.tcz"
+    sudo su - tc -c "tce-load -i /opt/tce/optional/liblvm2.tcz"
+    sudo su - tc -c "tce-load -i /opt/tce/optional/ncurses.tcz"
+    sudo su - tc -c "tce-load -i /opt/tce/optional/parted.tcz"
+    sudo su - tc -c "tce-load -i /opt/tce/optional/popt.tcz"
+    sudo su - tc -c "tce-load -i /opt/tce/optional/syslinux.tcz"
+    sudo su - tc -c "tce-load -i /opt/tce/optional/udev-lib.tcz"
+    sudo su - tc -c "tce-load -i /opt/tce/optional/util-linux.tcz"
 }
 
 delete_all_partitions()
