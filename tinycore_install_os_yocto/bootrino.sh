@@ -127,7 +127,7 @@ make_systemd_network_config_file()
       # dhcp seems to work properly on AWS so no specific additional network setup needed
         sh -c 'cat > wired.network' << EOF
 [Match]
-Name=en*
+Name=e*
 
 [Network]
 DHCP=ipv4
@@ -199,7 +199,7 @@ DEFAULT operatingsystem
 # on EC2 this ensures output to both VGA and serial consoles
 # console=ttyS0 console=tty0
 LABEL operatingsystem
-    COM32 linux.c32 ${KERNEL_FILENAME} console=ttyS0
+    COM32 linux.c32 ${KERNEL_FILENAME} console=ttyS0  console=tty0
     APPEND initrd=${INITRAMFS_FILENAME} initrdfile=wired.network@/etc/systemd/network/wired.network
 EOF
 
