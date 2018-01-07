@@ -87,9 +87,9 @@ chmod u=rwx,g=rx,o=rx index.html
 
 make_initramfs()
 {
-    BOOT_LOCATION=/mnt/boot_partition/
+    BOOT_PARTITION=/mnt/boot_partition/
     cd /home/tc/${PACKAGE_NAME}_initramfs.src
-    find . | cpio -H newc -o | gzip -9 > ${BOOT_LOCATION}${PACKAGE_NAME}_initramfs.gz
+    find . | cpio -H newc -o | gzip -9 > ${BOOT_PARTITION}${PACKAGE_NAME}_initramfs.gz
 }
 
 append_to_syslinuxcfg()

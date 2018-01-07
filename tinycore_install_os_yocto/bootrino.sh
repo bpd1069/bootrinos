@@ -58,8 +58,6 @@ make_bootrino_initramfsgz()
     sudo mv ${HOME_DIR}bootrino_initramfs.gz ${BOOT_PARTITION}bootrino_initramfs.gz
 }
 
-PATH=$PATH:/bin:/sbin
-
 determine_cloud_type()
 {
     # case with wildcard pattern is how to do "endswith" in shell
