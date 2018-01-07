@@ -99,10 +99,17 @@ make_initramfs()
     sudo sed -i "/^[[:space:]]*INITRD/ {/${PACKAGE_NAME}_initramfs.gz/! s/.*/&,${PACKAGE_NAME}_initramfs.gz/}" ${BOOT_PARTITION}syslinux.cfg
 }
 
+post_installation_cleanup() {
+    # installation is complete. we need to make sure there's no chance the bootrino will run again.
+    sudo rm ${BOOT_PARTITION}bootrino_initramfs.gz
+}
+
 setup
 install_tinycore_os
 download_tinycore_packages
 make_start_script
 make_index_html
 make_initramfs
+post_installation_cleanup
+reboot
 

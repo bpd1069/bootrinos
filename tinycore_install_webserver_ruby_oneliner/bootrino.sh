@@ -103,13 +103,13 @@ make_initramfs()
     BOOT_PARTITION=/mnt/boot_partition/
     cd /home/tc/${PACKAGE_NAME}_initramfs.src
     find . | cpio -H newc -o | gzip -9 > ${BOOT_PARTITION}${PACKAGE_NAME}_initramfs.gz
+    # append the initramfs to the INITRD line in syslinux.cfg
+    sudo sed -i "/^[[:space:]]*INITRD/ {/${PACKAGE_NAME}_initramfs.gz/! s/.*/&,${PACKAGE_NAME}_initramfs.gz/}" ${BOOT_PARTITION}syslinux.cfg
 }
 
-append_to_syslinuxcfg()
-{
-sudo sh -c 'cat >> /mnt/boot_partition/syslinux.cfg' << EOF
-    APPEND initrd+=${PACKAGE_NAME}_initramfs.gz
-EOF
+post_installation_cleanup() {
+    # installation is complete. we need to make sure there's no chance the bootrino will run again.
+    sudo rm ${BOOT_PARTITION}bootrino_initramfs.gz
 }
 
 setup
@@ -118,6 +118,6 @@ download_tinycore_packages
 make_start_script
 make_index_html
 make_initramfs
-append_to_syslinuxcfg
+post_installation_cleanup
 reboot
 
