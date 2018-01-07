@@ -7,7 +7,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "description": "Ruby one line web server for Tiny Core",
   "options": "",
   "logoURL": "",
-  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_webserver_ruby_oneliner/README.md",
+  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_webserver_ruby/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
   "websiteURL": "https://github.com/bootrino/",
   "author": {
@@ -34,7 +34,7 @@ setup()
 download_tinycore_packages()
 {
     # download the tinycore packages needed
-    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_webserver_ruby_oneliner/
+    URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_webserver_ruby/
     mkdir -p /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional
     cd /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional
     sudo wget -O /home/tc/${PACKAGE_NAME}_initramfs.src/opt/tce/optional/ruby.tcz ${URL_BASE}ruby.tcz
