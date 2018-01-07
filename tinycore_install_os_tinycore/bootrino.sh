@@ -103,7 +103,7 @@ DEFAULT operatingsystem
 # console=ttyS0 console=tty0
 LABEL operatingsystem
     KERNEL vmlinuz64 tce=/opt/tce noswap modules=ext4 console=tty0 console=ttyS0
-    APPEND initrd=corepure64.gz,rootfs_overlay_initramfs.gz,bootrino_initramfs.gz
+    INITRD corepure64.gz,rootfs_overlay_initramfs.gz,bootrino_initramfs.gz
 EOF
 }
 
