@@ -100,12 +100,3 @@ make_index_html
 make_initramfs
 append_to_syslinuxcfg
 
-run_next_bootrino()
-{
-    echo "running next bootrino"
-    cd /bootrino
-    sh /bootrino/runnextbootrino.sh
-}
-run_next_bootrino
-
-

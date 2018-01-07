@@ -152,17 +152,8 @@ EOF
 }
 set_password
 
-run_next_bootrino()
-{
-    echo "running next bootrino"
-    cd /bootrino
-    sh /bootrino/runnextbootrino.sh
-}
-
 determine_cloud_type
 setup
 create_syslinuxcfg
 make_bootrino_initramfsgz
 install_tinycore
-run_next_bootrino
-

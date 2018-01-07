@@ -83,7 +83,6 @@ configure_network()
         sudo touch /var/db/dhclient.leases
         # IMPORTANT! dhclient REQUIRES BASH TO RUN ITS SCRIPTS!
         sudo /usr/local/sbin/dhclient -v -cf /etc/dhcp/dhclient.conf
-        echo cat /etc/resolv.conf
         # tinycore default mtu is 1500, Google needs it to be 1460 or ssh won't work
         sudo ip link set mtu 1460 dev eth0
         # configure name servers
@@ -107,10 +106,10 @@ configure_network()
     ip addr show > /dev/tty0
     ip addr show > /dev/tty1
     ip addr show > /dev/ttyS0
-    cat resolv.conf > /dev/console
-    cat resolv.conf > /dev/tty0
-    cat resolv.conf > /dev/tty1
-    cat resolv.conf > /dev/ttyS0
+    cat /etc/resolv.conf > /dev/console
+    cat /etc/resolv.conf > /dev/tty0
+    cat /etc/resolv.conf > /dev/tty1
+    cat /etc/resolv.conf > /dev/ttyS0
 }
 
 determine_cloud_type

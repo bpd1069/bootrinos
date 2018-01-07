@@ -122,12 +122,4 @@ download_apk_ovl
 add_rootfs_overlay_to_INITRD
 
 
-run_next_bootrino()
-{
-    echo "running next bootrino"
-    cd /bootrino
-    sh /bootrino/runnextbootrino.sh
-}
-run_next_bootrino
-
 

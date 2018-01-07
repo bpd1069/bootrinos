@@ -215,13 +215,3 @@ determine_cloud_type
 make_systemd_network_config_file
 
 
-
-run_next_bootrino()
-{
-    echo "running next bootrino"
-    cd /bootrino
-    sh /bootrino/runnextbootrino.sh
-}
-run_next_bootrino
-
-

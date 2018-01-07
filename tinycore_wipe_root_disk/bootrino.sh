@@ -281,12 +281,4 @@ if [ "${CLOUD_TYPE}" == "digitalocean" ]; then
     prepare_disk_uefi
 fi;
 
-run_next_bootrino()
-{
-    echo "running next bootrino"
-    cd /bootrino
-    sh /bootrino/runnextbootrino.sh
-}
-run_next_bootrino
-
 
