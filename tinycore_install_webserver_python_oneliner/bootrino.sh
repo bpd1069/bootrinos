@@ -105,5 +105,4 @@ download_tinycore_packages
 make_start_script
 make_index_html
 make_initramfs
-reboot
 
