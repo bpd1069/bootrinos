@@ -37,7 +37,7 @@ install_tinycore_os()
     URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_install_os_tinycore/
     mkdir -p /opt/install_tinycore_os
     cd /opt/install_tinycore_os
-    sudo wget -O ${URL_BASE}bootrino.sh
+    sudo wget ${URL_BASE}bootrino.sh
     sudo chmod ug+rx bootrino.sh
     sh ./bootrino.sh
 }
