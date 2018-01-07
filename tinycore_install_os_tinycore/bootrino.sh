@@ -23,6 +23,34 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 }
 BOOTRINOJSONMARKER
 
+determine_cloud_type()
+{
+    # case with wildcard pattern is how to do "endswith" in shell
+
+    SIGNATURE=$(cat /sys/class/dmi/id/sys_vendor)
+    case "${SIGNATURE}" in
+         "DigitalOcean")
+            CLOUD_TYPE="digitalocean"
+            ;;
+    esac
+
+    SIGNATURE=$(cat /sys/class/dmi/id/product_name)
+    case "${SIGNATURE}" in
+         "Google Compute Engine")
+            CLOUD_TYPE="googlecomputeengine"
+            ;;
+    esac
+
+    SIGNATURE=$(cat /sys/class/dmi/id/product_version)
+    case ${SIGNATURE} in
+         *amazon)
+            echo Detected cloud Amazon Web Services....
+            CLOUD_TYPE="amazonwebservices"
+            ;;
+    esac
+    echo Detected cloud ${CLOUD_TYPE}
+}
+
 setup()
 {
     export PATH=$PATH:/usr/local/bin:/usr/bin:/usr/local/sbin:/bin
@@ -30,7 +58,7 @@ setup()
     set +xe
     URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal-8.2.1_x86-64/
 
-    # load the bootrino environment variables: BOOTRINO_CLOUD_TYPE BOOTRINO_URL BOOTRINO_PROTOCOL BOOTRINO_SHA256
+    # load the bootrino environment variables: CLOUD_TYPE BOOTRINO_URL BOOTRINO_PROTOCOL BOOTRINO_SHA256
     # allexport ensures exported variables come into current environment
     set -o allexport
     [ -f /bootrino/envvars.sh ] && . /bootrino/envvars.sh
@@ -40,24 +68,24 @@ setup()
     sudo mkdir -p /opt
     cd /opt
 
-    echo "------->>> cloud type: ${BOOTRINO_CLOUD_TYPE}"
+    echo "------->>> cloud type: ${CLOUD_TYPE}"
 
     # Sometimes different operating systems name the hard disk devices differently even on the same cloud.
     # So we need to define the name for the current OS, plus the root_partition OS
     # This ise useful when for example running a script on Ubuntu that is preparing to boot Tiny Core, where
     # the hard disk devices names are different
 
-    if [ "${BOOTRINO_CLOUD_TYPE}" == "googlecomputeengine" ]; then
+    if [ "${CLOUD_TYPE}" == "googlecomputeengine" ]; then
       DISK_DEVICE_NAME_TARGET_OS="sda"
       DISK_DEVICE_NAME_CURRENT_OS="sda"
     fi;
 
-    if [ "${BOOTRINO_CLOUD_TYPE}" == "amazonwebservices" ]; then
+    if [ "${CLOUD_TYPE}" == "amazonwebservices" ]; then
       DISK_DEVICE_NAME_TARGET_OS="xvda"
       DISK_DEVICE_NAME_CURRENT_OS="xvda"
     fi;
 
-    if [ "${BOOTRINO_CLOUD_TYPE}" == "digitalocean" ]; then
+    if [ "${CLOUD_TYPE}" == "digitalocean" ]; then
       DISK_DEVICE_NAME_TARGET_OS="vda"
       DISK_DEVICE_NAME_CURRENT_OS="vda"
     fi;
@@ -81,11 +109,14 @@ EOF
 
 make_bootrino_initramfsgz()
 {
-    # we have to pack up the bootrino directory into an initramfs in order for it to be in the tinycore filesystem
+    # we have to pack up the bootrino directory into an initramfs in order for it to be in the filesystem
     HOME_DIR=/home/tc/
     cd ${HOME_DIR}
-    sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
-    sudo cp ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
+    sudo rm -f bootrino_initramfs.gz
+    find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
+    sudo chmod +x bootrino_initramfs.gz
+    sudo chown root:root bootrino_initramfs.gz
+    sudo mv ${HOME_DIR}bootrino_initramfs.gz /mnt/boot_partition/bootrino_initramfs.gz
 }
 
 install_tinycore()
@@ -128,6 +159,7 @@ run_next_bootrino()
     sh /bootrino/runnextbootrino.sh
 }
 
+determine_cloud_type
 setup
 create_syslinuxcfg
 make_bootrino_initramfsgz

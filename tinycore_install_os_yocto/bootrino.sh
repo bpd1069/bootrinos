@@ -157,7 +157,7 @@ EOF
         cd ${BOOT_PARTITION}
         sh -c 'cat > wired.network' << EOF
 [Match]
-Name=en*
+Name=e*
 
 [Network]
 Address=${PUBLIC_IPV4}/${CIDR}

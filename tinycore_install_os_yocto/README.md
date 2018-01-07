@@ -1,4 +1,4 @@
-This installs Tiny Core Linux
+This installs Yocto Linux from Tiny Core Linux
 
 REQUIRED:
 

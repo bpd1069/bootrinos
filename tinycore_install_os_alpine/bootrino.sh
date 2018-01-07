@@ -87,11 +87,14 @@ download_apk_ovl()
 
 make_bootrino_initramfsgz()
 {
-    # we have to pack up the bootrino directory into an initramfs for it to be in the filesystem
+    # we have to pack up the bootrino directory into an initramfs in order for it to be in the filesystem
     HOME_DIR=/home/tc/
     cd ${HOME_DIR}
-    sudo find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
-    sudo cp ${HOME_DIR}bootrino_initramfs.gz ${BOOT_PARTITION}boot/bootrino_initramfs.gz
+    sudo rm -f bootrino_initramfs.gz
+    find /bootrino | cpio -H newc -o | gzip -9 > ${HOME_DIR}bootrino_initramfs.gz
+    sudo chmod +x bootrino_initramfs.gz
+    sudo chown root:root bootrino_initramfs.gz
+    sudo mv ${HOME_DIR}bootrino_initramfs.gz ${BOOT_PARTITION}boot/bootrino_initramfs.gz
     # in Alpine Linux, syslinux.cfg is in /boot/syslinux/syslinux.cfg
     sudo sed -i "/^[[:space:]]*INITRD/ {/bootrino_initramfs.gz/! s/.*/&,\/boot\/bootrino_initramfs.gz/}" ${BOOT_PARTITION}boot/syslinux/syslinux.cfg
 }
