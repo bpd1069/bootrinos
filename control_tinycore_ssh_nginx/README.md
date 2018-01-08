@@ -1,4 +1,4 @@
-notes on Tiny Core on bootrino
+This is a test bootrino.  Do not use.
 
 This bootrino starts Tiny Core Linux on Amazon, Digital Ocean or Google Compute Engine.
 

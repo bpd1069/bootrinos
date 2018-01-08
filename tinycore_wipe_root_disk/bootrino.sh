@@ -7,7 +7,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "description": "bootrino boostrap - root disk wiper. This script WIPES THE ROOT DISK in preparation for install of new OS.",
   "options": "",
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal-8.2.1_x86-64/tiny-core-linux-7-logo.png",
-  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_wipe_root_disk/README.md",
+  "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/bootrino0/README.md",
   "launchTargetsURL": "https://raw.githubusercontent.com/bootrino/launchtargets/master/defaultLaunchTargetsLatest.json",
   "websiteURL": "https://github.com/bootrino/",
   "author": {
@@ -97,31 +97,22 @@ setup_disk_device_name_environment_variables()
     fi;
 }
 
-download_install_tinycore_packages()
+install_tinycore_packages()
 {
     # download the tinycore packages that contain the utilities we need
     URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_wipe_root_disk/
     cd /opt/tce/optional/
-    sudo wget -O /opt/tce/optional/syslinux.tcz ${URL_BASE}syslinux.tcz
-    sudo wget -O /opt/tce/optional/parted.tcz ${URL_BASE}parted.tcz
-    sudo wget -O /opt/tce/optional/util-linux.tcz ${URL_BASE}util-linux.tcz
-    # sgdisk needs the popt libraries
-    sudo wget -O /opt/tce/optional/popt.tcz ${URL_BASE}popt.tcz
-    sudo wget -O /opt/tce/optional/ncurses.tcz ${URL_BASE}ncurses.tcz
-    # sgdisk is in gdisk.tcz
-    sudo wget -O /opt/tce/optional/gdisk.tcz ${URL_BASE}gdisk.tcz
-    # dependencies
-    sudo wget -O /opt/tce/optional/liblvm2.tcz ${URL_BASE}liblvm2.tcz
-    sudo wget -O /opt/tce/optional/udev-lib.tcz ${URL_BASE}udev-lib.tcz
     sudo chmod ug+rx *
     # install the tinycore packages
     # tinycore requires not runnning tce-load as root so we run it as tiny core default user tc
     sudo su - tc -c "tce-load -i /opt/tce/optional/ncurses.tcz"
+    # sgdisk needs the popt libraries
     sudo su - tc -c "tce-load -i /opt/tce/optional/popt.tcz"
     sudo su - tc -c "tce-load -i /opt/tce/optional/liblvm2.tcz"
     sudo su - tc -c "tce-load -i /opt/tce/optional/udev-lib.tcz"
     sudo su - tc -c "tce-load -i /opt/tce/optional/syslinux.tcz"
     sudo su - tc -c "tce-load -i /opt/tce/optional/parted.tcz"
+    # sgdisk is in gdisk.tcz
     sudo su - tc -c "tce-load -i /opt/tce/optional/gdisk.tcz"
     # sfdisk is in this package
     sudo su - tc -c "tce-load -i /opt/tce/optional/util-linux.tcz"
@@ -266,7 +257,7 @@ setup
 determine_cloud_type
 setup_bootrino_environment_variables
 setup_disk_device_name_environment_variables
-download_install_tinycore_packages
+install_tinycore_packages
 delete_all_partitions
 
 if [ "${CLOUD_TYPE}" == "googlecomputeengine" ]; then
