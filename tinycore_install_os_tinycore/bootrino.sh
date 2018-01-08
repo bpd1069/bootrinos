@@ -18,7 +18,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
     "linux",
     "runfromram",
     "tinycore",
-    "python",
+    "python"
   ]
 }
 BOOTRINOJSONMARKER
