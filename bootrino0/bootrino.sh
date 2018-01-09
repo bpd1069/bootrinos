@@ -36,7 +36,7 @@ URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_mi
 # get the initramfs overlay files
 /usr/bin/wget -O /boot/rootfs_overlay_initramfs.gz ${URL_BASE}rootfs_overlay_initramfs.gz
 
-URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_load_over_ubuntu/
+URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/bootrino0/
 /usr/bin/wget -O /boot/wipe_root_disk_initramfs.gz ${URL_BASE}wipe_root_disk_initramfs.gz
 
 
@@ -65,6 +65,6 @@ initrd /boot/corepure64.gz /boot/rootfs_overlay_initramfs.gz /boot/bootrino_init
 }
 EOFMARKER
 
-#/sbin/reboot
+/sbin/reboot
 
 
