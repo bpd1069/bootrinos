@@ -40,7 +40,6 @@ ln -s /opt/bootlocal/35_set_password /opt/bootlocal_enabled/35_set_password
 ln -s /opt/bootlocal/40_mount_harddisk /opt/bootlocal_enabled/40_mount_harddisk
 ln -s /opt/bootlocal/60_start_ssh /opt/bootlocal_enabled/60_start_ssh
 ln -s /bootrino/sequence/1_bootrino.sh /opt/bootlocal_enabled/70_bootrino
-#ln -s /opt/bootlocal/60_start_nginx /opt/bootlocal_enabled/60_start_nginx
 #ln -s /opt/bootlocal/95_reboot /opt/bootlocal_enabled/95_reboot
 
 ## RUNPARTS DOES NOT WORK WITH .sh extensions!!!!!!!!!!!!!!!!!!

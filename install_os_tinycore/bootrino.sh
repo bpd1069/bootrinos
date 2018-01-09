@@ -143,8 +143,8 @@ EOF
 ${NEWPW}
 EOF
 }
-set_password
 
+#set_password
 determine_cloud_type
 setup
 create_syslinuxcfg

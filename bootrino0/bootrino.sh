@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
-  "name": "replace ubuntu with tinycore",
+  "name": "bootrino0 - replace ubuntu with Tiny Core then wipe root disk",
   "version": "0.0.1",
   "versionDate": "2017-11-14T02:55:14Z",
-  "description": "bootrino boostrap - root disk wiper. This script WIPES THE ROOT DISK then runs the next bootrino.",
+  "description": "bootrino0 - root disk wiper. This script WIPES THE ROOT DISK then runs the next bootrino.",
   "options": "",
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal-8.2.1_x86-64/tiny-core-linux-7-logo.png",
   "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/bootrino0/README.md",
