@@ -28,8 +28,8 @@ setup()
     export PATH=$PATH:/usr/local/bin:/usr/bin:/usr/local/sbin:/bin
     OS=tinycore
     set +xe
-    #KERNEL_FILENAME="conduit_server.virtio"
-    KERNEL_FILENAME="unikernel_lucina.bin"
+    KERNEL_FILENAME="conduit_server.virtio"
+    #KERNEL_FILENAME="unikernel_lucina.bin"
 }
 
 download_files()
