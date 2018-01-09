@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
 {
-  "name": "Install Tiny Core 64 minimal",
+  "name": "Install Tiny Core 64",
   "version": "0.0.1",
   "versionDate": "2018-01-01T09:00:00Z",
-  "description": "Installs Tiny Core 64 minimal. Expects to be run after bootrino root disk wipe.",
+  "description": "Installs Tiny Core 64.",
   "options": "",
   "logoURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_minimal-8.2.1_x86-64/tiny-core-linux-7-logo.png",
   "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/install_os_tinycore/README.md",
@@ -149,3 +149,5 @@ determine_cloud_type
 setup
 create_syslinuxcfg
 install_tinycore
+
+echo REBOOT is required at this point to launch

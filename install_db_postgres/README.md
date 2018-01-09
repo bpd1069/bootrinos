@@ -1,11 +1,9 @@
-This installs a Ruby one line web server on Tiny Core.
+This installs Postgres on Tiny Core.
 
-REQUIRED:
-
-This bootrino expects to be run in a sequence after these bootrinos:
-
-https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_load_over_ubuntu/bootrino.sh
-https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_wipe_root_disk/bootrino.sh
-https://raw.githubusercontent.com/bootrino/bootrinos/master/install_os_tinycore/bootrino.sh
+license:
+Any software packages here will be covered by their own license - refer to individual software package for its license.
+License information for Tiny Core Linux refer: http://tinycorelinux.net/
+License information for Alpine Linux refer: https://www.alpinelinux.org/about/
+License information for Yocto Linux refer: https://www.yoctoproject.org
 
 

@@ -15,4 +15,9 @@ and then runs the ip commands to configure the machine. MirageOS/Solo5 has no wa
 SO - essentially the MirageOS unikernel bootrino does not work at all.  It is here because one day the above issues
 might be fixed, and when they are, it should be easy to get it going.
 
+license:
+Any software packages here will be covered by their own license - refer to individual software package for its license.
+License information for Tiny Core Linux refer: http://tinycorelinux.net/
+License information for Alpine Linux refer: https://www.alpinelinux.org/about/
+License information for Yocto Linux refer: https://www.yoctoproject.org
 

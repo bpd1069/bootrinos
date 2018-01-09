@@ -65,5 +65,6 @@ initrd /boot/corepure64.gz /boot/rootfs_overlay_initramfs.gz /boot/bootrino_init
 }
 EOFMARKER
 
-/sbin/reboot
+#/sbin/reboot
+
 

@@ -56,4 +56,5 @@ setup
 download_files
 overwrite_syslinuxcfg
 
+echo REBOOT is required at this point to launch
 

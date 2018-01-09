@@ -1,2 +1,3 @@
 This installs Alpine Linux
 
+WARNING THIS IS AN EXAMPLE ONLY - THERE IS NO PASSWORD ON root USER!

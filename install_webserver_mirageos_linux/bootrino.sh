@@ -69,7 +69,7 @@ make_start_script()
 DIRECTORY=/home/tc/${PACKAGE_NAME}_initramfs.src/opt/bootlocal_enabled/
 mkdir -p ${DIRECTORY}
 cd ${DIRECTORY}
-sudo sh -c 'cat > ${DIRECTORY}60_bootrino_start_mirageos_webserver_linux' << EOF
+sudo sh -c 'cat > ${DIRECTORY}60_start_mirageos_webserver_linux' << EOF
 #!/usr/bin/env sh
 # don't crash out if there is an error
 set +xe
@@ -86,7 +86,7 @@ start_application()
 }
 start_application
 EOF
-chmod u=rwx,g=rx,o=rx 60_bootrino_start_mirageos_webserver_linux
+chmod u=rwx,g=rx,o=rx 60_start_mirageos_webserver_linux
 }
 
 make_initramfs()

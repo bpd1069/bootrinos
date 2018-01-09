@@ -4,7 +4,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "name": "Install Alpine Linux",
   "version": "0.0.1",
   "versionDate": "2018-01-01T09:00:00Z",
-  "description": "Install Alpine Linux from Tiny Core Linux",
+  "description": "Install Alpine Linux from Tiny Core Linux. WARNING THIS IS AN EXAMPLE ONLY - THERE IS NO PASSWORD ON root USER!",
   "options": "",
   "logoURL": "",
   "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/install_os_yocto/README.md",
@@ -91,5 +91,5 @@ copy_alpine_from_iso_to_boot
 download_alpine_packages
 download_apk_ovl
 
-
+echo REBOOT is required at this point to launch
 

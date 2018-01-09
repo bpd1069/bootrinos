@@ -4,7 +4,7 @@ read BOOTRINOJSON <<"BOOTRINOJSONMARKER"
   "name": "Install Yocto Linux",
   "version": "0.0.1",
   "versionDate": "2018-01-01T09:00:00Z",
-  "description": "Install Yocto Linux from Tiny Core Linux",
+  "description": "Install Yocto Linux from Tiny Core Linux. WARNING THIS IS AN EXAMPLE ONLY - THERE IS NO PASSWORD ON root USER!",
   "options": "",
   "logoURL": "",
   "readmeURL": "https://raw.githubusercontent.com/bootrino/bootrinos/master/install_os_yocto/README.md",
@@ -198,4 +198,5 @@ make_syslinuxcfg
 determine_cloud_type
 make_systemd_network_config_file
 
+echo REBOOT is required at this point to launch
 
