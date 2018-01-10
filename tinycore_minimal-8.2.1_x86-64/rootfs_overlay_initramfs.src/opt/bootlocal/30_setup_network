@@ -69,6 +69,7 @@ configure_network()
         #/sbin/udhcpc -i eth0 -O routes -O msstaticroutes -O staticroutes -s /usr/share/udhcpc/default.script
         echo Configure googlecomputeengine....
         cd /usr/local/lib
+        # annoying, but Tiny Core seems to be missing some needed library here. Solution is this:
         sudo ln -s libncursesw.so libncurses.so
         sudo ln -s libncursesw.so.5 libncurses.so.5
         sudo ln -s libncursesw.so.5.9 libncurses.so.5.9
