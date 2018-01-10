@@ -91,5 +91,7 @@ copy_alpine_from_iso_to_boot
 download_alpine_packages
 download_apk_ovl
 
-echo REBOOT is required at this point to launch
+echo "REBOOT is required at this point to launch"
+echo "REBOOT is required at this point to launch" > /dev/console
+echo "REBOOT is required at this point to launch" > /dev/tty0
 

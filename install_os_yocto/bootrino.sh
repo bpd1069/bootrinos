@@ -198,5 +198,7 @@ make_syslinuxcfg
 determine_cloud_type
 make_systemd_network_config_file
 
-echo REBOOT is required at this point to launch
+echo "REBOOT is required at this point to launch"
+echo "REBOOT is required at this point to launch" > /dev/console
+echo "REBOOT is required at this point to launch" > /dev/tty0
 

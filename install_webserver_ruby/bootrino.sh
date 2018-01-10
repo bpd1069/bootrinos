@@ -123,5 +123,8 @@ make_start_script
 make_index_html
 make_initramfs
 post_installation_cleanup
-reboot
+echo "rebooting into Tiny Core Linux now ..."
+echo "rebooting into Tiny Core Linux now ..." > /dev/console
+echo "rebooting into Tiny Core Linux now ..." > /dev/tty0
+sudo reboot
 

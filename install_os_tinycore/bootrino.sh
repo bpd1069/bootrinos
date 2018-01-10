@@ -150,4 +150,7 @@ setup
 create_syslinuxcfg
 install_tinycore
 
-echo REBOOT is required at this point to launch
+
+echo "REBOOT is required at this point to launch"
+echo "REBOOT is required at this point to launch" > /dev/console
+echo "REBOOT is required at this point to launch" > /dev/tty0
