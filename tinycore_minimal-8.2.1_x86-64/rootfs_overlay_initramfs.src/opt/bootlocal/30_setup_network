@@ -65,20 +65,18 @@ configure_network()
     fi;
 
     if [ "${CLOUD_TYPE}" == "googlecomputeengine" ]; then
-        echo Configure googlecomputeengine....
-        /sbin/udhcpc -i eth0 -O routes -O msstaticroutes -O staticroutes -s /usr/share/udhcpc/default.script
-        ip link set mtu 1460 dev eth0
-        # configure name servers
-        # GCE dhcp auto assigns name servers
-        # echo nameserver 8.8.8.8 > /etc/resolv.conf
-        # echo nameserver 8.8.4.4 >> /etc/resolv.conf
-    fi;
-
-    if [ "${CLOUD_TYPE}" == "googlecomputeengine" ]; then
         # could not find a way to make udhcpc work with classless static routes
         #/sbin/udhcpc -i eth0 -O routes -O msstaticroutes -O staticroutes -s /usr/share/udhcpc/default.script
         echo Configure googlecomputeengine....
-        # sleep 10 # needed?
+        #ln -s libncursesw.so libncurses.so
+        #ln -s libncursesw.so.5 libncurses.so.5
+        #ln -s libncursesw.so.5.9 libncurses.so.5.9
+        #ln -s libncursesw.a libncurses.a
+        #ln -s libncursesw_g.a libncurses_g.a
+        #ln -s libncurses++w.a libncurses++.a
+        #ln -s libncursesw.so libtinfo.so
+        #ln -s libncursesw.so.5 libtinfo.so.5
+        sleep 10 # needed?
         sudo mkdir -p /var/db
         sudo touch /var/db/dhclient.leases
         # IMPORTANT! dhclient REQUIRES BASH TO RUN ITS SCRIPTS!
