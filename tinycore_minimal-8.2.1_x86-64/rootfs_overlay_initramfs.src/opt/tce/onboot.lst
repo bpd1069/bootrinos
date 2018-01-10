@@ -4,6 +4,8 @@ dhcpcd.tcz
 iproute2.tcz
 iptables.tcz
 ncurses.tcz
+ncurses5.tcz
+ncurses-dev.tcz
 nss.tcz
 openssh.tcz
 openssl.tcz
