@@ -101,7 +101,7 @@ make_initramfs()
 post_installation_cleanup() {
     # installation is complete. we need to make sure there's no chance the bootrino will run again.
     # remove bootrino initrams from syslinux.cfg  important! note that we must do it twice, first for comma prefix
-    sudo sed -i "s/,bootrino_initramfs.gz//g" ${BOOT_PARTITION}syslinux.cfg
+    sudo sed -i "s/\,bootrino_initramfs.gz//g" ${BOOT_PARTITION}syslinux.cfg
     sudo sed -i "s/bootrino_initramfs.gz//g" ${BOOT_PARTITION}syslinux.cfg
     # remove the bootrino initramfs
     sudo rm -f ${BOOT_PARTITION}bootrino_initramfs.gz
