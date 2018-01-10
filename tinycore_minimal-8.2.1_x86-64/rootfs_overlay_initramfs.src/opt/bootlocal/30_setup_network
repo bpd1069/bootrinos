@@ -68,6 +68,7 @@ configure_network()
         # could not find a way to make udhcpc work with classless static routes
         #/sbin/udhcpc -i eth0 -O routes -O msstaticroutes -O staticroutes -s /usr/share/udhcpc/default.script
         echo Configure googlecomputeengine....
+        cd /usr/local/lib
         ln -s libncursesw.so libncurses.so
         ln -s libncursesw.so.5 libncurses.so.5
         ln -s libncursesw.so.5.9 libncurses.so.5.9
