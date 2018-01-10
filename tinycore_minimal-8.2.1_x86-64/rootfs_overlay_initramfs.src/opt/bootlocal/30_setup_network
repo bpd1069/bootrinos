@@ -69,14 +69,14 @@ configure_network()
         #/sbin/udhcpc -i eth0 -O routes -O msstaticroutes -O staticroutes -s /usr/share/udhcpc/default.script
         echo Configure googlecomputeengine....
         cd /usr/local/lib
-        ln -s libncursesw.so libncurses.so
-        ln -s libncursesw.so.5 libncurses.so.5
-        ln -s libncursesw.so.5.9 libncurses.so.5.9
-        ln -s libncursesw.a libncurses.a
-        ln -s libncursesw_g.a libncurses_g.a
-        ln -s libncurses++w.a libncurses++.a
-        ln -s libncursesw.so libtinfo.so
-        ln -s libncursesw.so.5 libtinfo.so.5
+        sudo ln -s libncursesw.so libncurses.so
+        sudo ln -s libncursesw.so.5 libncurses.so.5
+        sudo ln -s libncursesw.so.5.9 libncurses.so.5.9
+        sudo ln -s libncursesw.a libncurses.a
+        sudo ln -s libncursesw_g.a libncurses_g.a
+        sudo ln -s libncurses++w.a libncurses++.a
+        sudo ln -s libncursesw.so libtinfo.so
+        sudo ln -s libncursesw.so.5 libtinfo.so.5
         #sleep 10 # needed?
         sudo mkdir -p /var/db
         sudo touch /var/db/dhclient.leases
