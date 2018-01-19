@@ -76,6 +76,15 @@ install_wiperoot_utils() {
     sudo su - tc -c "tce-load -i /opt/tce/optional/util-linux.tcz"
 }
 
+copy_bootrino_dir_to_boot_partition()
+{
+    # COPY OVER THE BOOTRINO DIRECTORY TO THE HARD DISK NEW BOOT PARTITION
+    sudo mkdir -p /mnt/boot_partition/bootrino/
+    sudo cp -r /bootrino /mnt/boot_partition
+    cd  /mnt/boot_partition/bootrino
+    sudo chmod -R ug+rx *
+}
+
 delete_all_partitions()
 {
     echo "------->>> Configure ${CLOUD_TYPE}.... DISK_DEVICE_NAME_CURRENT_OS=${DISK_DEVICE_NAME_CURRENT_OS} DISK_DEVICE_NAME_TARGET_OS=${DISK_DEVICE_NAME_TARGET_OS}"
@@ -176,3 +185,4 @@ setup_disk_device_name_environment_variables
 install_wiperoot_utils
 delete_all_partitions
 prepare_disk_uefi
+copy_bootrino_dir_to_boot_partition

@@ -39,11 +39,6 @@ download_files()
     sudo wget -O ${BOOT_PARTITION}${KERNEL_FILENAME} ${URL_BASE}${KERNEL_FILENAME}
     sudo wget -O ${BOOT_PARTITION}${INITRAMFS_FILENAME} ${URL_BASE}${INITRAMFS_FILENAME}
     sudo wget -O ${BOOT_PARTITION}rootfs_overlay_initramfs.gz ${URL_BASE}rootfs_overlay_initramfs.gz
-    # COPY OVER THE BOOTRINO DIRECTORY TO THE HARD DISK NEW ROOT PARTITION
-    cd /mnt/root_partition
-    sudo mkdir -p /mnt/root_partition/bootrino/
-    sudo cp -r /bootrino /mnt/root_partition
-    sudo chmod ug+rx *
 }
 
 determine_cloud_type()

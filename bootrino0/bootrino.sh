@@ -39,7 +39,6 @@ URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/tinycore_mi
 URL_BASE=https://raw.githubusercontent.com/bootrino/bootrinos/master/bootrino0/
 /usr/bin/wget -O /boot/wipe_root_disk_initramfs.gz ${URL_BASE}wipe_root_disk_initramfs.gz
 
-
 # copy the Ubuntu network configuration into a ramfs which will then be available in tinycore when it boots up
 mkdir -p /bootrino
 cd /bootrino
